@@ -1,19 +1,30 @@
 package pl.tul.zzpj.dietmaster.common;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
-@Entity
+@MappedSuperclass
 public abstract class AbstractEntity {
 
-    private Long id;
+    @Id
+    public abstract Long getId();
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (object.getClass() != this.getClass()) {
+            return false;
+        }
+        AbstractEntity other = (AbstractEntity) object;
+        return (this.getId() != null || other.getId() == null) && (this.getId() == null || this.getId().equals(other.getId()));
     }
 
-    @Id
-    public Long getId() {
-        return id;
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (this.getId() != null ? this.getId().hashCode() : 0);
+        return hash;
     }
 }
