@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class IngredientService {
     
+    private final IngredientRepository repository;
+
     @Autowired
-    private IngredientRepository repository;
-    
+    public IngredientService(IngredientRepository repository) {
+        this.repository = repository;
+    }
 }
