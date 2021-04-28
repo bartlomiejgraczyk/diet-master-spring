@@ -14,18 +14,20 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "pl.tul.zzpj.dietmaster.account", 
         "pl.tul.zzpj.dietmaster.diet", 
         "pl.tul.zzpj.dietmaster.ingredient",
-        "pl.tul.zzpj.dietmaster.meal"
+        "pl.tul.zzpj.dietmaster.meal",
+        "pl.tul.zzpj.dietmaster.measurement",
+        "pl.tul.zzpj.dietmaster.nutrient"
 })
 public class JDBCConfig extends AbstractJdbcConfiguration {
 
     @Bean
     public DataSource dataSource(){
-        DataSourceBuilder builder = DataSourceBuilder.create();
+        DataSourceBuilder<?> builder = DataSourceBuilder.create();
         return builder
                 .driverClassName("org.postgresql.Driver")
-                .url("")
-                .username("")
-                .password("")
+                .url("jdbc:postgresql://localhost:5432/diet_master")
+                .username("postgres")
+                .password("admin")
                 .build();
         // TODO: fill database credentials
     }
