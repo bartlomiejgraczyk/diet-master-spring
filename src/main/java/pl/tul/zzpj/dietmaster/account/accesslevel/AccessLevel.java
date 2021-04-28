@@ -18,7 +18,8 @@ import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 
 @Entity
 @Table(name = "access_level", uniqueConstraints = {
-        @UniqueConstraint(name = "acc_lvl_account_pair_unique", columnNames = {"level", "account_fk"})})
+        @UniqueConstraint(columnNames = {"level", "account"}, name = "access_level_akey")
+})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "level", discriminatorType = DiscriminatorType.STRING)
 public abstract class AccessLevel extends AbstractEntity implements Serializable {

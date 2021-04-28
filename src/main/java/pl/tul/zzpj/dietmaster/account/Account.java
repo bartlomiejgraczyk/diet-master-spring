@@ -1,28 +1,21 @@
 package pl.tul.zzpj.dietmaster.account;
 
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 import pl.tul.zzpj.dietmaster.account.accesslevel.AccessLevel;
+import pl.tul.zzpj.dietmaster.account.key.Key;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
+import pl.tul.zzpj.dietmaster.diet.Diet;
+import pl.tul.zzpj.dietmaster.diet.dietset.DietSet;
+import pl.tul.zzpj.dietmaster.measurement.Measurement;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "account", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"email"})
-})
+@Table(name = "account", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}, name = "account_email_akey")})
 @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email")
 @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password")
 @NamedQuery(name = "Account.findByFirstName", query = "SELECT a FROM Account a WHERE a.firstName = :firstName")
@@ -61,8 +54,40 @@ public class Account extends AbstractEntity {
 
     @Getter
     @OneToMany
-    @JoinColumn(name = "account_fk")
+    @JoinColumn(name = "account", foreignKey = @ForeignKey(name = "access_account_fkey"))
     private final Set<AccessLevel> accessLevels = new HashSet<>();
+
+    @Getter
+    @OneToMany(mappedBy = "author")
+    private final Set<Diet> Diets = new HashSet<>();
+
+    @Getter
+    @OneToMany(mappedBy = "owner")
+    private final Set<DietSet> DietSets = new HashSet<>();
+
+    @Getter
+    @OneToMany(mappedBy = "client")
+    private final Set<Measurement> measurements = new HashSet<>();
+
+    @Getter
+    @OneToMany(mappedBy = "dietitian")
+    @Size(max = 100)
+    private final Set<Key> keys = new HashSet<>();
+
+    @Getter
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "user_list",
+            joinColumns = {@JoinColumn(
+                    name = "dietitian",
+                    foreignKey = @ForeignKey(name = "user_list_dietitian_fkey"))
+            },
+            inverseJoinColumns = {@JoinColumn(
+                    name = "client",
+                    foreignKey = @ForeignKey(name = "user_list_client_fkey"))
+            }
+    )
+    private final Set<Account> clients = new HashSet<>();
 
     @Override
     public Long getId() {

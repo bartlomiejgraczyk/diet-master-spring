@@ -1,15 +1,15 @@
-package pl.tul.zzpj.dietmaster.diet;
+package pl.tul.zzpj.dietmaster.account.key;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DietService {
-    
-    private final DietRepository repository;
+public class KeyService {
+
+    private final KeyRepository repository;
 
     @Autowired
-    public DietService(DietRepository repository) {
+    public KeyService(KeyRepository repository) {
         this.repository = repository;
     }
 }

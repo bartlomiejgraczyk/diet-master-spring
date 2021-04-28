@@ -3,7 +3,7 @@ package pl.tul.zzpj.dietmaster.account.accesslevel;
 public enum Level {
 
     ADMINISTRATOR("level.admin"),
-    DIETICIAN("level.dietician"),
+    DIETITIAN("level.dietitian"),
     CLIENT("level.client");
 
     private final String name;
