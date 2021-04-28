@@ -5,6 +5,6 @@ import java.io.Serializable;
 public class DietitianAccessLevel extends AccessLevel implements Serializable {
 
     public DietitianAccessLevel() {
-        super(Level.DIETICIAN.getName());
+        super(Level.DIETITIAN.getName());
     }
 }
