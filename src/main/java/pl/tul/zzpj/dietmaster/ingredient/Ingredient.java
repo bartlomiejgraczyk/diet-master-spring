@@ -2,18 +2,20 @@ package pl.tul.zzpj.dietmaster.ingredient;
 
 import javax.persistence.*;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 import pl.tul.zzpj.dietmaster.nutrient.ingredientnutrition.IngredientNutrition;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "ingredient", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name", "category"}, name = "ingredient_name_category_akey")
 })
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Ingredient extends AbstractEntity {
 
     @Id
@@ -25,6 +27,7 @@ public class Ingredient extends AbstractEntity {
 
     @Getter
     @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
@@ -37,16 +40,31 @@ public class Ingredient extends AbstractEntity {
 
     @Getter
     @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "category")
     private IngredientCategory category;
 
     @Getter
     @OneToMany(mappedBy = "ingredient")
-    private Set<IngredientNutrition> ingredientNutrients = new HashSet<>();
+    private final Set<IngredientNutrition> ingredientNutrients = new HashSet<>();
 
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ingredient)) return false;
+        if (!super.equals(o)) return false;
+        Ingredient that = (Ingredient) o;
+        return name.equals(that.name) && category == that.category;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, category);
     }
 }
