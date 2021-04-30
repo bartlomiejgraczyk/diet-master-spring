@@ -1,13 +1,17 @@
 package pl.tul.zzpj.dietmaster.nutrient;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "nutrient", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "nutrient_name_akey")})
+@Table(name = "nutrient", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name"}, name = "nutrient_name_akey")
+})
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Nutrient extends AbstractEntity {
 
     @Id
@@ -18,7 +22,7 @@ public class Nutrient extends AbstractEntity {
     private Long id;
 
     @Getter
-    @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
@@ -30,7 +34,7 @@ public class Nutrient extends AbstractEntity {
     private String description;
 
     @Getter
-    @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "category")
     private NutrientCategory category;
@@ -38,5 +42,19 @@ public class Nutrient extends AbstractEntity {
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Nutrient)) return false;
+        if (!super.equals(o)) return false;
+        var nutrient = (Nutrient) o;
+        return name.equals(nutrient.name) && category == nutrient.category;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, category);
     }
 }
