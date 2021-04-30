@@ -3,6 +3,7 @@ package pl.tul.zzpj.dietmaster.registration.token;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,7 +45,11 @@ public class ConfirmationToken {
     private LocalDateTime confirmationDateTime;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "account_id")
+    @JoinColumn(
+            nullable = false, 
+            name = "account", 
+            foreignKey = @ForeignKey(name = "conf_token_account_fkey")
+    )
     private Account account;
 
     public ConfirmationToken(String token,
