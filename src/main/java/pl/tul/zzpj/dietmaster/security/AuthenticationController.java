@@ -18,14 +18,14 @@ import pl.tul.zzpj.dietmaster.security.model.AuthenticationResponse;
 import pl.tul.zzpj.dietmaster.security.util.JwtUtil;
 
 @RestController
-public class AuthenticationResource {
+public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    public AuthenticationResource(
+    public AuthenticationController(
             AuthenticationManager authenticationManager,
             @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService,
             JwtUtil jwtTokenUtil) {
@@ -34,13 +34,12 @@ public class AuthenticationResource {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-
     @GetMapping("/hello")
     public String hello() {
         return "Hello World!";
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
             throws AuthenticationFailedException {
         try {

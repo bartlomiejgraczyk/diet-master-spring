@@ -1,15 +1,13 @@
 package pl.tul.zzpj.dietmaster.account;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import pl.tul.zzpj.dietmaster.exception.EmailTakenException;
+import pl.tul.zzpj.dietmaster.exception.UserNotFoundException;
 
-@Service
-public class AccountService {
-    
-    private final AccountRepository repository;
+public interface AccountService {
 
-    @Autowired
-    public AccountService(AccountRepository repository) {
-        this.repository = repository;
-    }
+    Account addAccount(Account account) throws EmailTakenException;
+
+    Account loadUserByUsername(String email) throws UserNotFoundException;
+
+    void enableAccount(String email);
 }
