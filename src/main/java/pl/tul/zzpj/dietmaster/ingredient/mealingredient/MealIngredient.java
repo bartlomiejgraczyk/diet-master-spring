@@ -1,7 +1,6 @@
 package pl.tul.zzpj.dietmaster.ingredient.mealingredient;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 import pl.tul.zzpj.dietmaster.ingredient.Ingredient;
 import pl.tul.zzpj.dietmaster.meal.Meal;
@@ -11,9 +10,14 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
-@Table(name = "meal_ingredient", uniqueConstraints = {})
+@Table(name = "meal_ingredient", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"meal", "ingredient"}, name = "meal_ingredient_akey")
+})
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class MealIngredient extends AbstractEntity {
 
     @Id
@@ -24,21 +28,24 @@ public class MealIngredient extends AbstractEntity {
     private Long id;
 
     @Getter
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "meal", foreignKey = @ForeignKey(name = "meal_ingredient_meal_fkey"))
     private Meal meal;
 
     @Getter
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "ingredient", foreignKey = @ForeignKey(name = "meal_ingredient_ingredient_fkey"))
     private Ingredient ingredient;
 
     @Getter
     @Setter
-    @Min(1)
     @Basic(optional = false)
     @Column(name = "count")
-    private Short count;
+    @DecimalMin(value = "0.0001")
+    @Digits(integer = 3, fraction = 4)
+    private BigDecimal count;
 
     @Getter
     @Setter
@@ -58,5 +65,19 @@ public class MealIngredient extends AbstractEntity {
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MealIngredient)) return false;
+        if (!super.equals(o)) return false;
+        MealIngredient that = (MealIngredient) o;
+        return meal.equals(that.meal) && ingredient.equals(that.ingredient);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), meal, ingredient);
     }
 }
