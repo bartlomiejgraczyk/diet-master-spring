@@ -12,8 +12,10 @@ import pl.tul.zzpj.dietmaster.diet.dietset.DietSet;
 import pl.tul.zzpj.dietmaster.measurement.Measurement;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -33,7 +35,7 @@ public class Account extends AbstractEntity {
     private Long id;
 
     @Getter
-    @Setter
+    @Email
     @Basic(optional = false)
     @Column(name = "email", nullable = false, updatable = false)
     private String email;
@@ -75,11 +77,13 @@ public class Account extends AbstractEntity {
 
     @Getter
     @OneToMany(mappedBy = "author")
-    private final Set<Diet> Diets = new HashSet<>();
+    private final Set<Diet> diets = new HashSet<>();
 
     @Getter
     @OneToMany(mappedBy = "owner")
-    private final Set<DietSet> DietSets = new HashSet<>();
+    private final Set<DietSet> dietSets = new HashSet<>();
+
+    //TODO: Consider removing two below (Role Dependant)
 
     @Getter
     @OneToMany(mappedBy = "client")
@@ -89,21 +93,6 @@ public class Account extends AbstractEntity {
     @OneToMany(mappedBy = "dietitian")
     @Size(max = 100)
     private final Set<Key> keys = new HashSet<>();
-
-//    @Getter
-//    @ManyToMany(cascade = {CascadeType.ALL})
-//    @JoinTable(
-//            name = "user_list",
-//            joinColumns = {@JoinColumn(
-//                    name = "dietitian",
-//                    foreignKey = @ForeignKey(name = "user_list_dietitian_fkey"))
-//            },
-//            inverseJoinColumns = {@JoinColumn(
-//                    name = "client",
-//                    foreignKey = @ForeignKey(name = "user_list_client_fkey"))
-//            }
-//    )
-//    private final Set<Account> clients = new HashSet<>();
 
     @Default
     public Account(String email, String password, String firstName, String lastName) {
@@ -116,5 +105,19 @@ public class Account extends AbstractEntity {
     @Override
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+        if (!super.equals(o)) return false;
+        var account = (Account) o;
+        return email.equals(account.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), email);
     }
 }

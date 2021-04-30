@@ -1,7 +1,6 @@
 package pl.tul.zzpj.dietmaster.nutrient.ingredientnutrition;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 import pl.tul.zzpj.dietmaster.ingredient.Ingredient;
 import pl.tul.zzpj.dietmaster.nutrient.Nutrient;
@@ -10,11 +9,14 @@ import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "ingredient_nutrition", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"ingredient", "nutrient"}, name = "ingredient_nutrition_akey")
 })
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class IngredientNutrition extends AbstractEntity {
 
     @Id
@@ -25,11 +27,13 @@ public class IngredientNutrition extends AbstractEntity {
     private Long id;
 
     @Getter
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "ingredient", foreignKey = @ForeignKey(name = "ingredient_nut_ing_fkey"))
     private Ingredient ingredient;
 
     @Getter
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "nutrient", foreignKey = @ForeignKey(name = "ingredient_nut_nut_fkey"))
     private Nutrient nutrient;
@@ -37,13 +41,27 @@ public class IngredientNutrition extends AbstractEntity {
     @Getter
     @Setter
     @Basic(optional = false)
-    @Column(name = "per_100")
+    @Column(name = "per100")
     @DecimalMin("0.01")
     @Digits(integer = 3, fraction = 2)
-    private BigDecimal per_100;
+    private BigDecimal per100;
 
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IngredientNutrition)) return false;
+        if (!super.equals(o)) return false;
+        IngredientNutrition that = (IngredientNutrition) o;
+        return ingredient.equals(that.ingredient) && nutrient.equals(that.nutrient);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), ingredient, nutrient);
     }
 }
