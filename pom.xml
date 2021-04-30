@@ -29,12 +29,31 @@
         </developer>
     </developers>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <spring.profiles.active>prod</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
     <properties>
         <java.version>11.0.11</java.version>
         <testcontainers.version>1.15.2</testcontainers.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <lombok.version>1.18.20</lombok.version>
     </properties>
+    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

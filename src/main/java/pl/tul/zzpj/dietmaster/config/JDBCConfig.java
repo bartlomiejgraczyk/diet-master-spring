@@ -1,10 +1,10 @@
 package pl.tul.zzpj.dietmaster.config;
 
 import javax.sql.DataSource;
-
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -30,22 +30,29 @@ public class JDBCConfig extends AbstractJdbcConfiguration {
     private static final String DB = "d3krudhfc0uus";
 
     @Bean
-    public DataSource dataSource() {
+    @Profile("dev")
+    public DataSource developmentDataSource() {
         DataSourceBuilder<?> builder = DataSourceBuilder.create();
-//        return builder
-//                .driverClassName("org.postgresql.Driver")
-//                .url(PREFIX + HOST + ":" + PORT + "/" + DB + "?user=" + USERNAME + "&password=" + PASSWORD)
-//                .username(USERNAME)
-//                .password(PASSWORD)
-//                .build();
-
-        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        String username = System.getenv("JDBC_DATABASE_USERNAME");
-        String password = System.getenv("JDBC_DATABASE_PASSWORD");
-        
         return builder
                 .driverClassName("org.postgresql.Driver")
-                .url(dbUrl)
+                .url(PREFIX + HOST + ":" + PORT + "/" + DB + "?user=" + USERNAME + "&password=" + PASSWORD)
+                .username(USERNAME)
+                .password(PASSWORD)
+                .build();
+    }
+
+    @Bean
+    @Profile("prod")
+    public DataSource productionDataSource() {
+        DataSourceBuilder<?> builder = DataSourceBuilder.create();
+        
+        String url = System.getenv("JDBC_DATABASE_URL");
+        String username = System.getenv("JDBC_DATABASE_USERNAME");
+        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+
+        return builder
+                .driverClassName("org.postgresql.Driver")
+                .url(url)
                 .username(username)
                 .password(password)
                 .build();

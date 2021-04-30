@@ -13,7 +13,7 @@ public class InvalidEmailException extends AppBaseException {
     }
 
     @Override
-    protected String getCode() {
+    public String getCode() {
         return super.getCode() + "_invalid_email";
     }
 }
