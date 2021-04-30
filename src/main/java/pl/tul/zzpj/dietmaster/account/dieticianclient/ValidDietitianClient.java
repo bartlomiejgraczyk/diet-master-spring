@@ -1,4 +1,4 @@
-package pl.tul.zzpj.dietmaster.account.client;
+package pl.tul.zzpj.dietmaster.account.dieticianclient;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,9 +9,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
 @Target({TYPE})
-@Constraint(validatedBy = {ClientValidator.class})
+@Constraint(validatedBy = {DietitianClientValidator.class})
 @Retention(RUNTIME)
-public @interface ValidClient {
+public @interface ValidDietitianClient {
     String message() default "Dietitian cannot have himself as client";
 
     Class<?>[] groups() default {};
