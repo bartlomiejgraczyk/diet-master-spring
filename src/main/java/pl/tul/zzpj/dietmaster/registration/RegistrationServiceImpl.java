@@ -21,7 +21,7 @@ import pl.tul.zzpj.dietmaster.util.EmailValidator;
 
 @Service
 @AllArgsConstructor
-public class RegistrationServiceImpl {
+public class RegistrationServiceImpl implements RegistrationService {
 
     private final AccountServiceImpl appUserService;
     private final EmailValidator emailValidator;
@@ -29,7 +29,7 @@ public class RegistrationServiceImpl {
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
 
-    public String register(Account account) throws InvalidEmailException, EmailTakenException {
+    public void register(Account account) throws InvalidEmailException, EmailTakenException {
         boolean isValidEmail = emailValidator.
                 test(account.getEmail());
 
@@ -63,8 +63,6 @@ public class RegistrationServiceImpl {
                 "Confirm your account!",
                 buildEmail(account.getFirstName(), link)
         );
-
-        return token;
     }
 
     @Transactional
