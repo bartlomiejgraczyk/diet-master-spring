@@ -22,25 +22,32 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 public class JDBCConfig extends AbstractJdbcConfiguration {
 
-    private final static String password = "";
-    private final static String username = "";
-    private final static String postgres = "jdbc:postgresql://";
-    private final static String host = "";
-    private final static String port = "5432";
-    private final static String db = "";
+    private static final String PASSWORD = "";
+    private static final String USERNAME = "";
+    private static final String PREFIX = "jdbc:postgresql://";
+    private static final String HOST = "";
+    private static final String PORT = "5432";
+    private static final String DB = "";
 
     @Bean
     public DataSource dataSource() {
         DataSourceBuilder<?> builder = DataSourceBuilder.create();
+//        return builder
+//                .driverClassName("org.postgresql.Driver")
+//                .url(PREFIX + HOST + ":" + PORT + "/" + DB + "?user=" + USERNAME + "&password=" + PASSWORD)
+//                .username(USERNAME)
+//                .password(PASSWORD)
+//                .build();
+
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        String username = System.getenv("JDBC_DATABASE_USERNAME");
+        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+        
         return builder
                 .driverClassName("org.postgresql.Driver")
-                .url(postgres + host + ":" + port + "/" + db + "?user=" + username + "&password=" + password)
+                .url(dbUrl)
                 .username(username)
                 .password(password)
                 .build();
-        // TODO: fill database credentials
     }
-
-
-
 }
