@@ -26,9 +26,9 @@ public class JDBCConfig extends AbstractJdbcConfiguration {
         DataSourceBuilder<?> builder = DataSourceBuilder.create();
         return builder
                 .driverClassName("org.postgresql.Driver")
-                .url("jdbc:postgresql://localhost:5432/diet_master")
-                .username("postgres")
-                .password("admin")
+                .url("jdbc:postgresql://xinqxtgupfnums:d8eb9f7389777534fed3c6c6512e40912ff16dca60360bed2d2fc66dda697914@ec2-54-155-226-153.eu-west-1.compute.amazonaws.com:5432/d3krudhfc0uus")
+                .username("xinqxtgupfnums")
+                .password("d8eb9f7389777534fed3c6c6512e40912ff16dca60360bed2d2fc66dda697914")
                 .build();
         // TODO: fill database credentials
     }
