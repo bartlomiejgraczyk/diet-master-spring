@@ -3,6 +3,7 @@ package pl.tul.zzpj.dietmaster.security.service;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,21 +17,19 @@ import pl.tul.zzpj.dietmaster.account.AccountRepository;
 import pl.tul.zzpj.dietmaster.account.accesslevel.AccessLevel;
 
 @Service
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final AccountRepository accountRepository;
 
-    @Autowired
-    public UserDetailsServiceImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(email);
-        if (account == null) {
-            throw new UsernameNotFoundException(email);
-        }
+        Account account = accountRepository
+                .findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(email)
+                );
+
         return User
                 .withUsername(account.getEmail())
                 .password(account.getPassword())

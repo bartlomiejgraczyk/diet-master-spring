@@ -1,10 +1,12 @@
 package pl.tul.zzpj.dietmaster.account;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.tul.zzpj.dietmaster.account.accesslevel.AccessLevel;
 import pl.tul.zzpj.dietmaster.account.key.Key;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
+import pl.tul.zzpj.dietmaster.common.Default;
 import pl.tul.zzpj.dietmaster.diet.Diet;
 import pl.tul.zzpj.dietmaster.diet.dietset.DietSet;
 import pl.tul.zzpj.dietmaster.measurement.Measurement;
@@ -22,6 +24,7 @@ import java.util.Set;
 @NamedQuery(name = "Account.findByPassword", query = "SELECT a FROM Account a WHERE a.password = :password")
 @NamedQuery(name = "Account.findByFirstName", query = "SELECT a FROM Account a WHERE a.firstName = :firstName")
 @NamedQuery(name = "Account.findByLastName", query = "SELECT a FROM Account a WHERE a.lastName = :lastName")
+@NoArgsConstructor
 public class Account extends AbstractEntity {
 
     @Id
@@ -54,6 +57,18 @@ public class Account extends AbstractEntity {
     @Basic(optional = false)
     @Column(name = "last_name")
     private String lastName;
+    
+    @Getter
+    @Setter
+    @Basic(optional = false)
+    @Column(name = "enabled", columnDefinition = "boolean default false")
+    private boolean enabled;
+
+    @Getter
+    @Setter
+    @Basic(optional = false)
+    @Column(name = "locked", columnDefinition = "boolean default false")
+    private boolean locked;
 
     @Getter
     @OneToMany
@@ -78,6 +93,14 @@ public class Account extends AbstractEntity {
     @OneToMany(mappedBy = "dietitian")
     @Size(max = 100)
     private final Set<Key> keys = new HashSet<>();
+
+    @Default
+    public Account(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     @Override
     public Long getId() {

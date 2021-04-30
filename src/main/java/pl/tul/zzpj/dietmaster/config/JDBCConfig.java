@@ -17,7 +17,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "pl.tul.zzpj.dietmaster.ingredient",
         "pl.tul.zzpj.dietmaster.meal",
         "pl.tul.zzpj.dietmaster.measurement",
-        "pl.tul.zzpj.dietmaster.nutrient"
+        "pl.tul.zzpj.dietmaster.nutrient",
+        "pl.tul.zzpj.dietmaster.registration.token"
 })
 public class JDBCConfig extends AbstractJdbcConfiguration {
 
