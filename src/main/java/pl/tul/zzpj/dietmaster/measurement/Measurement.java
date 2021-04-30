@@ -5,18 +5,20 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.tul.zzpj.dietmaster.account.Account;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name="measurement", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"client", "date"}, name = "measurement_client_date_akey")
 })
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Measurement extends AbstractEntity {
 
     @Id
@@ -27,12 +29,14 @@ public class Measurement extends AbstractEntity {
     private Long id;
 
     @Getter
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "client", foreignKey = @ForeignKey(name = "measurement_client_fkey"))
     private Account client;
 
     @Getter
     @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "date")
     private Date date;
@@ -58,11 +62,25 @@ public class Measurement extends AbstractEntity {
     @Setter
     @Basic(optional = false)
     @Column(name = "held_diet")
-    private boolean heldDiet;
+    private Boolean heldDiet;
 
     
     @Override
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Measurement)) return false;
+        if (!super.equals(o)) return false;
+        Measurement that = (Measurement) o;
+        return client.equals(that.client) && date.equals(that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), client, date);
     }
 }
