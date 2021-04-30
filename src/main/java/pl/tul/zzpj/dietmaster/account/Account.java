@@ -35,6 +35,7 @@ public class Account extends AbstractEntity {
     private Long id;
 
     @Getter
+    @Setter
     @Email
     @Basic(optional = false)
     @Column(name = "email", nullable = false, updatable = false)

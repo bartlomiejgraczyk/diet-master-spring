@@ -11,8 +11,10 @@ public class MailSenderConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         
         mailSender.setProtocol("SMTP");
-        mailSender.setHost("127.0.0.1");
-        mailSender.setPort(25);
+        mailSender.setHost("smtp-relay.sendinblue.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("bgraczyk.mail@gmail.com");
+        mailSender.setPassword("ZTWqbHKIjm5Avx2X");
         
         return mailSender;
     }
