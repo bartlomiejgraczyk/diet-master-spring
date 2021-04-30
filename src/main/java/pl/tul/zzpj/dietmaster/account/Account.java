@@ -74,20 +74,20 @@ public class Account extends AbstractEntity {
     @Size(max = 100)
     private final Set<Key> keys = new HashSet<>();
 
-    @Getter
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "user_list",
-            joinColumns = {@JoinColumn(
-                    name = "dietitian",
-                    foreignKey = @ForeignKey(name = "user_list_dietitian_fkey"))
-            },
-            inverseJoinColumns = {@JoinColumn(
-                    name = "client",
-                    foreignKey = @ForeignKey(name = "user_list_client_fkey"))
-            }
-    )
-    private final Set<Account> clients = new HashSet<>();
+//    @Getter
+//    @ManyToMany(cascade = {CascadeType.ALL})
+//    @JoinTable(
+//            name = "user_list",
+//            joinColumns = {@JoinColumn(
+//                    name = "dietitian",
+//                    foreignKey = @ForeignKey(name = "user_list_dietitian_fkey"))
+//            },
+//            inverseJoinColumns = {@JoinColumn(
+//                    name = "client",
+//                    foreignKey = @ForeignKey(name = "user_list_client_fkey"))
+//            }
+//    )
+//    private final Set<Account> clients = new HashSet<>();
 
     @Override
     public Long getId() {
