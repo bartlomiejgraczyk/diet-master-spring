@@ -13,7 +13,7 @@ public class UserNotFoundException extends AppBaseException {
     }
 
     @Override
-    protected String getCode() {
+    public String getCode() {
         return super.getCode() + "_user_not_found";
     }
 }
