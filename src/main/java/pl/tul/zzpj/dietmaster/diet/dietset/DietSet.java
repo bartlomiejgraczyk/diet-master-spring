@@ -1,15 +1,19 @@
 package pl.tul.zzpj.dietmaster.diet.dietset;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.tul.zzpj.dietmaster.account.Account;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 import pl.tul.zzpj.dietmaster.diet.Diet;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "diet_set", uniqueConstraints = {@UniqueConstraint(columnNames = {"diet", "owner"}, name = "diet_set_akey")})
+@Table(name = "diet_set", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"diet", "owner"}, name = "diet_set_akey")
+})
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class DietSet extends AbstractEntity {
 
     @Id
@@ -20,11 +24,13 @@ public class DietSet extends AbstractEntity {
     private Long id;
 
     @Getter
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "diet", foreignKey = @ForeignKey(name = "diet_set_diet_fkey"))
     private Diet diet;
 
     @Getter
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "owner", foreignKey = @ForeignKey(name = "diet_set_owner_fkey"))
     private Account owner;
@@ -33,10 +39,24 @@ public class DietSet extends AbstractEntity {
     @Setter
     @Basic(optional = false)
     @Column(name = "is_chosen")
-    private boolean isChosen;
+    private Boolean isChosen;
 
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DietSet)) return false;
+        if (!super.equals(o)) return false;
+        var dietSet = (DietSet) o;
+        return diet.equals(dietSet.diet) && owner.equals(dietSet.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), diet, owner);
     }
 }

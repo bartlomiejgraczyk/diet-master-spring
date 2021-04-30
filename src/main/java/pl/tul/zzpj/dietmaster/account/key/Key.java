@@ -1,17 +1,19 @@
 package pl.tul.zzpj.dietmaster.account.key;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import pl.tul.zzpj.dietmaster.account.Account;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "key", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"dietitian", "key_string"}, name = "key_dietitian_key_string_akey")
 })
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Key extends AbstractEntity {
 
     @Id
@@ -22,25 +24,40 @@ public class Key extends AbstractEntity {
     private Long id;
 
     @Getter
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "dietitian", foreignKey = @ForeignKey(name = "key_dietitian_fkey"))
     private Account dietitian;
 
     @Getter
-    @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "key_string", length = 15)
     @Length(min = 5, max = 15)
     private String keyString;
 
     @Getter
-    @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "one_time")
-    private boolean oneTime;
+    private Boolean oneTime;
 
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Key)) return false;
+        if (!super.equals(o)) return false;
+        var key = (Key) o;
+        return dietitian.equals(key.dietitian) && keyString.equals(key.keyString);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), dietitian, keyString);
     }
 }

@@ -1,6 +1,7 @@
 package pl.tul.zzpj.dietmaster.account.accesslevel;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -14,6 +15,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 
 @Entity
@@ -53,5 +55,19 @@ public abstract class AccessLevel extends AbstractEntity implements Serializable
 
     public String getLevel() {
         return level;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AccessLevel)) return false;
+        if (!super.equals(o)) return false;
+        var that = (AccessLevel) o;
+        return level.equals(that.level);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), level);
     }
 }
