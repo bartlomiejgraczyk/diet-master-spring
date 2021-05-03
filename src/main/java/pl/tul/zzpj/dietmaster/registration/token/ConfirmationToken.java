@@ -31,23 +31,25 @@ public class ConfirmationToken {
             strategy = GenerationType.SEQUENCE,
             generator = "confirmation_token_sequence"
     )
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "token", nullable = false, updatable = false)
     private String token;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime creationDateTime;
 
-    @Column(nullable = false)
+    @Column(name = "expired_at", nullable = false)
     private LocalDateTime expirationDateTime;
 
+    @Column(name = "confirmed_at", nullable = false)
     private LocalDateTime confirmationDateTime;
 
     @ManyToOne
     @JoinColumn(
             nullable = false, 
-            name = "account", 
+            name = "account_id", 
             foreignKey = @ForeignKey(name = "conf_token_account_fkey")
     )
     private Account account;
