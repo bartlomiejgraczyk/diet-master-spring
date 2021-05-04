@@ -43,7 +43,7 @@ public class ConfirmationToken {
     @Column(name = "expired_at", nullable = false)
     private LocalDateTime expirationDateTime;
 
-    @Column(name = "confirmed_at", nullable = false)
+    @Column(name = "confirmed_at")
     private LocalDateTime confirmationDateTime;
 
     @ManyToOne
