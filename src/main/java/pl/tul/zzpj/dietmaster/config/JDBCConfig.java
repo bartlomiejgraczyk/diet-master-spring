@@ -1,10 +1,10 @@
 package pl.tul.zzpj.dietmaster.config;
 
 import javax.sql.DataSource;
-
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -22,23 +22,39 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 public class JDBCConfig extends AbstractJdbcConfiguration {
 
-    private final static String password = "d8eb9f7389777534fed3c6c6512e40912ff16dca60360bed2d2fc66dda697914";
-    private final static String username = "xinqxtgupfnums";
-    private final static String postgres = "jdbc:postgresql://";
-    private final static String host = "ec2-54-155-226-153.eu-west-1.compute.amazonaws.com";
-    private final static String port = "5432";
-    private final static String db = "d3krudhfc0uus";
+    private static final String PASSWORD = "d8eb9f7389777534fed3c6c6512e40912ff16dca60360bed2d2fc66dda697914";
+    private static final String USERNAME = "xinqxtgupfnums";
+    private static final String PREFIX = "jdbc:postgresql://";
+    private static final String HOST = "ec2-54-155-226-153.eu-west-1.compute.amazonaws.com";
+    private static final String PORT = "5432";
+    private static final String DB = "d3krudhfc0uus";
 
     @Bean
-    public DataSource dataSource() {
+    @Profile("dev")
+    public DataSource developmentDataSource() {
         DataSourceBuilder<?> builder = DataSourceBuilder.create();
         return builder
                 .driverClassName("org.postgresql.Driver")
-                .url(postgres + host + ":" + port + "/" + db + "?user=" + username + "&password=" + password)
+                .url(PREFIX + HOST + ":" + PORT + "/" + DB + "?user=" + USERNAME + "&password=" + PASSWORD)
+                .username(USERNAME)
+                .password(PASSWORD)
+                .build();
+    }
+
+    @Bean
+    @Profile("prod")
+    public DataSource productionDataSource() {
+        DataSourceBuilder<?> builder = DataSourceBuilder.create();
+        
+        String url = System.getenv("JDBC_DATABASE_URL");
+        String username = System.getenv("JDBC_DATABASE_USERNAME");
+        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+
+        return builder
+                .driverClassName("org.postgresql.Driver")
+                .url(url)
                 .username(username)
                 .password(password)
                 .build();
-        // TODO: fill database credentials
     }
-
 }

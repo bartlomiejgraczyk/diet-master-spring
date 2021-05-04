@@ -14,7 +14,7 @@ public class ConfirmationTokenExpired extends AppBaseException {
     }
 
     @Override
-    protected String getCode() {
+    public String getCode() {
         return super.getCode() + "_confirmation_token_expired";
     }
 }
