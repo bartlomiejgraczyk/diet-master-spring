@@ -23,7 +23,7 @@ import pl.tul.zzpj.dietmaster.util.EmailValidator;
 @AllArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private final AccountServiceImpl appUserService;
+    private final AccountServiceImpl accountService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
@@ -32,7 +32,6 @@ public class RegistrationServiceImpl implements RegistrationService {
     public void register(Account account) throws InvalidEmailException, EmailTakenException {
         boolean isValidEmail = emailValidator.
                 test(account.getEmail());
-
         if (!isValidEmail) {
             throw new InvalidEmailException(account.getEmail());
         }
@@ -43,7 +42,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .encode(account.getPassword());
         account.setPassword(encodedPassword);
         
-        Account createdAccount = appUserService.addAccount(account);
+        Account createdAccount = accountService.addAccount(account);
 
         String token = UUID.randomUUID().toString();
 
@@ -56,7 +55,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        String link = "http://localhost:8080/registration/confirm?token=" + token;
+        String link = "http://localhost:8081/registration/confirm?token=" + token;
         emailSender.send(
                 "noreply@dietmaster.com",
                 account.getEmail(),
@@ -83,7 +82,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
 
         confirmationTokenService.setConfirmationDateTime(token);
-        appUserService.enableAccount(confirmationToken.getAccount().getEmail());
+        accountService.enableAccount(confirmationToken.getAccount().getEmail());
     }
 
     private String buildEmail(String name, String link) {

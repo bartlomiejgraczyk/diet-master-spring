@@ -1,15 +1,11 @@
 package pl.tul.zzpj.dietmaster.account;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.exception.EmailTakenException;
 import pl.tul.zzpj.dietmaster.exception.UserNotFoundException;
-import pl.tul.zzpj.dietmaster.registration.token.ConfirmationToken;
 import pl.tul.zzpj.dietmaster.registration.token.ConfirmationTokenService;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
@@ -48,6 +44,8 @@ public class AccountServiceImpl implements AccountService {
     private boolean accountExists(String email) {
         ExampleMatcher modelMatcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
+                .withIgnorePaths("locked")
+                .withIgnorePaths("enabled")
                 .withMatcher("email", ignoreCase());
         Account account = new Account();
         account.setEmail(email);
