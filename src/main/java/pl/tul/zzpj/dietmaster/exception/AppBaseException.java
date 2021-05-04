@@ -10,7 +10,7 @@ public abstract class AppBaseException extends Exception {
         super(message, cause);
     }
     
-    protected String getCode() {
+    public String getCode() {
         return "app_exception";
     } 
 }

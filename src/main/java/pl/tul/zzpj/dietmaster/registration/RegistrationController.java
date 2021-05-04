@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.tul.zzpj.dietmaster.exception.AppBaseException;
 
 @RestController
 @RequestMapping(path = "registration")
@@ -20,14 +21,22 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<?> register(@RequestBody RegistrationRequest request) {
-        registrationService.register(mapper.requestToAccount(request));
+        try {
+            registrationService.register(mapper.requestToAccount(request));
+        } catch (AppBaseException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping(path = "confirm")
     public ResponseEntity<?> confirm(@RequestParam("token") String token) {
-        registrationService.confirmToken(token);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        try {
+            registrationService.confirmToken(token);
+        } catch (AppBaseException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Account confirmed!");
     }
 
 }

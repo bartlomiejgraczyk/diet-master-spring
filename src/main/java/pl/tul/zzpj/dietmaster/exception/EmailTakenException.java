@@ -13,7 +13,7 @@ public class EmailTakenException extends AppBaseException {
     }
 
     @Override
-    protected String getCode() {
+    public String getCode() {
         return super.getCode() + "_email_taken";
     }
 }
