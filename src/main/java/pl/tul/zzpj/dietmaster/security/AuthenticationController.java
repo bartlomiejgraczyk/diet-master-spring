@@ -2,6 +2,7 @@ package pl.tul.zzpj.dietmaster.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,8 +41,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
+    public ResponseEntity<AuthenticationResponse> createAuthenticationToken(
+            @RequestBody AuthenticationRequest authenticationRequest)
             throws AuthenticationFailedException {
+        
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -50,7 +53,7 @@ public class AuthenticationController {
                     )
             );
         } catch (BadCredentialsException e) {
-            throw new AuthenticationFailedException(AuthenticationFailedException.BAD_CREDENTIALS, e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthenticationResponse(e.getMessage()));
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
@@ -58,5 +61,15 @@ public class AuthenticationController {
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
+
+    @GetMapping("/authentication-succeeded")
+    public String authenticationSucceeded() {
+        return "Authentication succeeded!";
+    }
+
+    @GetMapping("/authentication-failed")
+    public String authenticationFailed() {
+        return "Authentication failed!";
     }
 }

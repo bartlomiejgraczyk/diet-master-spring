@@ -1,5 +1,25 @@
 package pl.tul.zzpj.dietmaster.account;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,13 +30,6 @@ import pl.tul.zzpj.dietmaster.common.Default;
 import pl.tul.zzpj.dietmaster.diet.Diet;
 import pl.tul.zzpj.dietmaster.diet.dietset.DietSet;
 import pl.tul.zzpj.dietmaster.measurement.Measurement;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "account", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"}, name = "account_email_akey")})
@@ -72,7 +85,10 @@ public class Account extends AbstractEntity {
     private boolean locked;
 
     @Getter
-    @OneToMany
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH}, 
+            fetch = FetchType.EAGER
+    )
     @JoinColumn(name = "account", foreignKey = @ForeignKey(name = "access_account_fkey"))
     private final Set<AccessLevel> accessLevels = new HashSet<>();
 
