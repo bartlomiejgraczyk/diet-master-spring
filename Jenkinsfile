@@ -2,24 +2,23 @@ pipeline {
     agent any
 
     tools {
-        // Install the Maven version configured as "M3" and add it to the path.
         maven "M3"
     }
 
     stages {
         stage('Build') {
             steps {
-                sh "mvn clean compile"
+                sh "mvn clean compile -Dmaven.test.skip=true -Dspring.profiles.active=dev"
             }
         }
         stage('Test') {
             steps {
-                sh "mvn test"
+                sh "mvn test -Dspring.profiles.active=dev"
             }
         }
         stage('Deploy') {
             steps {
-                sh "mvn clean heroku:deploy"
+                sh "mvn clean heroku:deploy -Dmaven.test.skip=true -Dspring.profiles.active=prod"
             }
         }
     }
