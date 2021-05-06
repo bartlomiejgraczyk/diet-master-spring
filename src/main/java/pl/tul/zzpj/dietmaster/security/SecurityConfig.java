@@ -30,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration/confirm").permitAll()
                 .antMatchers("/registration").permitAll()
@@ -37,11 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authentication-succeeded").permitAll()
                 .antMatchers("/healthcheck").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().defaultSuccessUrl("http://localhost:8081/authentication-succeeded").failureUrl("http://localhost:8081/authentication-failed")
+                .and().formLogin().defaultSuccessUrl("/authentication-succeeded")
+                .failureUrl("/authentication-failed")
                 .and().logout().permitAll()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.headers().frameOptions().disable();
     }
 
     @Override
