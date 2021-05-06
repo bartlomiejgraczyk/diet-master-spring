@@ -13,12 +13,12 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh "mvn test -Dspring.profiles.active=prod"
+                sh "mvn test -Denvironment=test"
             }
         }
         stage('Deploy') {
             steps {
-                sh "mvn clean heroku:deploy -Dmaven.test.skip=true"
+                sh "mvn clean heroku:deploy -Dmaven.test.skip=true -Dspring.profiles.active=prod"
             }
         }
     }
