@@ -31,7 +31,7 @@
 
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>test</id>
             <activation>
                 <property>
                     <name>environment</name>
