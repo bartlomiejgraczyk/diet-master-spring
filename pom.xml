@@ -33,6 +33,18 @@
         <profile>
             <id>dev</id>
             <activation>
+                <property>
+                    <name>environment</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <properties>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
