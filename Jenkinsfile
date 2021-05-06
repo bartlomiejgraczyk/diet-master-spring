@@ -8,12 +8,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "mvn clean compile -Dmaven.test.skip=true"
+                sh "mvn clean compile -Dmaven.test.skip=true -Dspring.profiles.active=dev"
             }
         }
         stage('Test') {
             steps {
-                sh "mvn test -Denvironment=test"
+                sh "mvn test -Dspring.profiles.active=dev"
             }
         }
         stage('Deploy') {
