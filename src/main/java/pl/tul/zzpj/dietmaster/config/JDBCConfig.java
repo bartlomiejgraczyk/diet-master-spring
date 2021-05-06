@@ -1,8 +1,6 @@
 package pl.tul.zzpj.dietmaster.config;
 
 import javax.sql.DataSource;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +21,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
         "pl.tul.zzpj.dietmaster.nutrient",
         "pl.tul.zzpj.dietmaster.registration.token"
 })
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class JDBCConfig extends AbstractJdbcConfiguration {
 
     private static final String PASSWORD = "";
@@ -35,7 +32,7 @@ public class JDBCConfig extends AbstractJdbcConfiguration {
 
     @Bean
     @Profile({"dev", "prod"})
-    public DataSource developmentDataSource() {
+    public DataSource dataSource() {
         DataSourceBuilder<?> builder = DataSourceBuilder.create();
         return builder
                 .driverClassName("org.postgresql.Driver")
@@ -65,12 +62,12 @@ public class JDBCConfig extends AbstractJdbcConfiguration {
     @Bean
     @Profile("dev")
     public NamedParameterJdbcTemplate devParameterJdbcTemplate() {
-        return new NamedParameterJdbcTemplate(this.developmentDataSource());
+        return new NamedParameterJdbcTemplate(this.dataSource());
     }
 
     @Bean
     @Profile("prod")
     public NamedParameterJdbcTemplate prodParameterJdbcTemplate() {
-        return new NamedParameterJdbcTemplate(this.developmentDataSource());
+        return new NamedParameterJdbcTemplate(this.dataSource());
     }
 }
