@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @Configuration
 @EnableJdbcRepositories
@@ -56,5 +57,17 @@ public class JDBCConfig extends AbstractJdbcConfiguration {
                 .username(username)
                 .password(password)
                 .build();
+    }
+    
+    @Bean
+    @Profile("dev")
+    public NamedParameterJdbcTemplate devParameterJdbcTemplate() {
+        return new NamedParameterJdbcTemplate(this.developmentDataSource());
+    }
+
+    @Bean
+    @Profile("prod")
+    public NamedParameterJdbcTemplate prodParameterJdbcTemplate() {
+        return new NamedParameterJdbcTemplate(this.productionDataSource());
     }
 }
