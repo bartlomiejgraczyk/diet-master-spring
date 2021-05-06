@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "mvn clean compile"
+                sh "mvn clean compile -Dmaven.test.skip=true"
             }
         }
         stage('Test') {
@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "mvn clean heroku:deploy"
+                sh "mvn clean heroku:deploy -Dmaven.test.skip=true"
             }
         }
     }
