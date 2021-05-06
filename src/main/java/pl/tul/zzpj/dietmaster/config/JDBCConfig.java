@@ -31,7 +31,7 @@ public class JDBCConfig extends AbstractJdbcConfiguration {
     private static final String DB = "";
 
     @Bean
-    @Profile("dev")
+    @Profile({"dev", "prod"})
     public DataSource developmentDataSource() {
         DataSourceBuilder<?> builder = DataSourceBuilder.create();
         return builder
@@ -42,22 +42,22 @@ public class JDBCConfig extends AbstractJdbcConfiguration {
                 .build();
     }
 
-    @Bean
-    @Profile("prod")
-    public DataSource productionDataSource() {
-        DataSourceBuilder<?> builder = DataSourceBuilder.create();
-        
-        String url = System.getenv("JDBC_DATABASE_URL");
-        String username = System.getenv("JDBC_DATABASE_USERNAME");
-        String password = System.getenv("JDBC_DATABASE_PASSWORD");
-
-        return builder
-                .driverClassName("org.postgresql.Driver")
-                .url(url)
-                .username(username)
-                .password(password)
-                .build();
-    }
+//    @Bean
+//    @Profile("prod")
+//    public DataSource productionDataSource() {
+//        DataSourceBuilder<?> builder = DataSourceBuilder.create();
+//        
+//        String url = System.getenv("JDBC_DATABASE_URL");
+//        String username = System.getenv("JDBC_DATABASE_USERNAME");
+//        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+//
+//        return builder
+//                .driverClassName("org.postgresql.Driver")
+//                .url(url)
+//                .username(username)
+//                .password(password)
+//                .build();
+//    }
     
     @Bean
     @Profile("dev")
@@ -68,6 +68,6 @@ public class JDBCConfig extends AbstractJdbcConfiguration {
     @Bean
     @Profile("prod")
     public NamedParameterJdbcTemplate prodParameterJdbcTemplate() {
-        return new NamedParameterJdbcTemplate(this.productionDataSource());
+        return new NamedParameterJdbcTemplate(this.developmentDataSource());
     }
 }
