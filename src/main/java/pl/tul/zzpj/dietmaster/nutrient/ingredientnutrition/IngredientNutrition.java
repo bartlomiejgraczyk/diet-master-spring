@@ -20,10 +20,10 @@ import java.util.Objects;
 public class IngredientNutrition extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_nut_seq_generator")
-    @SequenceGenerator(name = "ingredient_nut_seq_generator", sequenceName = "ingredient_nut_seq", allocationSize = 1)
-    @Basic(optional = false)
-    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY/*, generator = "ingredient_nut_seq_generator"*/)
+    //@SequenceGenerator(name = "ingredient_nut_seq_generator", sequenceName = "ingredient_nut_seq", allocationSize = 1)
+    //@Basic(optional = false)
+    @Column(name = "id"/*, nullable = false*/, updatable = false)
     private Long id;
 
     @Getter
@@ -43,7 +43,7 @@ public class IngredientNutrition extends AbstractEntity {
     @Basic(optional = false)
     @Column(name = "per100")
     @DecimalMin("0.01")
-    @Digits(integer = 3, fraction = 2)
+    @Digits(integer = 8, fraction = 2)
     private BigDecimal per100;
 
     @Override
