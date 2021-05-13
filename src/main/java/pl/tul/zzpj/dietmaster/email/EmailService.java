@@ -1,40 +1,63 @@
 package pl.tul.zzpj.dietmaster.email;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import pl.tul.zzpj.dietmaster.exception.MailSendingException;
 
 @Service
 @AllArgsConstructor
-public class EmailService implements EmailSender{
+public class EmailService implements EmailSender {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
+    private static final String FROM = "";
 
-    @Autowired
     private final JavaMailSender mailSender;
+
+    private void sendMail(String to, String subject, String mailMessage) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        message.setFrom(new InternetAddress(FROM));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        message.setSubject(subject);
+
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+        mimeBodyPart.setContent(mailMessage, "text/html");
+
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(mimeBodyPart);
+
+        message.setContent(multipart);
+
+        mailSender.send(message);
+    }
 
     @Override
     @Async
-    public void send(String from, String to, String subject, String email) {
+    public void sendActivationMail(String to, String activationLink) throws MailSendingException {
+        String subject = "Activate your account!";
+        String messageText =
+                paragraph("Please click link below to verify your account: ")
+                        + hyperlink(activationLink, "Activate");
+
         try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setFrom(from);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(email, true);
-            mailSender.send(mimeMessage);
+            sendMail(to, subject, messageText);
         } catch (MessagingException e) {
-            LOGGER.error("failed to send email", e);
-            throw new IllegalStateException("failed to send email");
+            throw MailSendingException.activationLink();
         }
+    }
+
+    private String paragraph(String text) {
+        return "<p>" + text + "</p>";
+    }
+
+    private String hyperlink(String link, String content) {
+        return "<a href=\"" + link + "\">" + content + "</a>";
     }
 }
