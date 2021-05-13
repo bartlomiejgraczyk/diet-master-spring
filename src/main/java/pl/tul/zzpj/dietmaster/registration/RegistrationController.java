@@ -1,5 +1,6 @@
 package pl.tul.zzpj.dietmaster.registration;
 
+import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,11 @@ public class RegistrationController {
     private final RequestAccountMapper mapper;
 
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<?> register(@RequestBody RegistrationRequest registrationRequest, 
+                                      HttpServletRequest servletRequest) {
         try {
-            registrationService.register(mapper.requestToAccount(request));
+            registrationService.register(mapper.requestToAccount(registrationRequest), 
+                    servletRequest.getRequestURL().toString());
         } catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }
