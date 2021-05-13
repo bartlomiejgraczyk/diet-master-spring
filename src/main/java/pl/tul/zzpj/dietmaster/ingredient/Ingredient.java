@@ -19,10 +19,10 @@ import java.util.Set;
 public class Ingredient extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ingredient_seq_generator")
-    @SequenceGenerator(name = "ingredient_seq_generator", sequenceName = "ingredient_seq", allocationSize = 1)
-    @Basic(optional = false)
-    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY/*, generator = "ingredient_seq_generator"*/)
+    //@SequenceGenerator(name = "ingredient_seq_generator", sequenceName = "ingredient_seq", allocationSize = 1)
+    //@Basic(optional = false)
+    @Column(name = "id"/*, nullable = false*/, updatable = false)
     private Long id;
 
     @Getter
@@ -43,6 +43,7 @@ public class Ingredient extends AbstractEntity {
     @NonNull
     @Basic(optional = false)
     @Column(name = "category")
+    @Convert(converter = IngredientJpaConverter.class)
     private IngredientCategory category;
 
     @Getter

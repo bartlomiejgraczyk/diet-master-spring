@@ -12,5 +12,5 @@ public abstract class AppBaseException extends Exception {
     
     public String getCode() {
         return "app_exception";
-    } 
+    }
 }

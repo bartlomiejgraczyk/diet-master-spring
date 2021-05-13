@@ -63,12 +63,12 @@ public class AuthenticationController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    @GetMapping("/authentication-succeeded")
+    @GetMapping("authentication-succeeded")
     public String authenticationSucceeded() {
         return "Authentication succeeded!";
     }
 
-    @GetMapping("/authentication-failed")
+    @GetMapping("authentication-failed")
     public String authenticationFailed() {
         return "Authentication failed!";
     }
