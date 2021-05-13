@@ -98,6 +98,7 @@
             <version>1.4.7</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -155,12 +156,6 @@
             <version>${mapstruct.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sendinblue</groupId>
-            <artifactId>sib-api-v3-sdk</artifactId>
-            <version>5.2.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>smtp</artifactId>
             <version>2.0.1</version>
@@ -178,7 +173,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>5.3.6</version>
+            <version>5.3.7</version>
         </dependency>
     </dependencies>
     
