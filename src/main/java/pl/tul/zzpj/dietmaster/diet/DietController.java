@@ -34,23 +34,7 @@ public class DietController {
     public ResponseEntity<?> addDiet(@RequestBody CreateDietRequest createDietRequest)  {
         try {
             var ac = acService.loadUserByUsername(createDietRequest.getAuthor());
-            /*
-            var d = new Diet(ac, createDietRequest.getName());
-            d.setAccessLevel(createDietRequest.getAccessLevel());
-            d.setDescription(createDietRequest.getDescription());
-            d.setType(createDietRequest.getType());
-            var l = new HashSet<Meal>();
-            var m1 =  new Meal(d, "AAA",1);
-            m1.setDescription("SSFS");
-            var m2 = new Meal(d, "BBB", 2);
-            m2.setDescription("sdfsfs");
-            //m2.getMealIngredients().add(createDietRequest.getMealIngredients());
-            l.add(m1);
-            l.add(m2);
-
-            d.getMeals().addAll(l);*/
             dietService.addDiet(mapper.requestToDiet(createDietRequest, ac, ingredientService));
-
         } catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }

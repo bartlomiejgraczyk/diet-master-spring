@@ -12,7 +12,4 @@ public class MealIngredientServiceImpl implements MealIngredientService {
         this.repository = repository;
     }
 
-    public void addMealIngredients(){
-
-    }
 }
