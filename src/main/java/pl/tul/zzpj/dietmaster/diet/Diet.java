@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import lombok.*;
 import pl.tul.zzpj.dietmaster.account.Account;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
+import pl.tul.zzpj.dietmaster.common.Default;
 import pl.tul.zzpj.dietmaster.diet.dietset.DietSet;
 import pl.tul.zzpj.dietmaster.meal.Meal;
 
@@ -38,7 +39,7 @@ public class Diet extends AbstractEntity {
     @Setter
     @Basic(optional = false)
     @Column(name = "type")
-    private DietType type;
+    private int type;
 
     @Getter
     @Setter
@@ -57,7 +58,7 @@ public class Diet extends AbstractEntity {
     @Setter
     @Basic(optional = false)
     @Column(name = "access_level")
-    private DietAccessLevel accessLevel;
+    private int accessLevel;
 
     @Getter
     @OneToMany(mappedBy = "diet")
@@ -71,6 +72,20 @@ public class Diet extends AbstractEntity {
     @Override
     public Long getId() {
         return null;
+    }
+
+    @Default
+    public Diet(@NonNull Account author,
+                int type,
+                @NonNull String name,
+                String description,
+                int accessLevel){
+        this.author = author;
+        this.type = type;
+        this.name = name;
+        this.description = description;
+        this.accessLevel = accessLevel;
+
     }
 
     @Override

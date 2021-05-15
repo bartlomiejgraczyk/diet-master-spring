@@ -28,12 +28,14 @@ public class MealIngredient extends AbstractEntity {
     private Long id;
 
     @Getter
+    @Setter
     @NonNull
     @ManyToOne
     @JoinColumn(name = "meal", foreignKey = @ForeignKey(name = "meal_ingredient_meal_fkey"))
     private Meal meal;
 
     @Getter
+    @Setter
     @NonNull
     @ManyToOne
     @JoinColumn(name = "ingredient", foreignKey = @ForeignKey(name = "meal_ingredient_ingredient_fkey"))
@@ -61,6 +63,18 @@ public class MealIngredient extends AbstractEntity {
     @Basic(optional = false)
     @Column(name = "cost")
     private BigDecimal cost;
+
+    public MealIngredient(@NonNull Meal meal,
+                          @NonNull Ingredient ingredient,
+                          BigDecimal count,
+                          Short grams,
+                          BigDecimal cost){
+        this.meal = meal;
+        this.ingredient = ingredient;
+        this.count = count;
+        this.grams = grams;
+        this.cost = cost;
+    }
 
     @Override
     public Long getId() {
