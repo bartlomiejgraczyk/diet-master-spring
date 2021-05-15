@@ -5,10 +5,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MealIngredientServiceImpl implements MealIngredientService {
-    private MealIngredientRepository repository;
+    private final MealIngredientRepository repository;
 
     @Autowired
     public MealIngredientServiceImpl(MealIngredientRepository repository) {
         this.repository = repository;
+    }
+
+    public void addMealIngredients(){
+
     }
 }

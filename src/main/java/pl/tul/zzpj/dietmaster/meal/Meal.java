@@ -3,10 +3,13 @@ package pl.tul.zzpj.dietmaster.meal;
 import javax.persistence.*;
 
 import lombok.*;
+import pl.tul.zzpj.dietmaster.account.Account;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
+import pl.tul.zzpj.dietmaster.common.Default;
 import pl.tul.zzpj.dietmaster.diet.Diet;
 import pl.tul.zzpj.dietmaster.ingredient.mealingredient.MealIngredient;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -45,10 +48,9 @@ public class Meal extends AbstractEntity {
 
     @Getter
     @Setter
-    @NonNull
     @Basic(optional = false)
     @Column(name = "type")
-    private MealType type;
+    private int type;
 
     @Getter
     @OneToMany(mappedBy = "meal")
@@ -66,6 +68,17 @@ public class Meal extends AbstractEntity {
         if (!super.equals(o)) return false;
         var meal = (Meal) o;
         return containingDiet.equals(meal.containingDiet) && name.equals(meal.name) && type == meal.type;
+    }
+
+    @Default
+    public Meal(@NonNull Diet containingDiet,
+                @NonNull String name,
+                String description,
+                int type) {
+        this.containingDiet = containingDiet;
+        this.name = name;
+        this.description = description;
+        this.type = type;
     }
 
     @Override
