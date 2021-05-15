@@ -12,4 +12,9 @@ public class IngredientServiceImpl implements IngredientService {
     public IngredientServiceImpl(IngredientRepository repository) {
         this.repository = repository;
     }
+
+    @Override
+    public Ingredient getOne(long id) {
+        return repository.getOne(id);
+    }
 }
