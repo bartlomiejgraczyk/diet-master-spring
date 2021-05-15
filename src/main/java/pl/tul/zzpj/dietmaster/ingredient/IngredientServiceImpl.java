@@ -14,7 +14,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Ingredient getOne(long id) {
+    public Ingredient findById(long id) {
         return repository.getOne(id);
     }
 }
