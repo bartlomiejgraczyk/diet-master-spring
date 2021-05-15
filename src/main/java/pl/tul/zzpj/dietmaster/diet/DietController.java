@@ -3,10 +3,7 @@ package pl.tul.zzpj.dietmaster.diet;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.tul.zzpj.dietmaster.account.AccountService;
 import pl.tul.zzpj.dietmaster.diet.dietset.DietSet;
 import pl.tul.zzpj.dietmaster.exception.AppBaseException;
@@ -39,6 +36,17 @@ public class DietController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateDiet(@RequestBody UpdateDietRequest updateDietRequest){
+        //todo handle bad request
+      //  try {
+            dietService.updateDiet(updateDietRequest);
+      //  } catch (AppBaseException e) {
+      //      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
+      //  }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
