@@ -11,6 +11,6 @@ import java.util.ArrayList;
 
 @Repository
 public interface DietRepository extends JpaRepository<Diet, Long> {
-
+    Diet findDietById(long id);
 }
 

@@ -30,7 +30,7 @@ public class Meal extends AbstractEntity {
     private Long id;
 
     @Getter
-    @NonNull
+    //@NonNull
     @ManyToOne
     @JoinColumn(name = "containing_diet", foreignKey = @ForeignKey(name = "meal_diet_fkey"))
     private Diet containingDiet;
@@ -71,7 +71,7 @@ public class Meal extends AbstractEntity {
     }
 
     @Default
-    public Meal(@NonNull Diet containingDiet,
+    public Meal(/*@NonNull*/ Diet containingDiet,
                 @NonNull String name,
                 String description,
                 int type) {
