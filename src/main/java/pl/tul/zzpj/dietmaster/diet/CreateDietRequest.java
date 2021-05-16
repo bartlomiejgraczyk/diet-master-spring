@@ -15,7 +15,7 @@ public class CreateDietRequest {
     private final String description;
     private final String name;
     private final int type;
-    private final String author;
+    private final String authorName;
 
     private final Set<CreateMealRequest> meals;
 
@@ -35,7 +35,7 @@ public class CreateDietRequest {
         return type;
     }
 
-    public String getAuthor() { return author; }
+    public String getAuthorName() { return authorName; }
 
     public Set<CreateMealRequest> getMeals() {
         return meals;
