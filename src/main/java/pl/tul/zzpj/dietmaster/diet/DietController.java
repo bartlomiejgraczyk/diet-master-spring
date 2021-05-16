@@ -25,21 +25,18 @@ import java.util.HashSet;
 public class DietController {
 
     private final DietService dietService;
-    //private final AccountService acService;
-    //private final RequestDietMapper mapper;
 
     @PostMapping
     public ResponseEntity<?> addDiet(@RequestBody CreateDietRequest createDietRequest)  {
         try {
-            //var ac = acService.loadUserByUsername(createDietRequest.getAuthor());
             dietService.addDiet(createDietRequest);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (ConstraintViolationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } /*catch (AppBaseException e) {
+        } catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
-        }*/
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body("Diet created!");
     }
 

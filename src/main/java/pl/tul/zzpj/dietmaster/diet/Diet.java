@@ -79,12 +79,14 @@ public class Diet extends AbstractEntity {
                 int type,
                 @NonNull String name,
                 String description,
-                int accessLevel){
+                int accessLevel,
+                Set<Meal> meals){
         this.author = author;
         this.type = type;
         this.name = name;
         this.description = description;
         this.accessLevel = accessLevel;
+        this.meals.addAll(meals);
     }
 
     @Override
@@ -98,6 +100,6 @@ public class Diet extends AbstractEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), author, id);
+        return Objects.hash(super.hashCode(), author, name);
     }
 }
