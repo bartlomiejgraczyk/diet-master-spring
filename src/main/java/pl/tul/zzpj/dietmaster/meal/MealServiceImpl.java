@@ -1,11 +1,9 @@
 package pl.tul.zzpj.dietmaster.meal;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.ingredient.mealingredient.MealIngredientRepository;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 @Service

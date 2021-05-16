@@ -2,6 +2,7 @@ package pl.tul.zzpj.dietmaster.diet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.tul.zzpj.dietmaster.exception.UserNotFoundException;
 import pl.tul.zzpj.dietmaster.meal.MealService;
 
 @Service
@@ -18,7 +19,7 @@ public class DietServiceImpl implements DietService {
     }
 
     @Override
-    public void addDiet(CreateDietRequest diet) {
+    public void addDiet(CreateDietRequest diet) throws UserNotFoundException {
         Diet d = mapper.newDietFromDto(diet);
         dietRepository.save(d);
         mealService.addMeals(d.getMeals());
