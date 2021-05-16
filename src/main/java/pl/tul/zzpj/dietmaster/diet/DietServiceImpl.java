@@ -18,14 +18,14 @@ public class DietServiceImpl implements DietService {
     }
 
     @Override
-    public void addDiet(Diet diet) {
-        dietRepository.save(diet);
-        mealService.addMeals(diet.getMeals());
+    public void addDiet(CreateDietRequest diet) {
+        Diet d = mapper.newDietFromDto(diet);
+        dietRepository.save(d);
+        mealService.addMeals(d.getMeals());
     }
 
     @Override
     public void updateDiet(UpdateDietRequest dietDTO) {
-
         Diet diet = dietRepository.findDietById(dietDTO.getId());
         mapper.updateDietFromDto(dietDTO, diet);
         dietRepository.save(diet);

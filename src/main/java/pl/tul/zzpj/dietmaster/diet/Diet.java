@@ -85,7 +85,6 @@ public class Diet extends AbstractEntity {
         this.name = name;
         this.description = description;
         this.accessLevel = accessLevel;
-
     }
 
     @Override
@@ -99,6 +98,6 @@ public class Diet extends AbstractEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), author, name);
+        return Objects.hash(super.hashCode(), author, id);
     }
 }
