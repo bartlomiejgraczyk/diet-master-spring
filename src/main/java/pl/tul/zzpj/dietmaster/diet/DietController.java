@@ -14,6 +14,8 @@ import pl.tul.zzpj.dietmaster.meal.MealService;
 import pl.tul.zzpj.dietmaster.meal.MealType;
 import pl.tul.zzpj.dietmaster.registration.RequestAccountMapper;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -23,19 +25,22 @@ import java.util.HashSet;
 public class DietController {
 
     private final DietService dietService;
-    private final AccountService acService;
-    private final IngredientService ingredientService;
-    private final RequestDietMapper mapper;
+    //private final AccountService acService;
+    //private final RequestDietMapper mapper;
 
     @PostMapping
     public ResponseEntity<?> addDiet(@RequestBody CreateDietRequest createDietRequest)  {
         try {
-            var ac = acService.loadUserByUsername(createDietRequest.getAuthor());
-            dietService.addDiet(mapper.requestToDiet(createDietRequest, ac, ingredientService));
-        } catch (AppBaseException e) {
+            //var ac = acService.loadUserByUsername(createDietRequest.getAuthor());
+            dietService.addDiet(createDietRequest);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } /*catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        }*/
+        return ResponseEntity.status(HttpStatus.CREATED).body("Diet created!");
     }
 
     @PutMapping
