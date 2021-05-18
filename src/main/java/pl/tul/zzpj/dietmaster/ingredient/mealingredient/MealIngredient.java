@@ -29,8 +29,8 @@ public class MealIngredient extends AbstractEntity {
 
     @Getter
     @Setter
-    @NonNull
-    @ManyToOne
+    /*@NonNull*/
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "meal", foreignKey = @ForeignKey(name = "meal_ingredient_meal_fkey"))
     private Meal meal;
 
@@ -64,7 +64,7 @@ public class MealIngredient extends AbstractEntity {
     @Column(name = "cost")
     private BigDecimal cost;
 
-    public MealIngredient(@NonNull Meal meal,
+    public MealIngredient(/*@NonNull*/ Meal meal,
                           @NonNull Ingredient ingredient,
                           BigDecimal count,
                           Short grams,

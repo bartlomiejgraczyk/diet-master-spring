@@ -66,7 +66,7 @@ public class Diet extends AbstractEntity {
 
     @Getter
     @Size(min = 1, max = 10)
-    @OneToMany(mappedBy = "containingDiet")
+    @OneToMany(mappedBy = "containingDiet", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<Meal> meals = new HashSet<>();
 
     @Override
