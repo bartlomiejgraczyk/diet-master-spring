@@ -28,12 +28,4 @@ public class MealServiceImpl implements MealService {
             mealIngredientRepository.saveAll(meal.getMealIngredients());
         }
     }
-
-    @Override
-    public void deleteMeals(Set<Meal> meals) {
-        for (var meal : meals) {
-            mealIngredientRepository.deleteAll(meal.getMealIngredients());
-            repository.delete(meal);
-        }
-    }
 }
