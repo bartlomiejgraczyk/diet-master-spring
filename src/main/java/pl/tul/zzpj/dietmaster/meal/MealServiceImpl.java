@@ -2,6 +2,7 @@ package pl.tul.zzpj.dietmaster.meal;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.tul.zzpj.dietmaster.diet.Diet;
 import pl.tul.zzpj.dietmaster.ingredient.mealingredient.MealIngredientRepository;
 
 import java.util.Set;
@@ -19,10 +20,20 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void addMeals(Set<Meal> meals) {
+    public void addMeals(Set<Meal> meals, Diet diet) {
         for (var meal : meals) {
+            meal.setContainingDiet(diet);
             repository.save(meal);
+            meal.getMealIngredients().forEach(i -> i.setMeal(meal));
             mealIngredientRepository.saveAll(meal.getMealIngredients());
+        }
+    }
+
+    @Override
+    public void deleteMeals(Set<Meal> meals) {
+        for (var meal : meals) {
+            mealIngredientRepository.deleteAll(meal.getMealIngredients());
+            repository.delete(meal);
         }
     }
 }

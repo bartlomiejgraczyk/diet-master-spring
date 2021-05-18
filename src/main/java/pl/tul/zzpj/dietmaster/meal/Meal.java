@@ -30,8 +30,9 @@ public class Meal extends AbstractEntity {
     private Long id;
 
     @Getter
-    //@NonNull
-    @ManyToOne
+    @Setter
+    /*@NonNull*/
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "containing_diet", foreignKey = @ForeignKey(name = "meal_diet_fkey"))
     private Diet containingDiet;
 
@@ -53,7 +54,7 @@ public class Meal extends AbstractEntity {
     private int type;
 
     @Getter
-    @OneToMany(mappedBy = "meal")
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<MealIngredient> mealIngredients = new HashSet<>();
 
     @Override
@@ -71,14 +72,16 @@ public class Meal extends AbstractEntity {
     }
 
     @Default
-    public Meal(/*@NonNull*/ Diet containingDiet,
+    public Meal(Diet containingDiet,
                 @NonNull String name,
                 String description,
-                int type) {
+                int type,
+                Set<MealIngredient> mealIngredients) {
         this.containingDiet = containingDiet;
         this.name = name;
         this.description = description;
         this.type = type;
+        this.mealIngredients.addAll(mealIngredients);
     }
 
     @Override
