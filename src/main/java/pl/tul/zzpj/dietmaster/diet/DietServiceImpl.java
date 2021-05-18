@@ -45,7 +45,6 @@ public class DietServiceImpl implements DietService {
             throw new DietNotFoundException(id);
 
         Diet diet = dietRepository.getOne(id);
-        //mealService.deleteMeals(diet.getMeals());
         dietRepository.delete(diet);
     }
 

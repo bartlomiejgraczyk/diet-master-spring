@@ -7,7 +7,5 @@ import java.util.Set;
 
 public interface MealService {
     void addMeal(Meal meal);
-
     void addMeals(Set<Meal> meal, Diet diet);
-    void deleteMeals(Set<Meal> meal);
 }
