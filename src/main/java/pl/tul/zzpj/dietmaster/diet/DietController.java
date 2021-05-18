@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.tul.zzpj.dietmaster.account.AccountService;
 import pl.tul.zzpj.dietmaster.diet.dietset.DietSet;
 import pl.tul.zzpj.dietmaster.exception.AppBaseException;
+import pl.tul.zzpj.dietmaster.exception.DietNotFoundException;
 import pl.tul.zzpj.dietmaster.exception.UserNotFoundException;
 import pl.tul.zzpj.dietmaster.ingredient.IngredientService;
 import pl.tul.zzpj.dietmaster.meal.Meal;
@@ -25,15 +26,12 @@ import java.util.HashSet;
 public class DietController {
 
     private final DietService dietService;
+    private final RequestDietMapper mapper;
 
     @PostMapping
     public ResponseEntity<?> addDiet(@RequestBody CreateDietRequest createDietRequest)  {
         try {
-            dietService.addDiet(createDietRequest);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (ConstraintViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            dietService.addDiet(mapper.newDietFromDto(createDietRequest));
         } catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }
@@ -42,13 +40,21 @@ public class DietController {
 
     @PutMapping
     public ResponseEntity<?> updateDiet(@RequestBody UpdateDietRequest updateDietRequest){
-        //todo handle bad request
-      //  try {
-            dietService.updateDiet(updateDietRequest);
-      //  } catch (AppBaseException e) {
-      //      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
-      //  }
-        return ResponseEntity.status(HttpStatus.OK).build();
+       try {
+           dietService.updateDiet(updateDietRequest);
+       } catch (AppBaseException e) {
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
+       }
+       return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteDiet(@PathVariable Long id) {
+        try {
+            dietService.deleteDiet(id);
+        } catch (AppBaseException e) {
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Diet deleted!");
+    }
 }
