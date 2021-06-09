@@ -1,16 +1,7 @@
 package pl.tul.zzpj.dietmaster;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import pl.tul.zzpj.dietmaster.ingredient.Ingredient;
-import pl.tul.zzpj.dietmaster.ingredient.IngredientCategory;
-import pl.tul.zzpj.dietmaster.ingredient.IngredientRepository;
-import pl.tul.zzpj.dietmaster.nutrient.Nutrient;
-import pl.tul.zzpj.dietmaster.nutrient.NutrientCategory;
-import pl.tul.zzpj.dietmaster.nutrient.NutrientRepository;
-import pl.tul.zzpj.dietmaster.nutrient.NutrientService;
 
 @SpringBootApplication
 public class DietMasterApplication {
