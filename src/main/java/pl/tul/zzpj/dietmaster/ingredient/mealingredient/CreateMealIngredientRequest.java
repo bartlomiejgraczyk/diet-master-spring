@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 public class CreateMealIngredientRequest {
 
     private final long ingredientId;
-
     private final BigDecimal count;
     private final BigDecimal cost;
 
@@ -30,4 +29,5 @@ public class CreateMealIngredientRequest {
     public BigDecimal getCost() {
         return cost;
     }
+
 }
