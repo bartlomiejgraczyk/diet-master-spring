@@ -14,9 +14,6 @@ public class UpdateDietRequest {
     private final String description;
     private final String name;
     private final int type;
-    private final String author;
-
-    private final Set<UpdateMealRequest> meals;
 
     public Long getId() {
         return id;
@@ -38,9 +35,4 @@ public class UpdateDietRequest {
         return type;
     }
 
-    public String getAuthor() { return author; }
-
-    public Set<UpdateMealRequest> getMeals() {
-        return meals;
-    }
 }
