@@ -59,7 +59,19 @@ public class Meal extends AbstractEntity {
 
     @Override
     public Long getId() {
-        return null;
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     @Override
