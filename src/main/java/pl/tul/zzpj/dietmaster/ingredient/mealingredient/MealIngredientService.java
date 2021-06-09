@@ -1,5 +1,7 @@
 package pl.tul.zzpj.dietmaster.ingredient.mealingredient;
 
-public interface MealIngredientService {
+import pl.tul.zzpj.dietmaster.exception.MealIngredientNotFoundException;
 
+public interface MealIngredientService {
+    void update(UpdateMealIngredientRequest dto) throws MealIngredientNotFoundException;
 }

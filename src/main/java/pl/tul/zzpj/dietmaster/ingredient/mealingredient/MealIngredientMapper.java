@@ -1,7 +1,6 @@
 package pl.tul.zzpj.dietmaster.ingredient.mealingredient;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import pl.tul.zzpj.dietmaster.ingredient.IngredientService;
 
 
@@ -11,4 +10,6 @@ public interface MealIngredientMapper {
     @Mapping(source ="ingredientId", target = "ingredient")
     MealIngredient mealIngredientsFromDTO(CreateMealIngredientRequest dto);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateMealIngredientFromDTO(UpdateMealIngredientRequest dto, @MappingTarget MealIngredient entity);
 }
