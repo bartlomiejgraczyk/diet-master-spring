@@ -32,7 +32,9 @@ public class DietServiceImpl implements DietService {
     }
 
     @Override
-    public void updateDiet(UpdateDietRequest dietDTO) {
+    public void updateDiet(UpdateDietRequest dietDTO)throws DietNotFoundException {
+        if (!dietRepository.existsById(dietDTO.getId()))
+            throw new DietNotFoundException(dietDTO.getId());
         Diet diet = dietRepository.findDietById(dietDTO.getId());
         mapper.updateDietFromDto(dietDTO, diet);
         dietRepository.save(diet);

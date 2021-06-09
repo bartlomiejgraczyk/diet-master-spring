@@ -17,8 +17,6 @@ public class UpdateMealRequest {
 
     private final int type;
 
-    private final Set<CreateMealIngredientRequest> mealIngredients = new HashSet<>();
-
     public String getName() {
         return name;
     }
@@ -31,7 +29,7 @@ public class UpdateMealRequest {
         return type;
     }
 
-    public Set<CreateMealIngredientRequest> getMealIngredients() {
-        return mealIngredients;
+    public Long getId() {
+        return id;
     }
 }
