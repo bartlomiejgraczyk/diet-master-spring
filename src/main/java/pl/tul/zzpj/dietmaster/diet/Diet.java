@@ -71,7 +71,7 @@ public class Diet extends AbstractEntity {
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
     @Default
@@ -96,6 +96,22 @@ public class Diet extends AbstractEntity {
         if (!super.equals(o)) return false;
         var diet = (Diet) o;
         return author.equals(diet.author) && name.equals(diet.name);
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setAccessLevel(int accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     @Override

@@ -78,7 +78,19 @@ public class MealIngredient extends AbstractEntity {
 
     @Override
     public Long getId() {
-        return null;
+        return id;
+    }
+
+    public void setCount(BigDecimal count) {
+        this.count = count;
+    }
+
+    public void setGrams(Short grams) {
+        this.grams = grams;
+    }
+
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
     }
 
     @Override
