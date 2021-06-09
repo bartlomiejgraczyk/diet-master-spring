@@ -3,6 +3,7 @@ package pl.tul.zzpj.dietmaster.meal;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.diet.Diet;
+import pl.tul.zzpj.dietmaster.exception.MealNotFoundException;
 import pl.tul.zzpj.dietmaster.ingredient.mealingredient.MealIngredient;
 import pl.tul.zzpj.dietmaster.ingredient.mealingredient.MealIngredientRepository;
 
@@ -14,6 +15,7 @@ public class MealServiceImpl implements MealService {
     
     private final MealRepository repository;
     private final MealIngredientRepository mealIngredientRepository;
+    private final MealMapper mealMapper;
 
     @Override
     public void addMeal(Meal meal) {
@@ -35,4 +37,16 @@ public class MealServiceImpl implements MealService {
             }
         }
     }
+
+    @Override
+    public void updateMeal(UpdateMealRequest dto) throws MealNotFoundException {
+        if(!repository.existsById(dto.getId()))
+            throw new MealNotFoundException(dto.getId());
+        Meal meal = repository.findById(dto.getId()).orElse(null);
+        mealMapper.updateMealFromDTO(dto, meal);
+        assert meal != null;
+        repository.save(meal);
+    }
+
+
 }

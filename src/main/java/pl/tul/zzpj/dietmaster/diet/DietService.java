@@ -6,6 +6,6 @@ import pl.tul.zzpj.dietmaster.exception.UserNotFoundException;
 
 public interface DietService {
     void addDiet(Diet diet) throws UserNotFoundException, DietExistsException;
-    void updateDiet(UpdateDietRequest diet) throws DietExistsException;
+    void updateDiet(UpdateDietRequest diet) throws DietNotFoundException;
     void deleteDiet(Long id) throws DietNotFoundException;
 }
