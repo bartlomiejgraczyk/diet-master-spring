@@ -36,7 +36,7 @@ public class DietServiceImpl implements DietService {
         Diet diet = dietRepository.findDietById(dietDTO.getId());
         mapper.updateDietFromDto(dietDTO, diet);
         dietRepository.save(diet);
-        mealService.addMeals(diet.getMeals(), diet);
+
     }
 
     @Override
