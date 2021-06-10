@@ -1,4 +1,4 @@
-package pl.tul.zzpj.dietmaster.logic.controllers.requests;
+package pl.tul.zzpj.dietmaster.logic.controllers.requests.registration;
 
 import lombok.AllArgsConstructor;
 
