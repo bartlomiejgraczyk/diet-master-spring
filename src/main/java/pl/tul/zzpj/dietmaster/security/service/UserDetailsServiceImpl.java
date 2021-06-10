@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,9 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.tul.zzpj.dietmaster.account.Account;
-import pl.tul.zzpj.dietmaster.account.AccountRepository;
-import pl.tul.zzpj.dietmaster.account.accesslevel.AccessLevel;
+import pl.tul.zzpj.dietmaster.model.entities.Account;
+import pl.tul.zzpj.dietmaster.logic.repositories.AccountRepository;
+import pl.tul.zzpj.dietmaster.model.entities.accesslevels.AccessLevel;
 
 @Service
 @AllArgsConstructor
