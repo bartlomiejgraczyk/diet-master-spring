@@ -16,13 +16,12 @@ import java.util.Objects;
 public class Nutrient extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY/*, generator = "nutrient_seq_generator"*/)
-    //@SequenceGenerator(name = "nutrient_seq_generator", sequenceName = "nutrient_seq", allocationSize = 1)
-    //@Basic(optional = false)
-    @Column(name = "id"/*, nullable = false*/, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false)
     private Long id;
 
     @Getter
+    @Setter
     @NonNull
     @Basic(optional = false)
     @Column(name = "name")
@@ -35,15 +34,16 @@ public class Nutrient extends AbstractEntity {
     private String description;
 
     @Getter
+    @Setter
     @NonNull
     @Basic(optional = false)
     @Column(name = "category")
-    @Convert(converter = NutrientCategory.Converter.class)//NutrientJpaConverter.class)
+    @Convert(converter = NutrientCategory.Converter.class)
     private NutrientCategory category;
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
     @Override
