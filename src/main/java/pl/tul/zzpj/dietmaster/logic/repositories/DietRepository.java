@@ -21,5 +21,7 @@ public interface DietRepository extends JpaRepository<Diet, Long> {
     @Query("SELECT d FROM Diet d WHERE d.accessLevel = 2 AND d.author " +
             "IN (SELECT dc.dietitian FROM DietitianClient dc WHERE dc.client = ?1)")
     List<Diet> findAllMySubscribedDiets(Account user);
+
+    List<Diet> findDietsByType(int type);
 }
 
