@@ -1,7 +1,7 @@
 package pl.tul.zzpj.dietmaster.logic.services.interfaces;
 
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
-import pl.tul.zzpj.dietmaster.model.exception.MealNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.MealNotFoundException;
 import pl.tul.zzpj.dietmaster.model.entities.Meal;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.meal.UpdateMealRequest;
 
