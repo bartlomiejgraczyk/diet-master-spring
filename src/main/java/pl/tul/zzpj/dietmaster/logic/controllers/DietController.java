@@ -25,7 +25,7 @@ public class DietController {
     private final RequestDietMapper mapper;
 
     @PostMapping
-    public ResponseEntity<?> addDiet(@RequestBody CreateDietRequest createDietRequest)  {
+    public ResponseEntity<?> addDiet(@RequestBody CreateDietRequest createDietRequest) {
         try {
             dietService.addDiet(mapper.newDietFromDto(createDietRequest));
         } catch (AppBaseException e) {
@@ -35,23 +35,28 @@ public class DietController {
     }
 
     @GetMapping//(produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAllAvailableDiets(){
+    public ResponseEntity<?> getAllAvailableDiets() {
         try {
-           List<Diet> diets = dietService.getAllAvailableDiets();
-           return ResponseEntity.ok(diets.stream().map(Diet::getId).collect(Collectors.toList()));
-        } catch (AppBaseException e){
+            List<Diet> diets = dietService.getAllAvailableDiets();
+            return ResponseEntity.ok(diets.stream().map(Diet::getId).collect(Collectors.toList()));
+        } catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }
     }
 
+    @GetMapping(path = "{type}")
+    public ResponseEntity<?> getDietsByType(@PathVariable int type) {
+        return ResponseEntity.ok(dietService.getDietsByType(type).stream().map(Diet::getId).collect(Collectors.toList()));
+    }
+
     @PutMapping
-    public ResponseEntity<?> updateDiet(@RequestBody UpdateDietRequest updateDietRequest){
-       try {
-           dietService.updateDiet(updateDietRequest);
-       } catch (AppBaseException e) {
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
-       }
-       return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<?> updateDiet(@RequestBody UpdateDietRequest updateDietRequest) {
+        try {
+            dietService.updateDiet(updateDietRequest);
+        } catch (AppBaseException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}")
@@ -59,7 +64,7 @@ public class DietController {
         try {
             dietService.deleteDiet(id);
         } catch (AppBaseException e) {
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }
         return ResponseEntity.status(HttpStatus.OK).body("Diet deleted!");
     }

@@ -73,6 +73,11 @@ public class DietServiceImpl implements DietService {
         return new ArrayList<>(diets);
     }
 
+    @Override
+    public List<Diet> getDietsByType(int type) {
+        return dietRepository.findDietsByType(type);
+    }
+
     private boolean dietWithTitleExists(Diet diet){
        return dietRepository.findAll().stream()
                .anyMatch(d -> d.getAuthor().getEmail().equals(diet.getAuthor().getEmail()) &&
