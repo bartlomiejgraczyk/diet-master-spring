@@ -2,8 +2,7 @@ package pl.tul.zzpj.dietmaster.model.entities;
 
 import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
-import pl.tul.zzpj.dietmaster.model.entities.enums.categorytype.NutrientCategory;
-import pl.tul.zzpj.dietmaster.model.entities.converters.NutrientJpaConverter;
+import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -39,7 +38,7 @@ public class Nutrient extends AbstractEntity {
     @NonNull
     @Basic(optional = false)
     @Column(name = "category")
-    @Convert(converter = NutrientJpaConverter.class)
+    @Convert(converter = NutrientCategory.Converter.class)//NutrientJpaConverter.class)
     private NutrientCategory category;
 
     @Override

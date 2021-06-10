@@ -1,4 +1,4 @@
-package pl.tul.zzpj.dietmaster.logic.email;
+package pl.tul.zzpj.dietmaster.logic.mailing;
 
 import pl.tul.zzpj.dietmaster.model.exception.MailSendingException;
 

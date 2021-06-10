@@ -5,7 +5,6 @@ import javax.persistence.*;
 import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 import pl.tul.zzpj.dietmaster.common.Default;
-import pl.tul.zzpj.dietmaster.model.entities.enums.categorytype.MealType;
 
 import java.util.HashSet;
 import java.util.Objects;
