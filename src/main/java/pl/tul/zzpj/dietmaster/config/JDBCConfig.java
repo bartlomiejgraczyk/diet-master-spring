@@ -6,14 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableJdbcRepositories
-@EnableJpaRepositories(basePackages = {
-        "pl.tul.zzpj.dietmaster.account",
-        "pl.tul.zzpj.dietmaster.diet",
-        "pl.tul.zzpj.dietmaster.ingredient",
-        "pl.tul.zzpj.dietmaster.meal",
-        "pl.tul.zzpj.dietmaster.measurement",
-        "pl.tul.zzpj.dietmaster.nutrient",
-        "pl.tul.zzpj.dietmaster.registration.token"
-})
+@EnableJpaRepositories(basePackages = {"pl.tul.zzpj.dietmaster.logic.repositories"})
 public class JDBCConfig {
 }
