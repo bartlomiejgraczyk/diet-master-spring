@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.tul.zzpj.dietmaster.logic.controllers.requests.RegistrationRequest;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.registration.RegistrationRequest;
 import pl.tul.zzpj.dietmaster.model.exception.AppBaseException;
 import pl.tul.zzpj.dietmaster.model.mappers.RequestAccountMapper;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.RegistrationService;
