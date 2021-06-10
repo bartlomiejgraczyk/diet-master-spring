@@ -44,8 +44,9 @@ public class DietController {
         }
     }
 
-    @GetMapping(path = "{type}")
+    @GetMapping(path = "type/{type}")
     public ResponseEntity<?> getDietsByType(@PathVariable int type) {
+        //todo enums type and dto
         return ResponseEntity.ok(dietService.getDietsByType(type).stream().map(Diet::getId).collect(Collectors.toList()));
     }
 
@@ -56,7 +57,7 @@ public class DietController {
         } catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body("Diet updated");
     }
 
     @DeleteMapping("/{id}")
