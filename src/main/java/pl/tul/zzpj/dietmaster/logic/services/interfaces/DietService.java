@@ -13,4 +13,5 @@ public interface DietService {
     void updateDiet(UpdateDietRequest diet) throws DietNotFoundException;
     void deleteDiet(Long id) throws DietNotFoundException;
     List<Diet> getAllAvailableDiets() throws UserNotFoundException;
+    List<Diet> getDietsByType(int type);
 }
