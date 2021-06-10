@@ -3,7 +3,7 @@ package pl.tul.zzpj.dietmaster.logic.services.implementations;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
-import pl.tul.zzpj.dietmaster.model.exception.MealNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.MealNotFoundException;
 import pl.tul.zzpj.dietmaster.model.entities.MealIngredient;
 import pl.tul.zzpj.dietmaster.logic.repositories.MealIngredientRepository;
 import pl.tul.zzpj.dietmaster.model.entities.Meal;

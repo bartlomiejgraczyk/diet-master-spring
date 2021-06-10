@@ -1,7 +1,7 @@
 package pl.tul.zzpj.dietmaster.logic.controllers.requests.meal;
 
 import lombok.AllArgsConstructor;
-import pl.tul.zzpj.dietmaster.logic.controllers.requests.mealingredient.CreateMealIngredientRequest;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.mealingredient.CreateMealIngredientDto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,7 @@ public class CreateMealRequest {
 
     private final int type;
 
-    private final Set<CreateMealIngredientRequest> mealIngredients = new HashSet<>();
+    private final Set<CreateMealIngredientDto> mealIngredients = new HashSet<>();
 
     public String getName() {
         return name;
@@ -29,7 +29,7 @@ public class CreateMealRequest {
         return type;
     }
 
-    public Set<CreateMealIngredientRequest> getMealIngredients() {
+    public Set<CreateMealIngredientDto> getMealIngredients() {
         return mealIngredients;
     }
 }
