@@ -4,8 +4,7 @@ import javax.persistence.*;
 
 import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
-import pl.tul.zzpj.dietmaster.model.entities.enums.categorytype.IngredientCategory;
-import pl.tul.zzpj.dietmaster.model.entities.converters.IngredientJpaConverter;
+import pl.tul.zzpj.dietmaster.model.entities.enums.categories.IngredientCategory;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -44,7 +43,7 @@ public class Ingredient extends AbstractEntity {
     @NonNull
     @Basic(optional = false)
     @Column(name = "category")
-    @Convert(converter = IngredientJpaConverter.class)
+    @Convert(converter = IngredientCategory.Converter.class)//IngredientJpaConverter.class)
     private IngredientCategory category;
 
     @Getter

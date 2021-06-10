@@ -1,7 +1,6 @@
 package pl.tul.zzpj.dietmaster.logic.controllers.requests.meal;
 
 import lombok.AllArgsConstructor;
-import pl.tul.zzpj.dietmaster.model.entities.enums.categorytype.MealType;
 
 @AllArgsConstructor
 public class UpdateMealRequest {

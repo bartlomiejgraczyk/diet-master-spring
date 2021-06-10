@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
-import pl.tul.zzpj.dietmaster.model.entities.enums.categorytype.NutrientCategory;
+import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 
 @SpringBootTest
 class DietMasterApplicationTests {

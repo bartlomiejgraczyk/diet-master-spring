@@ -1,4 +1,4 @@
-package pl.tul.zzpj.dietmaster.model.entities.enums.categorytype;
+package pl.tul.zzpj.dietmaster.model.entities.enums.types;
 
 public enum DietType {
     MEDITERRANEAN, VEGETARIAN, BLOOD_TYPE, SOUTH_BEACH, RAW_FOOD,
