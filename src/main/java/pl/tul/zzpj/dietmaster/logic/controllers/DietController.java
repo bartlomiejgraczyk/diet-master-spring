@@ -6,9 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.CreateDietRequest;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.DietService;
+import pl.tul.zzpj.dietmaster.model.entities.Diet;
 import pl.tul.zzpj.dietmaster.model.mappers.RequestDietMapper;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.UpdateDietRequest;
 import pl.tul.zzpj.dietmaster.model.exception.AppBaseException;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(path = "diets")
@@ -26,6 +32,16 @@ public class DietController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Diet created!");
+    }
+
+    @GetMapping//(produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllAvailableDiets(){
+        try {
+           List<Diet> diets = dietService.getAllAvailableDiets();
+           return ResponseEntity.ok(diets.stream().map(Diet::getId).collect(Collectors.toList()));
+        } catch (AppBaseException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
+        }
     }
 
     @PutMapping
