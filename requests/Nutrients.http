@@ -1,0 +1,41 @@
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+
+GET localhost:8081/nutrients
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+
+GET localhost:8081/nutrients/FAT
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+
+PUT localhost:8081/nutrients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "New Fat",
+  "description": "My new fat type used for testing purposes",
+  "category": "FAT"
+}
+
+###
+
+POST localhost:8081/nutrients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "name": "New Fat",
+  "description": "My new fat type used for testing purposes",
+  "category": "FAT"
+}
+
+###
+
+DELETE localhost:8081/nutrients/2
+Authorization: Bearer TOKEN_CHARACTERS

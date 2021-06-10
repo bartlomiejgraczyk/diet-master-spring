@@ -1,7 +1,7 @@
 package pl.tul.zzpj.dietmaster.model.entities.enums.categories;
 
 import pl.tul.zzpj.dietmaster.common.EnumStringJpaConverter;
-import pl.tul.zzpj.dietmaster.model.exception.EnumNameNotEqual;
+import pl.tul.zzpj.dietmaster.model.exception.EnumNameNotEqualException;
 
 public enum IngredientCategory implements CategoryEnum {
     DAIRY("dairy"),
@@ -25,7 +25,7 @@ public enum IngredientCategory implements CategoryEnum {
 
     IngredientCategory(String ingredientCategory) {
         if (!ingredientCategory.toUpperCase().equals(name())) {
-            throw new EnumNameNotEqual();
+            throw new EnumNameNotEqualException();
         }
         this.name = ingredientCategory;
     }

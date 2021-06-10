@@ -6,7 +6,7 @@ import pl.tul.zzpj.dietmaster.model.exception.ConfirmationTokenExpired;
 import pl.tul.zzpj.dietmaster.model.exception.EmailTakenException;
 import pl.tul.zzpj.dietmaster.model.exception.InvalidEmailException;
 import pl.tul.zzpj.dietmaster.model.exception.MailSendingException;
-import pl.tul.zzpj.dietmaster.model.exception.TokenNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.TokenNotFoundException;
 
 public interface RegistrationService {
 
