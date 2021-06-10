@@ -1,4 +1,4 @@
-package pl.tul.zzpj.dietmaster.logic.email;
+package pl.tul.zzpj.dietmaster.logic.mailing;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

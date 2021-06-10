@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.tul.zzpj.dietmaster.model.entities.Account;
 import pl.tul.zzpj.dietmaster.model.entities.accesslevels.ClientAccessLevel;
-import pl.tul.zzpj.dietmaster.logic.email.EmailSender;
+import pl.tul.zzpj.dietmaster.logic.mailing.EmailSender;
 import pl.tul.zzpj.dietmaster.model.exception.AccountAlreadyConfirmedException;
 import pl.tul.zzpj.dietmaster.model.exception.ConfirmationTokenExpired;
 import pl.tul.zzpj.dietmaster.model.exception.EmailTakenException;
