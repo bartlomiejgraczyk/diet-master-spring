@@ -40,7 +40,7 @@ public class DietController {
     public ResponseEntity<?> getAllAvailableDiets() {
         try {
             List<Diet> diets = dietService.getAllAvailableDiets();
-            return ResponseEntity.ok(diets.stream().map(Diet::getId).collect(Collectors.toList()));
+            return ResponseEntity.ok(diets.stream().map(mapper::dietDTOFromEntity).collect(Collectors.toList()));
         } catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }
@@ -49,7 +49,7 @@ public class DietController {
     @GetMapping(path = "type/{type}")
     public ResponseEntity<?> getDietsByType(@PathVariable String type) {
         try {
-            return ResponseEntity.ok(dietService.getDietsByType(type).stream().map(Diet::getId).collect(Collectors.toList()));
+            return ResponseEntity.ok(dietService.getDietsByType(type).stream().map(mapper::dietDTOFromEntity).collect(Collectors.toList()));
         } catch (EnumNameNotEqualException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
