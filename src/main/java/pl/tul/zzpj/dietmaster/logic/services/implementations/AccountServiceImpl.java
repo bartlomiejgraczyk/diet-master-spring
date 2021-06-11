@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.model.entities.Account;
 import pl.tul.zzpj.dietmaster.model.exception.EmailTakenException;
-import pl.tul.zzpj.dietmaster.model.exception.UserNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.UserNotFoundException;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.ConfirmationTokenService;
 import pl.tul.zzpj.dietmaster.logic.repositories.AccountRepository;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.AccountService;

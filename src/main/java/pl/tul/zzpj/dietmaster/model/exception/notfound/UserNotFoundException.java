@@ -1,4 +1,6 @@
-package pl.tul.zzpj.dietmaster.model.exception;
+package pl.tul.zzpj.dietmaster.model.exception.notfound;
+
+import pl.tul.zzpj.dietmaster.model.exception.AppBaseException;
 
 public class UserNotFoundException extends AppBaseException {
 
