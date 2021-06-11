@@ -3,7 +3,7 @@ package pl.tul.zzpj.dietmaster.logic.services.interfaces;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.UpdateDietRequest;
 import pl.tul.zzpj.dietmaster.model.exception.exists.DietExistsException;
-import pl.tul.zzpj.dietmaster.model.exception.DietNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.DietNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.UserNotFoundException;
 
 public interface DietService {
