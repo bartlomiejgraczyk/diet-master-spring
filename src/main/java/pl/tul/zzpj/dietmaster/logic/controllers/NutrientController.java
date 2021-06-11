@@ -8,7 +8,6 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.CreateNutrient
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.UpdateNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.NutrientService;
-import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientExistsException;
 
 import javax.ws.rs.NotFoundException;
@@ -55,6 +54,8 @@ public class NutrientController {
             nutrientService.createNutrient(createNutrientDto);
         } catch (NutrientExistsException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+        } catch (IllegalArgumentException exception) {
+            return ResponseEntity.badRequest().body("Request contains mull non-null field(s)");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Nutrient added");
     }
