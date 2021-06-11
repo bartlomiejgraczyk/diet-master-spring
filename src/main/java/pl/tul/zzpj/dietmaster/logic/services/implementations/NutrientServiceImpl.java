@@ -1,11 +1,8 @@
 package pl.tul.zzpj.dietmaster.logic.services.implementations;
 
-import org.modelmapper.Condition;
-import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.CreateNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
