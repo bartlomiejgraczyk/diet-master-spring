@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.CreateDietRequest;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.DietService;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
+import pl.tul.zzpj.dietmaster.model.exception.EnumNameNotEqualException;
 import pl.tul.zzpj.dietmaster.model.mappers.RequestDietMapper;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.UpdateDietRequest;
 import pl.tul.zzpj.dietmaster.model.exception.AppBaseException;
@@ -45,9 +46,13 @@ public class DietController {
     }
 
     @GetMapping(path = "type/{type}")
-    public ResponseEntity<?> getDietsByType(@PathVariable int type) {
-        //todo enums type and dto
-        return ResponseEntity.ok(dietService.getDietsByType(type).stream().map(Diet::getId).collect(Collectors.toList()));
+    public ResponseEntity<?> getDietsByType(@PathVariable String type) {
+        try {
+            return ResponseEntity.ok(dietService.getDietsByType(type).stream().map(Diet::getId).collect(Collectors.toList()));
+        } catch (EnumNameNotEqualException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 
     @PutMapping

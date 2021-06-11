@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 import pl.tul.zzpj.dietmaster.common.Default;
+import pl.tul.zzpj.dietmaster.model.entities.enums.types.DietType;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -36,7 +37,8 @@ public class Diet extends AbstractEntity {
     @Setter
     @Basic(optional = false)
     @Column(name = "type")
-    private int type;
+    @Convert(converter = DietType.Converter.class)
+    private DietType type;
 
     @Getter
     @Setter
@@ -62,7 +64,7 @@ public class Diet extends AbstractEntity {
     private final Set<DietSet> dietSets = new HashSet<>();
 
     @Getter
-    @Size(min = 1, max = 10)
+    @Size(max = 10)
     @OneToMany(mappedBy = "containingDiet", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<Meal> meals = new HashSet<>();
 
@@ -72,18 +74,13 @@ public class Diet extends AbstractEntity {
     }
 
     @Default
-    public Diet(@NonNull Account author,
-                int type,
-                @NonNull String name,
-                String description,
-                int accessLevel,
-                Set<Meal> meals){
+    public Diet(Long id, @NonNull Account author, DietType type, @NonNull String name, String description, int accessLevel) {
+        this.id = id;
         this.author = author;
         this.type = type;
         this.name = name;
         this.description = description;
         this.accessLevel = accessLevel;
-        this.meals.addAll(meals);
     }
 
     @Override
@@ -95,7 +92,7 @@ public class Diet extends AbstractEntity {
         return author.equals(diet.author) && name.equals(diet.name);
     }
 
-    public void setType(int type) {
+    public void setType(DietType type) {
         this.type = type;
     }
 
