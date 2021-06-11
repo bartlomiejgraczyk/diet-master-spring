@@ -1,6 +1,7 @@
 package pl.tul.zzpj.dietmaster.model.mappers;
 
 import org.mapstruct.*;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.GetDietRequest;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.AccountService;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.CreateDietRequest;
@@ -10,7 +11,7 @@ import pl.tul.zzpj.dietmaster.model.exception.notfound.UserNotFoundException;
 import javax.persistence.EntityNotFoundException;
 
 
-@Mapper(componentModel = "spring", uses = {MealIngredientMapper.class, AccountService.class})
+@Mapper(componentModel = "spring", uses = {MealIngredientMapper.class, AccountService.class, MealMapper.class})
 public interface RequestDietMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -19,5 +20,9 @@ public interface RequestDietMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateDietFromDto(UpdateDietRequest dto, @MappingTarget Diet entity);
+
+
+    @Mapping(target = "authorName", source = "author.email")
+    GetDietRequest dietDTOFromEntity(Diet entity);
 
 }

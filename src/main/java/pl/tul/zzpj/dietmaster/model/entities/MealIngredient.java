@@ -79,6 +79,10 @@ public class MealIngredient extends AbstractEntity {
         return id;
     }
 
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
     public void setCount(BigDecimal count) {
         this.count = count;
     }
@@ -89,6 +93,34 @@ public class MealIngredient extends AbstractEntity {
 
     public void setCost(BigDecimal cost) {
         this.cost = cost;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public BigDecimal getCount() {
+        return count;
+    }
+
+    public Short getGrams() {
+        return grams;
+    }
+
+    public BigDecimal getCost() {
+        return cost;
     }
 
     @Override

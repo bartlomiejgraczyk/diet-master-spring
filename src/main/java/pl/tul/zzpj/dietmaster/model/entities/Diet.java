@@ -114,6 +114,38 @@ public class Diet extends AbstractEntity {
         this.meals = meals;
     }
 
+    public void setAuthor(Account author) {
+        this.author = author;
+    }
+
+    public Account getAuthor() {
+        return author;
+    }
+
+    public DietType getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public DietAccessLevelTier getAccessLevel() {
+        return accessLevel;
+    }
+
+    public Set<DietSet> getDietSets() {
+        return dietSets;
+    }
+
+    public Set<Meal> getMeals() {
+        return meals;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), author, name);
