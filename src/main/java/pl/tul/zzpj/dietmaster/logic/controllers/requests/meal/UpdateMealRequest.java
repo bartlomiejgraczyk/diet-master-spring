@@ -1,6 +1,7 @@
 package pl.tul.zzpj.dietmaster.logic.controllers.requests.meal;
 
 import lombok.AllArgsConstructor;
+import pl.tul.zzpj.dietmaster.model.entities.enums.types.MealType;
 
 @AllArgsConstructor
 public class UpdateMealRequest {
@@ -11,7 +12,7 @@ public class UpdateMealRequest {
 
     private final String description;
 
-    private final int type;
+    private final MealType type;
 
     public String getName() {
         return name;
@@ -21,7 +22,7 @@ public class UpdateMealRequest {
         return description;
     }
 
-    public int getType() {
+    public MealType getType() {
         return type;
     }
 
