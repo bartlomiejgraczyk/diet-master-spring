@@ -1,5 +1,6 @@
 package pl.tul.zzpj.dietmaster.logic.services.interfaces;
 
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.meal.GetMealRequest;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
 import pl.tul.zzpj.dietmaster.model.exception.DietNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.MealNotFoundException;
@@ -14,9 +15,9 @@ public interface MealService {
 
     void addMeals(Set<Meal> meal, Diet diet);
 
-    List<Meal> getMealsByDietId(long id) throws DietNotFoundException;
+    List<GetMealRequest> getMealsByDietId(long id) throws DietNotFoundException;
 
-    Meal getMealById(long id) throws MealNotFoundException;
+    GetMealRequest getMealById(long id) throws MealNotFoundException;
 
     void updateMeal(UpdateMealRequest dto) throws MealNotFoundException;
 }

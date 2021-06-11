@@ -53,7 +53,7 @@ public class Meal extends AbstractEntity {
 
     @Getter
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private final Set<MealIngredient> mealIngredients = new HashSet<>();
+    private Set<MealIngredient> mealIngredients = new HashSet<>();
 
     @Override
     public Long getId() {
@@ -70,6 +70,38 @@ public class Meal extends AbstractEntity {
 
     public void setType(MealType type) {
         this.type = type;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Diet getContainingDiet() {
+        return containingDiet;
+    }
+
+    public void setContainingDiet(Diet containingDiet) {
+        this.containingDiet = containingDiet;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public MealType getType() {
+        return type;
+    }
+
+    public Set<MealIngredient> getMealIngredients() {
+        return mealIngredients;
+    }
+
+    public void setMealIngredients(Set<MealIngredient> mealIngredients) {
+        this.mealIngredients = mealIngredients;
     }
 
     @Override
