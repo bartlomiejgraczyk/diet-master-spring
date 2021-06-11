@@ -6,7 +6,7 @@ import pl.tul.zzpj.dietmaster.model.entities.Diet;
 import pl.tul.zzpj.dietmaster.model.mappers.RequestDietMapper;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.UpdateDietRequest;
 import pl.tul.zzpj.dietmaster.model.exception.exists.DietExistsException;
-import pl.tul.zzpj.dietmaster.model.exception.DietNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.DietNotFoundException;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.DietService;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.MealService;
 import pl.tul.zzpj.dietmaster.logic.repositories.DietRepository;
