@@ -6,6 +6,7 @@ import pl.tul.zzpj.dietmaster.common.EnumStringJpaConverter;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.AccountService;
 import pl.tul.zzpj.dietmaster.model.entities.Account;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
+import pl.tul.zzpj.dietmaster.model.entities.enums.acceslevels.DietAccessLevelTier;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 import pl.tul.zzpj.dietmaster.model.entities.enums.types.DietType;
 import pl.tul.zzpj.dietmaster.model.exception.EnumNameNotEqualException;
@@ -72,8 +73,8 @@ public class DietServiceImpl implements DietService {
         Account user = accountService.getCurrentUser();
         HashSet<Diet> diets = new HashSet<>();
         diets.addAll(dietRepository.findDietsByAuthor(user));
-        diets.addAll(dietRepository.findAllPublicDiets());
-        diets.addAll(dietRepository.findAllMySubscribedDiets(user));
+        diets.addAll(dietRepository.findAllPublicDiets(DietAccessLevelTier.PUBLIC));
+        diets.addAll(dietRepository.findAllMySubscribedDiets(user, DietAccessLevelTier.SUBSCRIBED));
         return new ArrayList<>(diets);
     }
 
