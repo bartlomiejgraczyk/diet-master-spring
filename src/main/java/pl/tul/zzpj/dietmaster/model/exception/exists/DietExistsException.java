@@ -1,4 +1,6 @@
-package pl.tul.zzpj.dietmaster.model.exception;
+package pl.tul.zzpj.dietmaster.model.exception.exists;
+
+import pl.tul.zzpj.dietmaster.model.exception.AppBaseException;
 
 public class DietExistsException extends AppBaseException {
 
