@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.tul.zzpj.dietmaster.logic.controllers.requests.mealingredient.UpdateMealIngredientRequest;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.mealingredient.UpdateMealIngredientDto;
 import pl.tul.zzpj.dietmaster.model.exception.AppBaseException;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.MealIngredientService;
 
@@ -19,7 +19,7 @@ public class MealIngredientController {
     private final MealIngredientService mealIngredientService;
 
     @PutMapping
-    public ResponseEntity<?> updateMealIngredient(@RequestBody UpdateMealIngredientRequest updateMealIngredientRequest){
+    public ResponseEntity<?> updateMealIngredient(@RequestBody UpdateMealIngredientDto updateMealIngredientRequest){
        try {
            mealIngredientService.update(updateMealIngredientRequest);
        } catch (AppBaseException e) {

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
-public class CreateMealIngredientRequest {
+public class CreateMealIngredientDto {
 
     private final long ingredientId;
     private final BigDecimal count;
