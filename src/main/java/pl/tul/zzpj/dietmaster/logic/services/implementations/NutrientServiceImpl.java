@@ -4,6 +4,8 @@ import org.modelmapper.Condition;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.CreateNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
@@ -17,7 +19,6 @@ import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientExistsException;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +34,6 @@ public class NutrientServiceImpl implements NutrientService {
     public NutrientServiceImpl(NutrientRepository repository, ModelMapper mapper) {
         this.repository = repository;
         this.modelMapper = mapper;
-
-        Condition<?, ?> condition = Conditions.isNotNull();
-        mapper.getConfiguration().setPropertyCondition(condition);
     }
 
     @Override
@@ -74,7 +72,11 @@ public class NutrientServiceImpl implements NutrientService {
         checkIfNameExists(createNutrientDto.getName());
 
         Nutrient nutrient = modelMapper.map(createNutrientDto, Nutrient.class);
-        repository.save(nutrient);
+        try {
+            repository.save(nutrient);
+        } catch (DataIntegrityViolationException exception) {
+            throw new IllegalArgumentException(exception);
+        }
     }
 
     @Override
@@ -90,16 +92,18 @@ public class NutrientServiceImpl implements NutrientService {
     }
 
     private Nutrient checkIfNutrientExistsThenGet(Long id) {
-        Optional<Nutrient> found = repository.findById(id);
+        if (id != null) {
+            Optional<Nutrient> found = repository.findById(id);
 
-        if (found.isEmpty()) {
-            throw new NotFoundException(idNotFound);
+            if (found.isPresent()) {
+                return found.get();
+            }
         }
-
-        return found.get();
+        throw new NotFoundException(idNotFound);
     }
 
     private void checkIfNameExists(String nutrientName) throws NutrientExistsException {
+        if (nutrientName == null) return;
         Nutrient existing = repository.findDistinctByName(nutrientName);
 
         if (existing != null) {
