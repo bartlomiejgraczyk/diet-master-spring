@@ -2,6 +2,7 @@ package pl.tul.zzpj.dietmaster.logic.controllers.requests.diet;
 
 import lombok.AllArgsConstructor;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.meal.CreateMealRequest;
+import pl.tul.zzpj.dietmaster.model.entities.enums.acceslevels.DietAccessLevelTier;
 import pl.tul.zzpj.dietmaster.model.entities.enums.types.DietType;
 
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class CreateDietRequest {
 
-    private final int accessLevel;
+    private final DietAccessLevelTier accessLevel;
     private final String description;
     private final String name;
     private final DietType type;
@@ -17,7 +18,7 @@ public class CreateDietRequest {
 
     private final Set<CreateMealRequest> meals;
 
-    public int getAccessLevel() {
+    public DietAccessLevelTier getAccessLevel() {
         return accessLevel;
     }
 

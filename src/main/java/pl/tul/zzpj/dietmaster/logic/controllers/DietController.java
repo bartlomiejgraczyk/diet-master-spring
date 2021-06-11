@@ -28,7 +28,8 @@ public class DietController {
     @PostMapping
     public ResponseEntity<?> addDiet(@RequestBody CreateDietRequest createDietRequest) {
         try {
-            dietService.addDiet(mapper.newDietFromDto(createDietRequest));
+            Diet newDiet = mapper.newDietFromDto(createDietRequest);
+            dietService.addDiet(newDiet);
         } catch (AppBaseException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getCode());
         }

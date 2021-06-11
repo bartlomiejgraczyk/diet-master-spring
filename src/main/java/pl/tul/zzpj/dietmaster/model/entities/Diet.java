@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 import pl.tul.zzpj.dietmaster.common.Default;
+import pl.tul.zzpj.dietmaster.model.entities.enums.acceslevels.DietAccessLevelTier;
 import pl.tul.zzpj.dietmaster.model.entities.enums.types.DietType;
 
 import java.util.HashSet;
@@ -57,7 +58,8 @@ public class Diet extends AbstractEntity {
     @Setter
     @Basic(optional = false)
     @Column(name = "access_level")
-    private int accessLevel;
+    @Convert(converter = DietAccessLevelTier.Converter.class)
+    private DietAccessLevelTier accessLevel;
 
     @Getter
     @OneToMany(mappedBy = "diet")
@@ -66,21 +68,21 @@ public class Diet extends AbstractEntity {
     @Getter
     @Size(max = 10)
     @OneToMany(mappedBy = "containingDiet", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private final Set<Meal> meals = new HashSet<>();
+    private Set<Meal> meals = new HashSet<>();
 
     @Override
     public Long getId() {
         return id;
     }
 
-    @Default
-    public Diet(Long id, @NonNull Account author, DietType type, @NonNull String name, String description, int accessLevel) {
+    public Diet(Long id, @NonNull Account author, DietType type, @NonNull String name, String description, DietAccessLevelTier accessLevel, Set<Meal> meals) {
         this.id = id;
         this.author = author;
         this.type = type;
         this.name = name;
         this.description = description;
         this.accessLevel = accessLevel;
+        this.meals = meals;
     }
 
     @Override
@@ -104,8 +106,12 @@ public class Diet extends AbstractEntity {
         this.description = description;
     }
 
-    public void setAccessLevel(int accessLevel) {
+    public void setAccessLevel(DietAccessLevelTier accessLevel) {
         this.accessLevel = accessLevel;
+    }
+
+    public void setMeals(Set<Meal> meals) {
+        this.meals = meals;
     }
 
     @Override
