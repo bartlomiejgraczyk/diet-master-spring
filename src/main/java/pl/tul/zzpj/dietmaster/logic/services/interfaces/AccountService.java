@@ -10,5 +10,7 @@ public interface AccountService {
 
     Account loadUserByUsername(String email) throws UserNotFoundException;
 
+    Account getCurrentUser() throws UserNotFoundException;
+
     void enableAccount(String email);
 }
