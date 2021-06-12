@@ -37,7 +37,7 @@ public class NutrientServiceImplTest {
 
     private NutrientService nutrientService;
 
-    private static ModelMapper mapper;
+    private static final ModelMapper mapper = new ModelMapper();
 
     private final List<Nutrient> nutrients = Lists.newArrayList(
         new Nutrient("First Nutrient", "", NutrientCategory.FAT),
@@ -47,7 +47,6 @@ public class NutrientServiceImplTest {
 
     @BeforeAll
     public static void setUp() {
-        mapper = new ModelMapper();
         Condition<?, ?> nonNull = Conditions.isNotNull();
         mapper.getConfiguration().setPropertyCondition(nonNull);
     }
