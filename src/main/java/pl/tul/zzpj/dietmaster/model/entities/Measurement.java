@@ -28,6 +28,7 @@ public class Measurement extends AbstractEntity {
     private Long id;
 
     @Getter
+    @Setter
     @NonNull
     @ManyToOne
     @JoinColumn(name = "client", foreignKey = @ForeignKey(name = "measurement_client_fkey"))
