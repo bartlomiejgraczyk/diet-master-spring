@@ -43,6 +43,7 @@ public class Measurement extends AbstractEntity {
 
     @Getter
     @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "weight")
     @DecimalMin(value = "20.00")
@@ -51,6 +52,7 @@ public class Measurement extends AbstractEntity {
 
     @Getter
     @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "calories")
     @DecimalMin(value = "0.00")
@@ -60,6 +62,7 @@ public class Measurement extends AbstractEntity {
 
     @Getter
     @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "held_diet")
     private Boolean heldDiet;
