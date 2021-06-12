@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.AccountService;
 import pl.tul.zzpj.dietmaster.model.entities.Account;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
-import pl.tul.zzpj.dietmaster.model.exception.UserNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.UserNotFoundException;
 import pl.tul.zzpj.dietmaster.model.mappers.RequestDietMapper;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.UpdateDietRequest;
 import pl.tul.zzpj.dietmaster.model.exception.exists.DietExistsException;
