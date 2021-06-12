@@ -2,7 +2,6 @@ package pl.tul.zzpj.dietmaster.logic.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.util.Lists;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import pl.tul.zzpj.dietmaster.logic.repositories.AccountRepository;
 import pl.tul.zzpj.dietmaster.logic.repositories.MeasurementRepository;
 import pl.tul.zzpj.dietmaster.model.entities.Account;
 import pl.tul.zzpj.dietmaster.model.entities.Measurement;
-import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -25,11 +23,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -67,7 +62,6 @@ class MeasuresControllerIntegrationTest {
     @BeforeEach
     public void setUp() {
         repository.deleteAll();
-
         accountRepository.saveAll(accounts);
         repository.saveAll(measurements);
     }
@@ -143,7 +137,6 @@ class MeasuresControllerIntegrationTest {
 
     @Test
     void addMeasurement() throws Exception {
-        Long id = repository.findAll().get(0).getId();
         CreateMeasurementDto okCreate = new CreateMeasurementDto("eee@gmail.com", new Date(121, 5, 1), new BigDecimal(55),  new BigDecimal(1000), false);
         CreateMeasurementDto wrongName = new CreateMeasurementDto("eee@gmail.com", new Date(121, 6, 10), new BigDecimal(57),  new BigDecimal(1100), true);
         CreateMeasurementDto wrongId = new CreateMeasurementDto( "", new Date(121, 5, 1), new BigDecimal(55),  new BigDecimal(1000), false);
