@@ -48,6 +48,13 @@ import static org.mockito.Mockito.*;
 @DataJpaTest
 public class MeasureServiceImplTest {
 
+    private static final List<Account> accounts = Lists.newArrayList(
+            new Account("aaa@gmail.com", "1234", "AAA", "BBB"),
+            new Account("ccc@gmail.com", "asftgtry", "CCC", "DDD"),
+            new Account("eee@gmail.com", "hryew", "EEE", "FFF"),
+            new Account("ggg@gmail.com", "wertj", "GGG", "HHH")
+    );
+
     @MockBean(name = "measurementRepository")
     private MeasurementRepository measurementRepository;
 
@@ -61,26 +68,10 @@ public class MeasureServiceImplTest {
 
     private static ModelMapper modelMapper;
 
-
-    private static final List<Account> accounts = Lists.newArrayList(
-            new Account("aaa@gmail.com", "1234", "AAA", "BBB"),
-            new Account("ccc@gmail.com", "asftgtry", "CCC", "DDD"),
-            new Account("eee@gmail.com", "hryew", "EEE", "FFF"),
-            new Account("ggg@gmail.com", "wertj", "GGG", "HHH")
-    );
-
-    private static final List<Measurement> measurements = Lists.newArrayList(
-            new Measurement(accounts.get(0), new Date(121, 6,1)),
-            new Measurement(accounts.get(1), new Date(121, 6,2)),
-            new Measurement(accounts.get(2), new Date(121, 6,3)),
-            new Measurement(accounts.get(2), new Date(121, 6,10))
-    );
+    private List<Measurement> measurements;
 
     @BeforeAll
-    public static void setUp(@Autowired MeasurementRepository repository) {
-
-        repository.saveAll(measurements);
-
+    public static void setUp() {
         modelMapper = new ModelMapper();
         Condition<?, ?> nonNull = Conditions.isNotNull();
         modelMapper.getConfiguration().setPropertyCondition(nonNull);
@@ -88,7 +79,14 @@ public class MeasureServiceImplTest {
 
     @BeforeEach
     public void resetList() {
+        measurements = Lists.newArrayList(
+                new Measurement(accounts.get(0), new Date(121, 6,1), new BigDecimal(55),  new BigDecimal(1000), false),
+                new Measurement(accounts.get(1), new Date(121, 6,2), new BigDecimal(46),  new BigDecimal(2000), false),
+                new Measurement(accounts.get(2), new Date(121, 6,3), new BigDecimal(88),  new BigDecimal(2500), false),
+                new Measurement(accounts.get(2), new Date(121, 6,10), new BigDecimal(141),  new BigDecimal(10000), false)
+        );
         AccountServiceImpl accountService = new AccountServiceImpl(accountRepository, new ConfirmationTokenServiceImpl(confirmationTokenRepository));
+        measurementRepository.saveAll(measurements);
         measurementService = new MeasurementServiceImpl(measurementRepository, accountService, modelMapper);
     }
 
@@ -197,8 +195,7 @@ public class MeasureServiceImplTest {
                 .thenReturn(Arrays.asList(measurements.get(2), measurements.get(3)));
 
         when(measurementRepository.existsMeasurementByClientAndDate(accounts.get(0), saved.getDate()))
-                .thenAnswer(invocationOnMock -> {throw new MeasurementSavedException(); }
-                );
+                .thenAnswer(invocationOnMock -> {throw new MeasurementSavedException(); });
 
         doReturn(Optional.of(accounts.get(0))).when(accountRepository).findByEmail("aaa@gmail.com");
 
@@ -230,7 +227,7 @@ public class MeasureServiceImplTest {
     public void deleteMeasurement() {
         when(measurementRepository.findById(3L)).thenReturn(Optional.empty());
         when(measurementRepository.findById(1L)).thenReturn(Optional.ofNullable(measurements.get(0)));
-        //doAnswer(i -> measurements.remove(0)).when(measurementRepository).delete(measurements.get(0));
+        doAnswer(i -> measurements.remove(0)).when(measurementRepository).delete(measurements.get(0));
 
         assertThrows(NotFoundException.class, () -> measurementService.deleteMeasurement(12L));
         assertDoesNotThrow(() -> measurementService.deleteMeasurement(1L));
@@ -238,14 +235,7 @@ public class MeasureServiceImplTest {
         setAllFilterMock();
         List<GetMeasurementDto> allMeasurements = measurementService.getAllMeasurements();
 
-
-        assertEquals(4L, allMeasurements.size());
-       /* assertEquals(2L, minerals.size());
-        assertEquals(0L, fats.size());
-
-        assertEquals("Second Measurement", allMeasurements.get(0).getName());
-        assertEquals("Second Measurement", minerals.get(0).getName());
-        assertEquals("Third Measurement", minerals.get(1).getName());*/
+        assertEquals(3L, allMeasurements.size());
     }
 
 
