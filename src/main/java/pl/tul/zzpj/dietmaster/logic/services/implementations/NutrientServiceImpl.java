@@ -2,7 +2,6 @@ package pl.tul.zzpj.dietmaster.logic.services.implementations;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.CreateNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
@@ -69,11 +68,7 @@ public class NutrientServiceImpl implements NutrientService {
         checkIfNameExists(createNutrientDto.getName());
 
         Nutrient nutrient = modelMapper.map(createNutrientDto, Nutrient.class);
-        try {
-            repository.save(nutrient);
-        } catch (DataIntegrityViolationException exception) {
-            throw new IllegalArgumentException(exception);
-        }
+        repository.save(nutrient);
     }
 
     @Override

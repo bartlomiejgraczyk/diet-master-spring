@@ -25,12 +25,13 @@ class MapperConfigIntegrationTest {
 
         assertEquals(notNullConfig, mapperConfig);
 
-        Nutrient nutrient = new Nutrient("Test", NutrientCategory.FAT);
+        Nutrient nutrient = new Nutrient("Test", "Description", NutrientCategory.FAT);
         UpdateNutrientDto updateNutrient = new UpdateNutrientDto(1L, "NewTest", null, null);
 
         mapper.map(updateNutrient, nutrient);
 
         assertEquals(nutrient.getName(), "NewTest");
+        assertEquals(nutrient.getDescription(), "Description");
         assertEquals(nutrient.getCategory(), NutrientCategory.FAT);
     }
 }

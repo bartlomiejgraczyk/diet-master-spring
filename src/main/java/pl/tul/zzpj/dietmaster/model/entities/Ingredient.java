@@ -34,6 +34,7 @@ public class Ingredient extends AbstractEntity {
 
     @Getter
     @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "description")
     private String description;
