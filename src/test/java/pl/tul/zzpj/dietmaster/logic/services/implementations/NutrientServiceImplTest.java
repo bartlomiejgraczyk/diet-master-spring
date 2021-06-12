@@ -4,10 +4,11 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.mockito.internal.util.MockUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.modelmapper.Condition;
+import org.modelmapper.Conditions;
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.CreateNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
@@ -19,7 +20,6 @@ import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientExistsException;
 
 import javax.ws.rs.NotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,33 +29,32 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class NutrientServiceImplIntegrationTest {
+@DataJpaTest
+public class NutrientServiceImplTest {
 
     @MockBean(name = "nutrientRepository")
     private NutrientRepository nutrientRepository;
 
-    @Autowired
     private NutrientService nutrientService;
 
-    private final List<Nutrient> nutrientsBase = Lists.newArrayList(
-        new Nutrient("First Nutrient", NutrientCategory.FAT),
-        new Nutrient("Second Nutrient", NutrientCategory.MINERAL),
-        new Nutrient("Third Nutrient", NutrientCategory.MINERAL)
+    private static ModelMapper mapper;
+
+    private final List<Nutrient> nutrients = Lists.newArrayList(
+        new Nutrient("First Nutrient", "", NutrientCategory.FAT),
+        new Nutrient("Second Nutrient", "", NutrientCategory.MINERAL),
+        new Nutrient("Third Nutrient", "", NutrientCategory.MINERAL)
     );
 
-    private List<Nutrient> nutrients;
-
     @BeforeAll
-    public void prepareMockedRepository() {
-        nutrients = new ArrayList<>(nutrientsBase);
-        setAllFilterMock();
+    public static void setUp() {
+        mapper = new ModelMapper();
+        Condition<?, ?> nonNull = Conditions.isNotNull();
+        mapper.getConfiguration().setPropertyCondition(nonNull);
     }
 
     @BeforeEach
-    public void resetList() {
-        nutrients = new ArrayList<>(nutrientsBase);
+    public void createService() {
+        nutrientService = new NutrientServiceImpl(nutrientRepository, mapper);
     }
 
     @Test
@@ -65,6 +64,7 @@ public class NutrientServiceImplIntegrationTest {
 
     @Test
     public void getAllNutrients() {
+        setAllFilterMock();
         List<GetNutrientDto> nutrients = nutrientService.getAllNutrients();
 
         assertEquals(nutrients.size(), 3L);
@@ -113,14 +113,12 @@ public class NutrientServiceImplIntegrationTest {
 
     @Test
     public void createNutrient() {
-        CreateNutrientDto firstFaulty = new CreateNutrientDto(null, "", NutrientCategory.FAT);
         CreateNutrientDto occupiedName = new CreateNutrientDto("First Nutrient", "", NutrientCategory.FAT);
         CreateNutrientDto newNutrient = new CreateNutrientDto("Fourth Nutrient", "Some desc", NutrientCategory.FAT);
 
         when(nutrientRepository.save(any(Nutrient.class))).thenThrow(IllegalArgumentException.class);
         when(nutrientRepository.findDistinctByName("First Nutrient")).thenReturn(nutrients.get(0));
 
-        assertThrows(IllegalArgumentException.class, () -> nutrientService.createNutrient(firstFaulty));
         assertThrows(NutrientExistsException.class, () -> nutrientService.createNutrient(occupiedName));
 
         when(nutrientRepository.save(any(Nutrient.class))).then(i -> {

@@ -38,6 +38,7 @@ public class IngredientNutrition extends AbstractEntity {
 
     @Getter
     @Setter
+    @NonNull
     @Basic(optional = false)
     @Column(name = "per100")
     @DecimalMin("0.01")
