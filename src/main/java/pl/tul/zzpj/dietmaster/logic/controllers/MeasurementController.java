@@ -32,8 +32,10 @@ public class MeasurementController {
         try {
             List<GetMeasurementDto> measurements = measurementService.getMeasurementsOfClient(user);
             return ResponseEntity.ok(measurements);
-        } catch (EnumConstantNotPresentException exception) {
+        } catch (EnumConstantNotPresentException  exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
+        } catch (UserNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
     }
 

@@ -58,7 +58,8 @@ public class MeasurementServiceImpl implements MeasurementService {
     }
 
     @Override
-    public List<GetMeasurementDto> getMeasurementsOfClient(String client) {
+    public List<GetMeasurementDto> getMeasurementsOfClient(String client) throws UserNotFoundException {
+        accountService.loadUserByUsername(client);
         var measurements = repository.findByClient_Email(client);
         return mapToGetDto(measurements);
     }
@@ -66,6 +67,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public void updateMeasurement(UpdateMeasurementDto updateMeasurementDto) throws UserNotFoundException, MeasurementSavedException {
         Long id = updateMeasurementDto.getId();
+
         var client = accountService.loadUserByUsername(updateMeasurementDto.getClient());
 
         Measurement measurement = checkIfMeasurementExistsThenGet(id);
@@ -109,10 +111,10 @@ public class MeasurementServiceImpl implements MeasurementService {
                 .collect(Collectors.toList());
     }
 
-    private Measurement checkIfMeasurementExistsThenGet(Long id) {
+    @Override
+    public Measurement checkIfMeasurementExistsThenGet(Long id) {
         if (id != null) {
             Optional<Measurement> found = repository.findById(id);
-
             if (found.isPresent()) {
                 return found.get();
             }
