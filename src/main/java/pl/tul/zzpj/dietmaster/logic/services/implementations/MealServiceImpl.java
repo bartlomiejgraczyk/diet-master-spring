@@ -68,7 +68,7 @@ public class MealServiceImpl implements MealService {
     public void updateMeal(UpdateMealRequest dto) throws MealNotFoundException {
         if (!mealRepository.existsById(dto.getId()))
             throw new MealNotFoundException(dto.getId());
-        Meal meal = mealRepository.findById(dto.getId()).orElse(null);
+        Meal meal = mealRepository.findMealById(dto.getId());
         mealMapper.updateMealFromDTO(dto, meal);
         assert meal != null;
         mealRepository.save(meal);
