@@ -54,8 +54,6 @@ public class NutrientController {
             nutrientService.createNutrient(createNutrientDto);
         } catch (NutrientExistsException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
-        } catch (IllegalArgumentException exception) {
-            return ResponseEntity.badRequest().body("Request contains mull non-null field(s)");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Nutrient added");
     }
