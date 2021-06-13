@@ -1,0 +1,69 @@
+GET localhost:8081/ingredients
+
+###
+
+GET localhost:8081/ingredients/FRUIT
+
+###
+// GOOD
+PUT localhost:8081/ingredients
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Hard Egg",
+  "description": "Hard eggs are loaded with nutrients, protein and healthy fats.",
+  "category": "FRUIT",
+  "nutrients": [
+    {
+      "nutrientName": "Protein",
+      "per100": 11.00
+    }
+  ]
+}
+
+###
+// NAME EXISTS
+PUT localhost:8081/ingredients
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Hard Egg",
+  "category": "FRUIT"
+}
+
+###
+// NUTRIENT DNE
+PUT localhost:8081/ingredients
+Content-Type: application/json
+
+{
+  "id": 1,
+  "nutrients": [
+    {
+      "nutrientName": "Carboxyle",
+      "per100": 11.00
+    }
+  ]
+}
+
+###
+// INGREDIENT NOT FOUND
+PUT localhost:8081/ingredients
+Content-Type: application/json
+
+{
+  "id": 50
+}
+
+###
+// GOOD 2
+PUT localhost:8081/ingredients
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Hard Eggz",
+  "description": "Hard eggz are loaded with nutrients, protein and healthy fats."
+}
