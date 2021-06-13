@@ -13,13 +13,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.CreateNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.UpdateNutrientDto;
+import pl.tul.zzpj.dietmaster.logic.repositories.IngredientNutritionRepository;
 import pl.tul.zzpj.dietmaster.logic.repositories.NutrientRepository;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.NutrientService;
 import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 
-import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +35,9 @@ public class NutrientServiceImplTest {
 
     @MockBean(name = "nutrientRepository")
     private NutrientRepository nutrientRepository;
+
+    @MockBean(name = "ingredientNutritionRepository")
+    private IngredientNutritionRepository ingredientNutritionRepository;
 
     private NutrientService nutrientService;
 
@@ -53,7 +57,7 @@ public class NutrientServiceImplTest {
 
     @BeforeEach
     public void createService() {
-        nutrientService = new NutrientServiceImpl(nutrientRepository, mapper);
+        nutrientService = new NutrientServiceImpl(nutrientRepository, mapper, ingredientNutritionRepository);
     }
 
     @Test
@@ -96,7 +100,7 @@ public class NutrientServiceImplTest {
         when(nutrientRepository.findDistinctByName("Second Nutrient")).thenReturn(nutrients.get(2));
         when(nutrientRepository.save(any(Nutrient.class))).thenReturn(null);
 
-        assertThrows(NotFoundException.class, () -> nutrientService.updateNutrient(badId));
+        assertThrows(NutrientNotFoundException.class, () -> nutrientService.updateNutrient(badId));
         assertThrows(NutrientExistsException.class, () -> nutrientService.updateNutrient(badName));
         assertDoesNotThrow(() -> nutrientService.updateNutrient(firstUpdate));
 
@@ -143,7 +147,7 @@ public class NutrientServiceImplTest {
         when(nutrientRepository.findById(1L)).thenReturn(Optional.ofNullable(nutrients.get(0)));
         doAnswer(i -> nutrients.remove(0)).when(nutrientRepository).delete(nutrients.get(0));
 
-        assertThrows(NotFoundException.class, () -> nutrientService.deleteNutrient(3L));
+        assertThrows(NutrientNotFoundException.class, () -> nutrientService.deleteNutrient(3L));
         assertDoesNotThrow(() -> nutrientService.deleteNutrient(1L));
 
         setAllFilterMock();

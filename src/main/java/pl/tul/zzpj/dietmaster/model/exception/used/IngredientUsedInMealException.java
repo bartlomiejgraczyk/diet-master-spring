@@ -12,6 +12,6 @@ public class IngredientUsedInMealException extends AppBaseException {
 
     @Override
     public String getCode() {
-        return super.getCode() + "_account_already_confirmed";
+        return super.getCode() + "_ingredient_used";
     }
 }
