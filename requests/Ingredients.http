@@ -5,6 +5,10 @@ GET localhost:8081/ingredients
 GET localhost:8081/ingredients/FRUIT
 
 ###
+
+GET localhost:8081/ingredients/FISH
+
+###
 // GOOD
 PUT localhost:8081/ingredients
 Content-Type: application/json
@@ -66,4 +70,25 @@ Content-Type: application/json
   "id": 1,
   "name": "Hard Eggz",
   "description": "Hard eggz are loaded with nutrients, protein and healthy fats."
+}
+
+###
+
+POST localhost:8081/ingredients
+Content-Type: application/json
+
+{
+  "name": "Hardz Egg",
+  "description": "Desc",
+  "category": "FISH",
+  "nutrients": [
+    {
+      "nutrientName": "Thiamine B1",
+      "per100": 13300.00
+    },
+    {
+      "nutrientName": "Riboflavin B2",
+      "per100": 133000000000.00
+    }
+  ]
 }

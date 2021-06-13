@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateIngredientNutritionDto {
+public class UpdateIngredientNutritionDto implements IngredientNutritionDto {
 
     @NonNull
     private String nutrientName;
