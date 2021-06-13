@@ -11,8 +11,12 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.Cre
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.IngredientService;
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.used.IngredientUsedInMealException;
 
-import javax.ws.rs.NotFoundException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @RestController
@@ -42,7 +46,7 @@ public class IngredientController {
     public ResponseEntity<String> updateIngredient(@RequestBody UpdateIngredientDto updateIngredientDto) {
         try {
             ingredientService.updateIngredient(updateIngredientDto);
-        } catch (NotFoundException exception) {
+        } catch (IngredientNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         } catch (IngredientExistsException | NutrientDuplicateException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
@@ -50,12 +54,16 @@ public class IngredientController {
         return ResponseEntity.ok("Ingredient updated");
     }
 
-    /*@PostMapping
+    @PostMapping
     public ResponseEntity<String> addIngredient(@RequestBody CreateIngredientDto createIngredientDto) {
         try {
             ingredientService.createIngredient(createIngredientDto);
-        } catch (IngredientExistsException exception) {
+        } catch (IngredientExistsException | NutrientDuplicateException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+        } catch (NutrientNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        } catch (ConstraintViolationException exception) {
+            return ResponseEntity.badRequest().body(unwrapMessage(exception));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body("Ingredient added");
     }
@@ -65,30 +73,40 @@ public class IngredientController {
         @PathVariable Long id,
         @RequestBody CreateIngredientNutritionDto nutritionDto
     ) {
-        //TODO
+        try {
+            ingredientService.createNutrient(nutritionDto, id);
+        } catch (IngredientNotFoundException | NutrientNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        } catch (ConstraintViolationException exception) {
+            return ResponseEntity.badRequest().body(unwrapMessage(exception));
+        }
+        return ResponseEntity.ok("Nutrient added to ingredient");
     }
 
     @DeleteMapping(path = "{id}")
     public ResponseEntity<String> deleteIngredient(@PathVariable Long id) {
         try {
             ingredientService.deleteIngredient(id);
-        } catch (NotFoundException exception) {
+        } catch (IngredientNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        } catch (IngredientUsedInMealException exception) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
         }
         return ResponseEntity.ok("Ingredient deleted");
     }
 
-    @DeleteMapping(path = "{id}/{name}/{category}")
-    public ResponseEntity<String> deleteNutrient(
-        @PathVariable Long id,
-        @PathVariable String name,
-        @PathVariable String category
-    ) {
+    @DeleteMapping(path = "{id}/{name}")
+    public ResponseEntity<String> deleteNutrient(@PathVariable Long id, @PathVariable String name) {
         try {
-            ingredientService.deleteIngredient(id);
-        } catch (NotFoundException exception) {
+            ingredientService.deleteNutrient(id, name);
+        } catch (IngredientNotFoundException | NutrientNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
-        return ResponseEntity.ok("Ingredient deleted");
-    }*/
+        return ResponseEntity.ok("Nutrient of ingredient deleted");
+    }
+
+    private String unwrapMessage(ConstraintViolationException exception) {
+        Object violation = exception.getConstraintViolations().toArray()[0];
+        return ((ConstraintViolation<?>) violation).getMessage();
+    }
 }

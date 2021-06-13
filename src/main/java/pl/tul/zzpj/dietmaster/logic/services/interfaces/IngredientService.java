@@ -4,9 +4,11 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.CreateIngred
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.GetIngredientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.UpdateIngredientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.CreateIngredientNutritionDto;
-import pl.tul.zzpj.dietmaster.model.entities.Ingredient;
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.used.IngredientUsedInMealException;
 
 import java.util.List;
 
@@ -16,16 +18,14 @@ public interface IngredientService {
 
     List<GetIngredientDto> getIngredientsOfCategory(String category);
 
-    void updateIngredient(UpdateIngredientDto updateIngredientDto) throws IngredientExistsException, NutrientDuplicateException;
+    void updateIngredient(UpdateIngredientDto updateIngredientDto) throws IngredientExistsException, NutrientDuplicateException, IngredientNotFoundException;
 
-    void createIngredient(CreateIngredientDto createIngredientDto);
+    void createIngredient(CreateIngredientDto createIngredientDto) throws IngredientExistsException, NutrientNotFoundException, NutrientDuplicateException;
 
-    void createNutrient(CreateIngredientNutritionDto nutrientDto);
+    void createNutrient(CreateIngredientNutritionDto nutrientDto, Long ingredientId) throws IngredientNotFoundException, NutrientNotFoundException;
 
-    void deleteIngredient(Long id);
+    void deleteIngredient(Long id) throws IngredientNotFoundException, IngredientUsedInMealException;
 
-    void deleteNutrient(Long id, String name, String category);
+    void deleteNutrient(Long id, String name) throws IngredientNotFoundException, NutrientNotFoundException;
 
-    //TODO: move to repo
-    Ingredient findById(long id);
 }

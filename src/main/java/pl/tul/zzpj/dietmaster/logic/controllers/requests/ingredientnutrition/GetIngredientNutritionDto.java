@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetIngredientNutritionDto {
+public class GetIngredientNutritionDto implements IngredientNutritionDto {
 
     private String nutrientName;
 
