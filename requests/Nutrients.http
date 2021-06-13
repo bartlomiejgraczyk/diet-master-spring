@@ -3,17 +3,14 @@ Authorization: Bearer TOKEN_CHARACTERS
 ###
 
 GET localhost:8081/nutrients
-Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 
 GET localhost:8081/nutrients/FAT
-Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 
 PUT localhost:8081/nutrients
-Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -26,7 +23,6 @@ Content-Type: application/json
 ###
 
 POST localhost:8081/nutrients
-Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -38,4 +34,3 @@ Content-Type: application/json
 ###
 
 DELETE localhost:8081/nutrients/2
-Authorization: Bearer TOKEN_CHARACTERS

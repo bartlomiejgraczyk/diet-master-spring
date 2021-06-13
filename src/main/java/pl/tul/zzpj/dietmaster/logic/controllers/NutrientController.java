@@ -21,13 +21,13 @@ public class NutrientController {
     private final NutrientService nutrientService;
 
     @GetMapping
-    public ResponseEntity<List<GetNutrientDto>> getAllNutrients(){
+    public ResponseEntity<List<GetNutrientDto>> getAllNutrients() {
         List<GetNutrientDto> nutrients = nutrientService.getAllNutrients();
         return new ResponseEntity<>(nutrients, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{category}")
-    public ResponseEntity<?> getCategoryNutrients(@PathVariable String category){
+    public ResponseEntity<?> getCategoryNutrients(@PathVariable String category) {
         try {
             List<GetNutrientDto> nutrients = nutrientService.getNutrientsOfCategory(category);
             return ResponseEntity.ok(nutrients);
@@ -62,7 +62,7 @@ public class NutrientController {
     public ResponseEntity<String> deleteNutrient(@PathVariable Long id) {
         try {
             nutrientService.deleteNutrient(id);
-        }catch (NotFoundException exception) {
+        } catch (NotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         }
         return ResponseEntity.ok("Nutrient deleted");
