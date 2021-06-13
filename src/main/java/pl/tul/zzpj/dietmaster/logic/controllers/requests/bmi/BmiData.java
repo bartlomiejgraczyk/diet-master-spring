@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BmiData {
 
-    public int id;
+    public int TimeDim;
     public String SpatialDimType;
     public String SpatialDim;
     public String Dim1;
