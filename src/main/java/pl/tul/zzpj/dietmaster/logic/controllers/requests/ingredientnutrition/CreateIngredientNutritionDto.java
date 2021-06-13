@@ -1,7 +1,6 @@
 package pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition;
 
 import lombok.*;
-import pl.tul.zzpj.dietmaster.model.entities.enums.categories.IngredientCategory;
 
 import java.math.BigDecimal;
 
@@ -9,13 +8,10 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateIngredientNutritionDto {
+public class CreateIngredientNutritionDto implements IngredientNutritionDto {
 
     @NonNull
     private String nutrientName;
-
-    @NonNull
-    private IngredientCategory category;
 
     @NonNull
     private BigDecimal per100;
