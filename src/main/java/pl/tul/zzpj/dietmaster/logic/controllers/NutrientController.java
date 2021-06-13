@@ -9,8 +9,9 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.UpdateNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.NutrientService;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.used.NutrientUsedInIngredient;
 
-import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 @RestController
@@ -40,7 +41,7 @@ public class NutrientController {
     public ResponseEntity<String> updateNutrient(@RequestBody UpdateNutrientDto updateNutrientDto) {
         try {
             nutrientService.updateNutrient(updateNutrientDto);
-        } catch (NotFoundException exception) {
+        } catch (NutrientNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         } catch (NutrientExistsException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
@@ -62,8 +63,10 @@ public class NutrientController {
     public ResponseEntity<String> deleteNutrient(@PathVariable Long id) {
         try {
             nutrientService.deleteNutrient(id);
-        } catch (NotFoundException exception) {
+        } catch (NutrientNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        } catch (NutrientUsedInIngredient exception) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
         }
         return ResponseEntity.ok("Nutrient deleted");
     }
