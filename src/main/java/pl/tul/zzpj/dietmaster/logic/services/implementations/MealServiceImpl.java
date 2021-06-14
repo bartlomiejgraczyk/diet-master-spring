@@ -2,6 +2,7 @@ package pl.tul.zzpj.dietmaster.logic.services.implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.meal.GetMealRequest;
 import pl.tul.zzpj.dietmaster.logic.repositories.DietRepository;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
 import pl.tul.zzpj.dietmaster.model.exception.DietNotFoundException;
@@ -16,6 +17,7 @@ import pl.tul.zzpj.dietmaster.logic.services.interfaces.MealService;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -48,17 +50,17 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public List<Meal> getMealsByDietId(long id) throws DietNotFoundException {
+    public List<GetMealRequest> getMealsByDietId(long id) throws DietNotFoundException {
         if (!dietRepository.existsById(id))
             throw new DietNotFoundException(id);
-        return mealRepository.findMealsByContainingDiet_Id(id);
+        return mealRepository.findMealsByContainingDiet_Id(id).stream().map(mealMapper::mealDTOFromEntity).collect(Collectors.toList());
     }
 
     @Override
-    public Meal getMealById(long id) throws MealNotFoundException {
+    public GetMealRequest getMealById(long id) throws MealNotFoundException {
         if (!mealRepository.existsById(id))
             throw new MealNotFoundException(id);
-        return mealRepository.findMealById(id);
+        return mealMapper.mealDTOFromEntity(mealRepository.findMealById(id));
     }
 
 
@@ -66,7 +68,7 @@ public class MealServiceImpl implements MealService {
     public void updateMeal(UpdateMealRequest dto) throws MealNotFoundException {
         if (!mealRepository.existsById(dto.getId()))
             throw new MealNotFoundException(dto.getId());
-        Meal meal = mealRepository.findById(dto.getId()).orElse(null);
+        Meal meal = mealRepository.findMealById(dto.getId());
         mealMapper.updateMealFromDTO(dto, meal);
         assert meal != null;
         mealRepository.save(meal);
