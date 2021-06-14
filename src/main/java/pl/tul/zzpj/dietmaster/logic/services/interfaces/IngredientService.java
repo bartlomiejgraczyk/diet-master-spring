@@ -18,7 +18,7 @@ public interface IngredientService {
 
     List<GetIngredientDto> getIngredientsOfCategory(String category);
 
-    void updateIngredient(UpdateIngredientDto updateIngredientDto) throws IngredientExistsException, NutrientDuplicateException, IngredientNotFoundException;
+    void updateIngredient(UpdateIngredientDto updateIngredientDto) throws IngredientExistsException, NutrientDuplicateException, IngredientNotFoundException, NutrientNotFoundException;
 
     void createIngredient(CreateIngredientDto createIngredientDto) throws IngredientExistsException, NutrientNotFoundException, NutrientDuplicateException;
 
