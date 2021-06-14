@@ -80,7 +80,8 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void updateIngredient(UpdateIngredientDto updateIngredientDto)
-        throws IngredientExistsException, NutrientDuplicateException, IngredientNotFoundException {
+        throws IngredientExistsException, NutrientDuplicateException, IngredientNotFoundException,
+        NutrientNotFoundException {
 
         String newName = updateIngredientDto.getName();
         IngredientCategory category = updateIngredientDto.getCategory();
@@ -194,7 +195,8 @@ public class IngredientServiceImpl implements IngredientService {
         }
     }
 
-    private void updateNutrients(UpdateIngredientDto updateDto, Ingredient ingredient) {
+    private void updateNutrients(UpdateIngredientDto updateDto, Ingredient ingredient)
+        throws NutrientNotFoundException {
         Set<UpdateIngredientNutritionDto> updates = updateDto.getNutrients();
         Set<IngredientNutrition> nutrients = ingredient.getIngredientNutrients();
 
@@ -209,7 +211,7 @@ public class IngredientServiceImpl implements IngredientService {
 
             if (found.isEmpty()) {
                 String name = update.getNutrientName();
-                throw new NotFoundException("Nutrient " + name + " not present in this ingredient");
+                throw new NutrientNotFoundException("Nutrient " + name + " not present in this ingredient");
             }
 
             IngredientNutrition extracted = found.get();

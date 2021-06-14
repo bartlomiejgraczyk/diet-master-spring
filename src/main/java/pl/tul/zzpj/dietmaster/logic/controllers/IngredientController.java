@@ -46,7 +46,7 @@ public class IngredientController {
     public ResponseEntity<String> updateIngredient(@RequestBody UpdateIngredientDto updateIngredientDto) {
         try {
             ingredientService.updateIngredient(updateIngredientDto);
-        } catch (IngredientNotFoundException exception) {
+        } catch (IngredientNotFoundException | NutrientNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         } catch (IngredientExistsException | NutrientDuplicateException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
