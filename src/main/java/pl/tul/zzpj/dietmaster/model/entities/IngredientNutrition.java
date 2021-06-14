@@ -47,7 +47,7 @@ public class IngredientNutrition extends AbstractEntity {
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
     @Override

@@ -11,6 +11,7 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.Cre
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.IngredientService;
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientIngredientExistsException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.used.IngredientUsedInMealException;
@@ -58,7 +59,7 @@ public class IngredientController {
     public ResponseEntity<String> addIngredient(@RequestBody CreateIngredientDto createIngredientDto) {
         try {
             ingredientService.createIngredient(createIngredientDto);
-        } catch (IngredientExistsException | NutrientDuplicateException exception) {
+        } catch (IngredientExistsException | NutrientDuplicateException | NutrientIngredientExistsException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
         } catch (NutrientNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
@@ -79,6 +80,8 @@ public class IngredientController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
         } catch (ConstraintViolationException exception) {
             return ResponseEntity.badRequest().body(unwrapMessage(exception));
+        } catch (NutrientIngredientExistsException exception) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
         }
         return ResponseEntity.ok("Nutrient added to ingredient");
     }
