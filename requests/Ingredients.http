@@ -1,0 +1,204 @@
+GET https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+
+GET https://diet-master.herokuapp.com/ingredients/FRUIT
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+
+GET https://diet-master.herokuapp.com/ingredients/FISH
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//NOT FOUND ID
+GET https://diet-master.herokuapp.com/ingredients/id/200
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//GOOD
+GET https://diet-master.herokuapp.com/ingredients/id/5
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+// GOOD
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Hard Egg",
+  "description": "Hard eggs are loaded with nutrients, protein and healthy fats.",
+  "category": "FRUIT",
+  "nutrients": [
+    {
+      "nutrientName": "Protein",
+      "per100": 11.00
+    }
+  ]
+}
+
+###
+// NAME EXISTS
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Hard Egg",
+  "category": "FRUIT"
+}
+
+###
+// NUTRIENT DNE
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "id": 1,
+  "nutrients": [
+    {
+      "nutrientName": "Carboxyle",
+      "per100": 11.00
+    }
+  ]
+}
+
+###
+// INGREDIENT NOT FOUND
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "id": 50
+}
+
+###
+// GOOD 2
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Hard Egg 3",
+  "description": "Hard egg 3 are loaded with nutrients, protein and healthy fats."
+}
+
+###
+//WRONG: CONSTRAINT VIOLATION
+POST https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "name": "Hard Egg 2",
+  "description": "Desc",
+  "category": "FISH",
+  "nutrients": [
+    {
+      "nutrientName": "Thiamine B1",
+      "per100": 13300.00
+    },
+    {
+      "nutrientName": "Riboflavin B2",
+      "per100": 133000000000.00
+    }
+  ]
+}
+
+###
+//GOOD
+POST https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "name": "Fish Bread",
+  "description": "Fish bread food",
+  "category": "FISH",
+  "nutrients": [
+    {
+      "nutrientName": "Thiamine B1",
+      "per100": 13300.00
+    },
+    {
+      "nutrientName": "Riboflavin B2",
+      "per100": 13300.00
+    }
+  ]
+}
+
+###
+//NOT EXISTS
+POST https://diet-master.herokuapp.com/ingredients/5
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "nutrientName": "Some nutrient",
+  "per100": 20.00
+}
+
+###
+//CONSTRAINT VIOLATION
+POST https://diet-master.herokuapp.com/ingredients/5
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "nutrientName": "Thiamine B1",
+  "per100": 20000000000.00
+}
+
+###
+//EXISTS
+POST https://diet-master.herokuapp.com/ingredients/5
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "nutrientName": "Calcium",
+  "per100": 200.00
+}
+
+###
+//GOOD
+POST https://diet-master.herokuapp.com/ingredients/5
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+"nutrientName": "Thiamine B1",
+"per100": 200.00
+}
+
+###
+//WRONG ID DELETE
+DELETE https://diet-master.herokuapp.com/ingredients/50
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//GOOD
+DELETE https://diet-master.herokuapp.com/ingredients/50
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//WRONG NUTRIENT ID DELETE
+DELETE https://diet-master.herokuapp.com/ingredients/50/Potassium
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//WRONG NUTRIENT ID DELETE
+DELETE https://diet-master.herokuapp.com/ingredients/4/Vitamin B
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//WRONG ID DELETE
+DELETE https://diet-master.herokuapp.com/ingredients/4/Potassium
+Authorization: Bearer TOKEN_CHARACTERS
