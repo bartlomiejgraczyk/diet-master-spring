@@ -2,6 +2,7 @@ package pl.tul.zzpj.dietmaster.logic.controllers.requests.meal;
 
 import lombok.AllArgsConstructor;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.mealingredient.CreateMealIngredientDto;
+import pl.tul.zzpj.dietmaster.model.entities.enums.types.MealType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,7 +14,7 @@ public class CreateMealRequest {
 
     private final String description;
 
-    private final int type;
+    private final MealType type;
 
     private final Set<CreateMealIngredientDto> mealIngredients = new HashSet<>();
 
@@ -25,7 +26,7 @@ public class CreateMealRequest {
         return description;
     }
 
-    public int getType() {
+    public MealType getType() {
         return type;
     }
 

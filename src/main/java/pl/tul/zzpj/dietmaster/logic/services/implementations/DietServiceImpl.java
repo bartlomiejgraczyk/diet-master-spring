@@ -2,9 +2,13 @@ package pl.tul.zzpj.dietmaster.logic.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.tul.zzpj.dietmaster.common.EnumStringJpaConverter;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.AccountService;
 import pl.tul.zzpj.dietmaster.model.entities.Account;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
+import pl.tul.zzpj.dietmaster.model.entities.enums.acceslevels.DietAccessLevelTier;
+import pl.tul.zzpj.dietmaster.model.entities.enums.types.DietType;
+import pl.tul.zzpj.dietmaster.model.exception.EnumNameNotEqualException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.UserNotFoundException;
 import pl.tul.zzpj.dietmaster.model.mappers.RequestDietMapper;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.diet.UpdateDietRequest;
@@ -68,14 +72,15 @@ public class DietServiceImpl implements DietService {
         Account user = accountService.getCurrentUser();
         HashSet<Diet> diets = new HashSet<>();
         diets.addAll(dietRepository.findDietsByAuthor(user));
-        diets.addAll(dietRepository.findAllPublicDiets());
-        diets.addAll(dietRepository.findAllMySubscribedDiets(user));
+        diets.addAll(dietRepository.findAllPublicDiets(DietAccessLevelTier.PUBLIC));
+        diets.addAll(dietRepository.findAllMySubscribedDiets(user, DietAccessLevelTier.SUBSCRIBED));
         return new ArrayList<>(diets);
     }
 
     @Override
-    public List<Diet> getDietsByType(int type) {
-        return dietRepository.findDietsByType(type);
+    public List<Diet> getDietsByType(String type) throws EnumNameNotEqualException {
+        EnumStringJpaConverter<DietType> converter = new DietType.Converter();
+        return dietRepository.findDietsByType(converter.convertToEntityAttribute(type));
     }
 
     private boolean dietWithTitleExists(Diet diet){
