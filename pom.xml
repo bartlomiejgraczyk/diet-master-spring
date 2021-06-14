@@ -47,6 +47,7 @@
         </profile>
     </profiles>
 
+    
     <properties>
         <java.version>11.0.11</java.version>
         <testcontainers.version>1.15.3</testcontainers.version>
@@ -198,6 +199,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.12.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+
     </dependencies>
     
 
@@ -252,7 +260,7 @@
             <plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
-                <version>3.0.4</version>
+                <version>3.0.3</version>
                 <configuration>
                     <appName>diet-master</appName>
                     <processTypes>
