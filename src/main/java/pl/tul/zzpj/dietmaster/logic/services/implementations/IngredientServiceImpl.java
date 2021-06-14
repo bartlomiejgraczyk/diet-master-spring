@@ -10,6 +10,7 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.UpdateIngred
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.CreateIngredientNutritionDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.IngredientNutritionDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.UpdateIngredientNutritionDto;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.repositories.IngredientNutritionRepository;
 import pl.tul.zzpj.dietmaster.logic.repositories.IngredientRepository;
 import pl.tul.zzpj.dietmaster.logic.repositories.MealIngredientRepository;
@@ -22,6 +23,7 @@ import pl.tul.zzpj.dietmaster.model.entities.enums.categories.IngredientCategory
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientIngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientCategoryNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.used.IngredientUsedInMealException;
@@ -67,15 +69,29 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public List<GetIngredientDto> getIngredientsOfCategory(String category) {
+    public List<GetIngredientDto> getIngredientsOfCategory(String category)
+        throws IngredientCategoryNotFoundException {
+
         try {
             IngredientCategory ingredientCategory = IngredientCategory.valueOf(category);
             List<Ingredient> foundByCategory = repository.findByCategory(ingredientCategory);
 
             return mapToGetDto(foundByCategory);
         } catch (IllegalArgumentException exception) {
-            throw new EnumConstantNotPresentException(IngredientCategory.class, category);
+            throw new IngredientCategoryNotFoundException(category);
         }
+    }
+
+    @Override
+    public GetIngredientDto getIngredientById(Long id) throws IngredientNotFoundException {
+        Optional<Ingredient> optionalIngredient = repository.findById(id);
+
+        if (optionalIngredient.isEmpty()) {
+            throw new IngredientNotFoundException(id);
+        }
+
+        Ingredient ingredient = optionalIngredient.get();
+        return mapper.map(ingredient, GetIngredientDto.class);
     }
 
     @Override

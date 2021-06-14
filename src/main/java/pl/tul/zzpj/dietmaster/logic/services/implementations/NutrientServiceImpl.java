@@ -12,6 +12,7 @@ import pl.tul.zzpj.dietmaster.logic.services.interfaces.NutrientService;
 import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientCategoryNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.used.NutrientUsedInIngredient;
 
@@ -48,14 +49,26 @@ public class NutrientServiceImpl implements NutrientService {
     }
 
     @Override
-    public List<GetNutrientDto> getNutrientsOfCategory(String category) {
+    public GetNutrientDto getNutrientById(Long id) throws NutrientNotFoundException {
+        Optional<Nutrient> optionalNutrient = repository.findById(id);
+
+        if (optionalNutrient.isEmpty()) {
+            throw new NutrientNotFoundException(id);
+        }
+
+        Nutrient nutrient = optionalNutrient.get();
+        return modelMapper.map(nutrient, GetNutrientDto.class);
+    }
+
+    @Override
+    public List<GetNutrientDto> getNutrientsOfCategory(String category) throws NutrientCategoryNotFoundException {
         try {
             NutrientCategory nutrientCategory = NutrientCategory.valueOf(category);
             List<Nutrient> foundByCategory = repository.findByCategory(nutrientCategory);
 
             return mapToGetDto(foundByCategory);
         } catch (IllegalArgumentException exception) {
-            throw new EnumConstantNotPresentException(NutrientCategory.class, category);
+            throw new NutrientCategoryNotFoundException(category);
         }
     }
 
