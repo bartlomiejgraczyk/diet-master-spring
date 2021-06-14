@@ -1,0 +1,86 @@
+POST http://localhost:8081/diets
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "accessLevel": "PRIVATE",
+  "name": "Bardzo ważna dieta 1",
+  "description": "Sczegółowy opis diety",
+  "type": "THE_ZONE",
+  "authorName": "_@edu.p.lodz.pl",
+  "meals": [
+    {
+      "name": "Śniadanie",
+      "description": "Bardzo pożywne.",
+      "type": "BREAKFAST",
+      "mealIngredients": [
+        {
+          "ingredientId": 1,
+          "count": 1,
+          "cost": 2,
+          "grams": 200
+        },
+        {
+          "ingredientId": 2,
+          "count": 2,
+          "cost": 3,
+          "grams": 400
+        }
+      ]
+    },
+    {
+      "name": "Obiadokolacje",
+      "description": "Taka duża że nie potrzeba już nic więcej.",
+      "type": "DINNER",
+      "mealIngredients": [
+        {
+          "ingredientId": 1,
+          "count": 5,
+          "cost": 20,
+          "grams": 1700
+        },
+        {
+          "ingredientId": 2,
+          "count": 8,
+          "cost": 10,
+          "grams": 1600
+        }
+      ]
+    }
+  ]
+}
+###
+
+PUT http://localhost:8081/diets
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "id": 1,
+  "accessLevel": 1,
+  "description": "Krótki opis diety",
+  "name": "Średnio ważna dieta 2",
+  "type": 3
+}
+###
+//update meals, zeby pokazac, ze zmienily sie w diecie, ktorej je zawiera
+PUT http://localhost:8081/meals
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "id":1,
+  "name":"Nowa nazwa",
+  "description":"nowy opis",
+  "type":3
+}
+
+###
+//wszystkie dostepne diety dla aktualnie zalogowanego usera (jego prywatne, wszystkie publiczne i z subskrybcji od przypisanego dietetyka)
+GET http://localhost:8081/diets
+Authorization: Bearer TOKEN
+
+###
+//wszystkie diety danego typu
+GET http://localhost:8081/diets/type/low_carb
+Authorization: Bearer TOKEN
