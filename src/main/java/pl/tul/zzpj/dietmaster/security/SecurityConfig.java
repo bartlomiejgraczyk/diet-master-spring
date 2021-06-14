@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authentication-failed").permitAll()
                 .antMatchers("/authentication-succeeded").permitAll()
                 .antMatchers("/healthcheck").permitAll()
-                //.anyRequest().authenticated()
+                .anyRequest().authenticated()
                 //.and().formLogin()
                 //.successForwardUrl("/authentication-succeeded")
                 //.failureUrl("/authentication-failed")
