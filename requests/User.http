@@ -1,5 +1,5 @@
 ###
-POST http://localhost:8081/registration
+POST https://diet-master.herokuapp.com/registration
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8081/login
+POST https://diet-master.herokuapp.com/login
 Content-Type: application/json
 
 {

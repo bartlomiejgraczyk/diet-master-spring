@@ -26,6 +26,7 @@ import pl.tul.zzpj.dietmaster.model.entities.enums.categories.IngredientCategory
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientCategoryNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 
@@ -141,7 +142,7 @@ class IngredientServiceImplTest {
     }
 
     @Test
-    void getIngredientsOfCategory() {
+    void getIngredientsOfCategory() throws IngredientCategoryNotFoundException {
         setCategoryFilterMock();
         List<GetIngredientDto> fruits = ingredientService.getIngredientsOfCategory("FRUIT");
         List<GetIngredientDto> fish = ingredientService.getIngredientsOfCategory("FISH");
@@ -152,7 +153,10 @@ class IngredientServiceImplTest {
         assertEquals(fruits.get(0).getName(), "Apple");
         assertEquals(fish.get(0).getCategory(), IngredientCategory.FISH);
 
-        assertThrows(EnumConstantNotPresentException.class, () -> ingredientService.getIngredientsOfCategory("WRONG"));
+        assertThrows(
+            IngredientCategoryNotFoundException.class,
+            () -> ingredientService.getIngredientsOfCategory("WRONG")
+        );
     }
 
     @Test

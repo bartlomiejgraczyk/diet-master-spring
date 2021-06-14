@@ -8,10 +8,12 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.CreateIngred
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.GetIngredientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.UpdateIngredientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.CreateIngredientNutritionDto;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.IngredientService;
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientIngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientCategoryNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.used.IngredientUsedInMealException;
@@ -33,12 +35,22 @@ public class IngredientController {
         return new ResponseEntity<>(ingredients, HttpStatus.OK);
     }
 
+    @GetMapping(path = "id/{id}")
+    public ResponseEntity<?> getIngredientById(@PathVariable Long id) {
+        try {
+            GetIngredientDto ingredient = ingredientService.getIngredientById(id);
+            return new ResponseEntity<>(ingredient, HttpStatus.OK);
+        } catch (IngredientNotFoundException exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+        }
+    }
+
     @GetMapping(path = "{category}")
     public ResponseEntity<?> getCategoryIngredients(@PathVariable String category) {
         try {
             List<GetIngredientDto> ingredients = ingredientService.getIngredientsOfCategory(category);
             return ResponseEntity.ok(ingredients);
-        } catch (EnumConstantNotPresentException exception) {
+        } catch (IngredientCategoryNotFoundException exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }

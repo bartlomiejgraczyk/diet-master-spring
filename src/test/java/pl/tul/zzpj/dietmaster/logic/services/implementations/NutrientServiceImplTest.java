@@ -19,6 +19,7 @@ import pl.tul.zzpj.dietmaster.logic.services.interfaces.NutrientService;
 import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientCategoryNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 
 import java.util.List;
@@ -75,7 +76,7 @@ public class NutrientServiceImplTest {
     }
 
     @Test
-    public void getNutrientsOfCategory() {
+    public void getNutrientsOfCategory() throws NutrientCategoryNotFoundException {
         setCategoryFilterMock();
         List<GetNutrientDto> minerals = nutrientService.getNutrientsOfCategory("MINERAL");
         List<GetNutrientDto> fats = nutrientService.getNutrientsOfCategory("FAT");
@@ -86,7 +87,7 @@ public class NutrientServiceImplTest {
         assertEquals(minerals.get(1).getName(), "Third Nutrient");
         assertEquals(fats.get(0).getCategory(), NutrientCategory.FAT);
 
-        assertThrows(EnumConstantNotPresentException.class, () -> nutrientService.getNutrientsOfCategory("WRONG"));
+        assertThrows(NutrientCategoryNotFoundException.class, () -> nutrientService.getNutrientsOfCategory("WRONG"));
     }
 
     @Test
@@ -142,7 +143,7 @@ public class NutrientServiceImplTest {
     }
 
     @Test
-    public void deleteNutrient() {
+    public void deleteNutrient() throws NutrientCategoryNotFoundException {
         when(nutrientRepository.findById(3L)).thenReturn(Optional.empty());
         when(nutrientRepository.findById(1L)).thenReturn(Optional.ofNullable(nutrients.get(0)));
         doAnswer(i -> nutrients.remove(0)).when(nutrientRepository).delete(nutrients.get(0));
