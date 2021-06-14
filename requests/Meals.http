@@ -1,0 +1,20 @@
+PUT http://localhost:8081/meals
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "id":1,
+  "name":"Nowa nazwa",
+  "description":"nowy opis",
+  "type":3
+}
+###
+//wszystkie posilki ze wskazanej diety
+GET http://localhost:8081/meals/diet/1
+Authorization: Bearer TOKEN
+
+###
+GET http://localhost:8081/meals/1
+Authorization: Bearer TOKEN
+
+
