@@ -55,9 +55,7 @@ public class BmiServiceImpl implements BmiService {
 
     @Override
     public MyBmiView getMyBmi() throws UserNotFoundException, NoMeasurementFoundException {
-        var accountA = accountRepository.findByEmail("pae3@o2.pl"); //TEST
-
-        var account = accountA.get(); //= accountService.getCurrentUser();
+        var account = accountService.getCurrentUser();
         var measurement = measurementRepository.findFirstByClient_EmailOrderByDateDesc(account.getEmail());
 
         if (measurement.isEmpty())
