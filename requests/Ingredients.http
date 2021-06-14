@@ -68,17 +68,17 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "name": "Hard Eggz",
-  "description": "Hard eggz are loaded with nutrients, protein and healthy fats."
+  "name": "Hard Egg 3",
+  "description": "Hard egg 3 are loaded with nutrients, protein and healthy fats."
 }
 
 ###
-
+//WRONG: CONSTRAINT VIOLATION
 POST localhost:8081/ingredients
 Content-Type: application/json
 
 {
-  "name": "Hardz Egg",
+  "name": "Hard Egg 2",
   "description": "Desc",
   "category": "FISH",
   "nutrients": [
@@ -92,3 +92,84 @@ Content-Type: application/json
     }
   ]
 }
+
+###
+//GOOD
+POST localhost:8081/ingredients
+Content-Type: application/json
+
+{
+  "name": "Fish Bread",
+  "description": "Fish bread food",
+  "category": "FISH",
+  "nutrients": [
+    {
+      "nutrientName": "Thiamine B1",
+      "per100": 13300.00
+    },
+    {
+      "nutrientName": "Riboflavin B2",
+      "per100": 13300.00
+    }
+  ]
+}
+
+###
+//NOT EXISTS
+POST localhost:8081/ingredients/5
+Content-Type: application/json
+
+{
+  "nutrientName": "Some nutrient",
+  "per100": 20.00
+}
+
+###
+//CONSTRAINT VIOLATION
+POST localhost:8081/ingredients/5
+Content-Type: application/json
+
+{
+  "nutrientName": "Thiamine B1",
+  "per100": 20000000000.00
+}
+
+###
+//EXISTS
+POST localhost:8081/ingredients/5
+Content-Type: application/json
+
+{
+  "nutrientName": "Calcium",
+  "per100": 200.00
+}
+
+###
+//GOOD
+POST localhost:8081/ingredients/5
+Content-Type: application/json
+
+{
+"nutrientName": "Thiamine B1",
+"per100": 200.00
+}
+
+###
+//WRONG ID DELETE
+DELETE localhost:8081/ingredients/50
+
+###
+//GOOD
+DELETE localhost:8081/ingredients/50
+
+###
+//WRONG NUTRIENT ID DELETE
+DELETE localhost:8081/ingredients/50/Potassium
+
+###
+//WRONG NUTRIENT ID DELETE
+DELETE localhost:8081/ingredients/4/Vitamin B
+
+###
+//WRONG ID DELETE
+DELETE localhost:8081/ingredients/4/Potassium

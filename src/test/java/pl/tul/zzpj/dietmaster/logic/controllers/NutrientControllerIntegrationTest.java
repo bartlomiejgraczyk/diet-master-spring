@@ -10,17 +10,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.CreateNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.UpdateNutrientDto;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.registration.RegistrationRequest;
 import pl.tul.zzpj.dietmaster.logic.repositories.NutrientRepository;
 import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
+import pl.tul.zzpj.dietmaster.security.model.AuthenticationRequest;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,8 +41,14 @@ class NutrientControllerIntegrationTest {
     @Autowired
     private NutrientRepository repository;
 
+    private String token;
+
+    private static boolean registered = false;
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
+        registerNewUser();
+        loginUserAndLoadUser();
         repository.deleteAll();
         repository.saveAll(
             Lists.newArrayList(
@@ -51,7 +61,7 @@ class NutrientControllerIntegrationTest {
 
     @Test
     void getAllNutrients() throws Exception {
-        mvc.perform(get("/nutrients"))
+        mvc.perform(get("/nutrients").header("Authorization", "Bearer " + token))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$[0].name", is("First Nutrient")))
@@ -61,7 +71,7 @@ class NutrientControllerIntegrationTest {
 
     @Test
     void getCategoryNutrients() throws Exception {
-        mvc.perform(get("/nutrients/MINERAL"))
+        mvc.perform(get("/nutrients/MINERAL").header("Authorization", "Bearer " + token))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$[0].name", is("Second Nutrient")))
@@ -79,21 +89,21 @@ class NutrientControllerIntegrationTest {
         String serializedName = objectMapper.writeValueAsString(wrongName);
         String serializedId = objectMapper.writeValueAsString(wrongId);
 
-        mvc.perform(put("/nutrients/")
+        mvc.perform(put("/nutrients/").header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .content(serializedOk))
             .andExpect(status().isOk())
             .andExpect(content().string("Nutrient updated"));
 
-        mvc.perform(put("/nutrients")
+        mvc.perform(put("/nutrients").header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .content(serializedName))
             .andExpect(status().isConflict())
             .andExpect(content().string("Nutrient Second Nutrient already exists in the database."));
 
-        mvc.perform(put("/nutrients")
+        mvc.perform(put("/nutrients").header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .content(serializedId))
@@ -119,14 +129,14 @@ class NutrientControllerIntegrationTest {
 
         List<Nutrient> nutrients = repository.findAll();
 
-        mvc.perform(post("/nutrients")
+        mvc.perform(post("/nutrients").header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .content(serializedOk))
             .andExpect(status().isCreated())
             .andExpect(content().string("Nutrient added"));
 
-        mvc.perform(post("/nutrients")
+        mvc.perform(post("/nutrients").header("Authorization", "Bearer " + token)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .content(serializedName))
@@ -144,18 +154,47 @@ class NutrientControllerIntegrationTest {
 
     @Test
     void deleteNutrient() throws Exception {
-        mvc.perform(delete("/nutrients/300"))
+        mvc.perform(delete("/nutrients/300").header("Authorization", "Bearer " + token))
             .andExpect(status().isNotFound());
 
         List<Nutrient> nutrients = repository.findAll();
         Long id = nutrients.get(0).getId();
 
-        mvc.perform(delete("/nutrients/" + id))
+        mvc.perform(delete("/nutrients/" + id).header("Authorization", "Bearer " + token))
             .andExpect(status().isOk())
             .andExpect(content().string("Nutrient deleted"));
 
         List<Nutrient> reducedNutrients = repository.findAll();
         assertTrue(nutrients.size() > reducedNutrients.size());
         assertTrue(reducedNutrients.stream().noneMatch(n -> n.getId().equals(id)));
+    }
+
+    private void registerNewUser() throws Exception {
+        if(registered) return;
+        RegistrationRequest account = new RegistrationRequest("first", "last", "someEmail@edu.zgg.pl", "qwerty");
+        String accountJson = objectMapper.writeValueAsString(account);
+
+        mvc.perform(
+            post("/registration")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(accountJson)
+        ).andExpect(status().isCreated());
+        registered = true;
+    }
+
+    private void loginUserAndLoadUser() throws Exception {
+        AuthenticationRequest request = new AuthenticationRequest("someEmail@edu.zgg.pl", "qwerty");
+        String loginJson = objectMapper.writeValueAsString(request);
+
+        MvcResult response = mvc.perform(
+            post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(loginJson)
+        ).andReturn();
+
+        String responseString = response.getResponse().getContentAsString();
+        int startIndex = responseString.indexOf(":\"") + 2;
+        int endIndex = responseString.length() - 2;
+        token = responseString.substring(startIndex, endIndex);
     }
 }

@@ -21,11 +21,11 @@ import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.IngredientCategory;
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientIngredientExistsException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.used.IngredientUsedInMealException;
 
-import javax.ws.rs.NotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -99,7 +99,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     @Transactional
     public void createIngredient(CreateIngredientDto createIngredientDto)
-        throws IngredientExistsException, NutrientNotFoundException, NutrientDuplicateException {
+        throws IngredientExistsException, NutrientNotFoundException, NutrientDuplicateException, NutrientIngredientExistsException {
 
         Ingredient newIngredient = mapper.map(createIngredientDto, Ingredient.class);
         String name = newIngredient.getName();
@@ -114,7 +114,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void createNutrient(CreateIngredientNutritionDto nutrientDto, Long ingredientId)
-        throws IngredientNotFoundException, NutrientNotFoundException {
+        throws IngredientNotFoundException, NutrientNotFoundException, NutrientIngredientExistsException {
 
         Ingredient ingredient = checkIfIngredientExistsThenGet(ingredientId);
 
@@ -123,6 +123,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    @Transactional
     public void deleteIngredient(Long id) throws IngredientNotFoundException, IngredientUsedInMealException {
 
         Ingredient ingredient = checkIfIngredientExistsThenGet(id);
@@ -132,6 +133,7 @@ public class IngredientServiceImpl implements IngredientService {
             throw new IngredientUsedInMealException(ingredient.getName());
         }
 
+        mixRepository.deleteByIngredient_Id(id);
         repository.deleteById(id);
     }
 
@@ -148,7 +150,7 @@ public class IngredientServiceImpl implements IngredientService {
             throw new NutrientNotFoundException(name);
         }
 
-        mixRepository.delete(optionalNutrition.get());
+        mixRepository.deleteById(optionalNutrition.get().getId());
     }
 
     private List<GetIngredientDto> mapToGetDto(List<Ingredient> ingredients) {
@@ -220,7 +222,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     private IngredientNutrition createIngredientNutrition(Ingredient ingredient, IngredientNutritionDto nutritionDto)
-        throws NutrientNotFoundException {
+        throws NutrientNotFoundException, NutrientIngredientExistsException {
 
         String newNutrientName = nutritionDto.getNutrientName();
         Nutrient dalNutrient = nutrientRepository.findDistinctByName(newNutrientName);
@@ -230,11 +232,15 @@ public class IngredientServiceImpl implements IngredientService {
             throw new NutrientNotFoundException(newNutrientName);
         }
 
+        if (mixRepository.existsByNutrientAndIngredient(dalNutrient, ingredient)) {
+            throw new NutrientIngredientExistsException(newNutrientName);
+        }
+
         return new IngredientNutrition(ingredient, dalNutrient, per100);
     }
 
     private void makeNutrientsForIngredient(CreateIngredientDto ingredientDto, Ingredient newIngredient)
-        throws NutrientNotFoundException {
+        throws NutrientNotFoundException, NutrientIngredientExistsException {
 
         for (CreateIngredientNutritionDto newNutrient : ingredientDto.getNutrients()) {
             IngredientNutrition nutrient = createIngredientNutrition(newIngredient, newNutrient);

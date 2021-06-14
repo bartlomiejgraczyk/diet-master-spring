@@ -6,6 +6,7 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.UpdateIngred
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.CreateIngredientNutritionDto;
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientIngredientExistsException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.used.IngredientUsedInMealException;
@@ -20,9 +21,9 @@ public interface IngredientService {
 
     void updateIngredient(UpdateIngredientDto updateIngredientDto) throws IngredientExistsException, NutrientDuplicateException, IngredientNotFoundException, NutrientNotFoundException;
 
-    void createIngredient(CreateIngredientDto createIngredientDto) throws IngredientExistsException, NutrientNotFoundException, NutrientDuplicateException;
+    void createIngredient(CreateIngredientDto createIngredientDto) throws IngredientExistsException, NutrientNotFoundException, NutrientDuplicateException, NutrientIngredientExistsException;
 
-    void createNutrient(CreateIngredientNutritionDto nutrientDto, Long ingredientId) throws IngredientNotFoundException, NutrientNotFoundException;
+    void createNutrient(CreateIngredientNutritionDto nutrientDto, Long ingredientId) throws IngredientNotFoundException, NutrientNotFoundException, NutrientIngredientExistsException;
 
     void deleteIngredient(Long id) throws IngredientNotFoundException, IngredientUsedInMealException;
 
