@@ -44,10 +44,10 @@ public class BmiCompare {
 
     private void accept(BmiDataView bmiData) {
         switch (bmiData.sex) {
-            case "FMLE":
+            case "MLE":
                 menInCategory = bmiData;
                 break;
-            case "MLE":
+            case "FMLE":
                 womenInCategory = bmiData;
                 break;
             case "BTSX":
