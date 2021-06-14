@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.meal.GetMealRequest;
 import pl.tul.zzpj.dietmaster.logic.repositories.DietRepository;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
-import pl.tul.zzpj.dietmaster.model.exception.DietNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.DietNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.MealNotFoundException;
 import pl.tul.zzpj.dietmaster.model.entities.MealIngredient;
 import pl.tul.zzpj.dietmaster.logic.repositories.MealIngredientRepository;
