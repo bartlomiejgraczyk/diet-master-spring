@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("dev")
 @SpringBootTest
-class MeasuresControllerIntegrationTest {
+class MeasuresControllerIntegrationTest extends AuthenticatedIntegrationTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -60,7 +60,10 @@ class MeasuresControllerIntegrationTest {
 
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
+        registerNewUser("test@gmail.com", "qwerty");
+        loginUserAndLoadUser("test@gmail.com", "qwerty");
+
         repository.deleteAll();
         accountRepository.saveAll(accounts);
         repository.saveAll(measurements);
@@ -68,7 +71,8 @@ class MeasuresControllerIntegrationTest {
 
     @Test
     void getAllMeasurements() throws Exception {
-        mvc.perform(get("/measurements"))
+        mvc.perform(get("/measurements")
+                .header("authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].client", is("aaa@gmail.com")))
@@ -78,13 +82,15 @@ class MeasuresControllerIntegrationTest {
 
     @Test
     void getUserMeasurements() throws Exception {
-        mvc.perform(get("/measurements/aaa@gmail.com"))
+        mvc.perform(get("/measurements/aaa@gmail.com")
+                .header("authorization", "Bearer " + token))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].client", is("aaa@gmail.com")))
                 .andExpect(jsonPath("$[0].weight", is(55.0)));
 
-        mvc.perform(get("/measurements/eee@gmail.com"))
+        mvc.perform(get("/measurements/eee@gmail.com")
+                .header("authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].client", is("eee@gmail.com")))
@@ -105,23 +111,26 @@ class MeasuresControllerIntegrationTest {
         String serializedId = objectMapper.writeValueAsString(wrongId);
 
         mvc.perform(put("/measurements")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .content(serializedOk))
+                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(serializedOk))
             .andExpect(status().isOk())
             .andExpect(content().string("Measurement updated"));
 
         mvc.perform(put("/measurements")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .content(serializedName))
+                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(serializedName))
             .andExpect(status().isConflict())
             .andExpect(content().string("Measurement for this user and date already exists."));
 
         mvc.perform(put("/measurements")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .content(serializedId))
+                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(serializedId))
             .andExpect(status().isNotFound())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
@@ -146,23 +155,26 @@ class MeasuresControllerIntegrationTest {
         String serializedId = objectMapper.writeValueAsString(wrongId);
 
         mvc.perform(post("/measurements")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(serializedOk))
+                    .header("authorization", "Bearer " + token)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(serializedOk))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("Measurement added"));
 
         mvc.perform(post("/measurements")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(serializedName))
+                    .header("authorization", "Bearer " + token)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(serializedName))
                 .andExpect(status().isConflict())
                 .andExpect(content().string("Measurement for this user and date already exists."));
 
         mvc.perform(post("/measurements")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(serializedId))
+                    .header("authorization", "Bearer " + token)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(serializedId))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
@@ -176,13 +188,15 @@ class MeasuresControllerIntegrationTest {
 
     @Test
     void deleteMeasurement() throws Exception {
-        mvc.perform(delete("/measurements/300"))
+        mvc.perform(delete("/measurements/300")
+                .header("authorization", "Bearer " + token))
             .andExpect(status().isNotFound());
 
         List<Measurement> measurements = repository.findAll();
         Long id = measurements.get(0).getId();
 
-        mvc.perform(delete("/measurements/" + id))
+        mvc.perform(delete("/measurements/" + id)
+                .header("authorization", "Bearer " + token))
             .andExpect(status().isOk())
             .andExpect(content().string("Measurement deleted"));
 

@@ -39,16 +39,6 @@ public class MeasurementServiceImpl implements MeasurementService {
                 mapper -> mapper.map(
                         src -> src.getClient().getEmail(), GetMeasurementDto::setClient
                 ));
-        /*modelMapper.typeMap(CreateMeasurementDto.class, Measurement.class).addMappings(
-            mapper -> mapper.map(src -> {
-                try {
-                    accountService.loadUserByUsername(src.getClient());
-                } catch (UserNotFoundException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }, Measurement::setClient)
-        );*/
     }
 
     @Override
