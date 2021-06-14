@@ -1,12 +1,10 @@
 package pl.tul.zzpj.dietmaster;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import pl.tul.zzpj.dietmaster.nutrient.Nutrient;
-import pl.tul.zzpj.dietmaster.nutrient.NutrientCategory;
-import pl.tul.zzpj.dietmaster.nutrient.NutrientServiceImpl;
+import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
+import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 
 @SpringBootTest
 class DietMasterApplicationTests {
