@@ -7,7 +7,6 @@ import pl.tul.zzpj.dietmaster.logic.services.interfaces.AccountService;
 import pl.tul.zzpj.dietmaster.model.entities.Account;
 import pl.tul.zzpj.dietmaster.model.entities.Diet;
 import pl.tul.zzpj.dietmaster.model.entities.enums.acceslevels.DietAccessLevelTier;
-import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 import pl.tul.zzpj.dietmaster.model.entities.enums.types.DietType;
 import pl.tul.zzpj.dietmaster.model.exception.EnumNameNotEqualException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.UserNotFoundException;
