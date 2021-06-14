@@ -5,6 +5,7 @@ import javax.persistence.*;
 import lombok.*;
 import pl.tul.zzpj.dietmaster.common.AbstractEntity;
 import pl.tul.zzpj.dietmaster.common.Default;
+import pl.tul.zzpj.dietmaster.model.entities.enums.types.MealType;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -47,11 +48,12 @@ public class Meal extends AbstractEntity {
     @Setter
     @Basic(optional = false)
     @Column(name = "type")
-    private int type;
+    @Convert(converter = MealType.Converter.class)
+    private MealType type;
 
     @Getter
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private final Set<MealIngredient> mealIngredients = new HashSet<>();
+    private Set<MealIngredient> mealIngredients = new HashSet<>();
 
     @Override
     public Long getId() {
@@ -66,8 +68,40 @@ public class Meal extends AbstractEntity {
         this.description = description;
     }
 
-    public void setType(int type) {
+    public void setType(MealType type) {
         this.type = type;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Diet getContainingDiet() {
+        return containingDiet;
+    }
+
+    public void setContainingDiet(Diet containingDiet) {
+        this.containingDiet = containingDiet;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public MealType getType() {
+        return type;
+    }
+
+    public Set<MealIngredient> getMealIngredients() {
+        return mealIngredients;
+    }
+
+    public void setMealIngredients(Set<MealIngredient> mealIngredients) {
+        this.mealIngredients = mealIngredients;
     }
 
     @Override
@@ -80,16 +114,12 @@ public class Meal extends AbstractEntity {
     }
 
     @Default
-    public Meal(Diet containingDiet,
-                @NonNull String name,
-                String description,
-                int type,
-                Set<MealIngredient> mealIngredients) {
+    public Meal(Long id, Diet containingDiet, @NonNull String name, String description, MealType type) {
+        this.id = id;
         this.containingDiet = containingDiet;
         this.name = name;
         this.description = description;
         this.type = type;
-        this.mealIngredients.addAll(mealIngredients);
     }
 
     @Override
