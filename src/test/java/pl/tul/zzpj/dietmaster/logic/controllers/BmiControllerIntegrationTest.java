@@ -46,8 +46,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 class BmiControllerIntegrationTest {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     private static final List<Account> accounts = Lists.newArrayList(
             new Account("pae3@o2.pl", "1234", "AAA", "BBB")
     );

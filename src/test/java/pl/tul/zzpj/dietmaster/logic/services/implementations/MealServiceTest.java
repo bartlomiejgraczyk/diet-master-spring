@@ -20,7 +20,7 @@ import pl.tul.zzpj.dietmaster.model.entities.Meal;
 import pl.tul.zzpj.dietmaster.model.entities.enums.acceslevels.DietAccessLevelTier;
 import pl.tul.zzpj.dietmaster.model.entities.enums.types.DietType;
 import pl.tul.zzpj.dietmaster.model.entities.enums.types.MealType;
-import pl.tul.zzpj.dietmaster.model.exception.DietNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.DietNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.MealNotFoundException;
 
 import java.util.ArrayList;
