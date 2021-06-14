@@ -1,9 +1,12 @@
-package pl.tul.zzpj.dietmaster.common;
+package pl.tul.zzpj.dietmaster.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.BmiApiAnswer;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.BmiData;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.BmiCategory;
@@ -12,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+@Component
 public class BmiApiConverter {
 
     private static final String BASE_API_URL = "https://ghoapi.azureedge.net/api/";
@@ -19,7 +23,7 @@ public class BmiApiConverter {
     private static final String OVERWEIGHT_API = "NCD_BMI_25A";
     private static final String UNDERWEIGHT_API = "NCD_BMI_18A";
 
-    public static BmiCategory getBmiCategory(double bmi){
+    public BmiCategory getBmiCategory(double bmi){
         if (bmi < 18.5)
             return BmiCategory.UNDERWEIGHT;
         else if (bmi >= 18.5 && bmi < 25)
@@ -29,7 +33,7 @@ public class BmiApiConverter {
         else return BmiCategory.OBESE;
     }
 
-    public static String buildFilters(String country, int year, String sex){
+    public String buildFilters(String country, int year, String sex){
         String filters = "";
 
         if (!country.equals(""))
@@ -42,7 +46,7 @@ public class BmiApiConverter {
         return filters.length()>0 ? "?$filter=" + filters.substring(5) : "";
     }
 
-    public static BmiApiAnswer getRawData(String url) throws IOException {
+    public BmiApiAnswer getRawData(String url) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         OkHttpClient client = new OkHttpClient();
 
@@ -54,7 +58,7 @@ public class BmiApiConverter {
         return mapper.readValue(response.body().byteStream(), BmiApiAnswer.class);
     }
 
-    public static BmiApiAnswer calculateRawDataFiltered(String filters, BmiCategory category) throws IOException {
+    public BmiApiAnswer calculateRawDataFiltered(String filters, BmiCategory category) throws IOException {
         switch (category){
             case UNDERWEIGHT:
                 return getDataFromType(UNDERWEIGHT_API, filters);
@@ -68,11 +72,11 @@ public class BmiApiConverter {
         throw new NoSuchElementException();
     }
 
-    public static BmiApiAnswer getDataFromType(String type, String filters) throws IOException {
+    public BmiApiAnswer getDataFromType(String type, String filters) throws IOException {
         return getRawData(BASE_API_URL + type + filters);
     }
 
-    public static BmiApiAnswer loadAndCalculateNormalData(String filters) throws IOException {
+    public BmiApiAnswer loadAndCalculateNormalData(String filters) throws IOException {
         var u = getDataFromType(UNDERWEIGHT_API, filters).getValue();
         var ov = getDataFromType(OVERWEIGHT_API, filters).getValue();
         var ob = getDataFromType(OBESE_API, filters).getValue();

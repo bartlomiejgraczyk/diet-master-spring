@@ -1,6 +1,7 @@
 package pl.tul.zzpj.dietmaster.logic.services.interfaces;
 
 
+import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.BmiApiAnswer;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.BmiCompare;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.BmiDataView;
@@ -13,6 +14,7 @@ import pl.tul.zzpj.dietmaster.model.exception.notfound.UserNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+@Service
 public interface BmiService {
 
     List<BmiDataView> getRawCountry(String country, BmiCategory bmiCategory) throws IOException;
