@@ -1,16 +1,30 @@
-GET localhost:8081/ingredients
+GET https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 
-GET localhost:8081/ingredients/FRUIT
+GET https://diet-master.herokuapp.com/ingredients/FRUIT
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 
-GET localhost:8081/ingredients/FISH
+GET https://diet-master.herokuapp.com/ingredients/FISH
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//NOT FOUND ID
+GET https://diet-master.herokuapp.com/ingredients/id/200
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//GOOD
+GET https://diet-master.herokuapp.com/ingredients/id/5
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 // GOOD
-PUT localhost:8081/ingredients
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -28,7 +42,8 @@ Content-Type: application/json
 
 ###
 // NAME EXISTS
-PUT localhost:8081/ingredients
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -39,7 +54,8 @@ Content-Type: application/json
 
 ###
 // NUTRIENT DNE
-PUT localhost:8081/ingredients
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -54,7 +70,8 @@ Content-Type: application/json
 
 ###
 // INGREDIENT NOT FOUND
-PUT localhost:8081/ingredients
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -63,7 +80,8 @@ Content-Type: application/json
 
 ###
 // GOOD 2
-PUT localhost:8081/ingredients
+PUT https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -74,7 +92,8 @@ Content-Type: application/json
 
 ###
 //WRONG: CONSTRAINT VIOLATION
-POST localhost:8081/ingredients
+POST https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -95,7 +114,8 @@ Content-Type: application/json
 
 ###
 //GOOD
-POST localhost:8081/ingredients
+POST https://diet-master.herokuapp.com/ingredients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -116,7 +136,8 @@ Content-Type: application/json
 
 ###
 //NOT EXISTS
-POST localhost:8081/ingredients/5
+POST https://diet-master.herokuapp.com/ingredients/5
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -126,7 +147,8 @@ Content-Type: application/json
 
 ###
 //CONSTRAINT VIOLATION
-POST localhost:8081/ingredients/5
+POST https://diet-master.herokuapp.com/ingredients/5
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -136,7 +158,8 @@ Content-Type: application/json
 
 ###
 //EXISTS
-POST localhost:8081/ingredients/5
+POST https://diet-master.herokuapp.com/ingredients/5
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -146,7 +169,8 @@ Content-Type: application/json
 
 ###
 //GOOD
-POST localhost:8081/ingredients/5
+POST https://diet-master.herokuapp.com/ingredients/5
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -156,20 +180,25 @@ Content-Type: application/json
 
 ###
 //WRONG ID DELETE
-DELETE localhost:8081/ingredients/50
+DELETE https://diet-master.herokuapp.com/ingredients/50
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 //GOOD
-DELETE localhost:8081/ingredients/50
+DELETE https://diet-master.herokuapp.com/ingredients/50
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 //WRONG NUTRIENT ID DELETE
-DELETE localhost:8081/ingredients/50/Potassium
+DELETE https://diet-master.herokuapp.com/ingredients/50/Potassium
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 //WRONG NUTRIENT ID DELETE
-DELETE localhost:8081/ingredients/4/Vitamin B
+DELETE https://diet-master.herokuapp.com/ingredients/4/Vitamin B
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 //WRONG ID DELETE
-DELETE localhost:8081/ingredients/4/Potassium
+DELETE https://diet-master.herokuapp.com/ingredients/4/Potassium
+Authorization: Bearer TOKEN_CHARACTERS

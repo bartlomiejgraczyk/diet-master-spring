@@ -1,28 +1,81 @@
+GET https://diet-master.herokuapp.com/nutrients
 Authorization: Bearer TOKEN_CHARACTERS
 
 ###
-
-GET localhost:8081/nutrients
-
-###
-
-GET localhost:8081/nutrients/FAT
+//BAD
+GET https://diet-master.herokuapp.com/nutrients/SOMETHING
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
+//GOOD
+GET https://diet-master.herokuapp.com/nutrients/FAT
+Authorization: Bearer TOKEN_CHARACTERS
 
-PUT localhost:8081/nutrients
+###
+//NOT FOUND ID
+GET https://diet-master.herokuapp.com/nutrients/id/200
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//GOOD
+GET https://diet-master.herokuapp.com/nutrients/id/2
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//ID NOT FOUND
+PUT https://diet-master.herokuapp.com/nutrients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "id": 200,
+  "name": "New Fat",
+  "description": "My new fat type used for testing purposes",
+  "category": "FAT"
+}
+
+###
+//NAME ALLREADY USED
+PUT https://diet-master.herokuapp.com/nutrients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
   "id": 1,
-  "name": "New Fat",
+  "name": "Total Carbohydrate",
   "description": "My new fat type used for testing purposes",
   "category": "FAT"
 }
 
 ###
+//GOOD
+PUT https://diet-master.herokuapp.com/nutrients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
 
-POST localhost:8081/nutrients
+{
+  "id": 5,
+  "name": "New Carbohydrate",
+  "description": "My new fat type used for testing purposes",
+  "category": "FAT"
+}
+
+###
+//NAME USED
+POST https://diet-master.herokuapp.com/nutrients
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "name": "Total Carbohydrate",
+  "description": "My new fat type used for testing purposes",
+  "category": "FAT"
+}
+
+###
+//GOOD
+POST https://diet-master.herokuapp.com/nutrients
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -32,5 +85,16 @@ Content-Type: application/json
 }
 
 ###
+//ID NOT EXISTS
+DELETE https://diet-master.herokuapp.com/nutrients/200
+Authorization: Bearer TOKEN_CHARACTERS
 
-DELETE localhost:8081/nutrients/2
+###
+//USED
+DELETE https://diet-master.herokuapp.com/nutrients/2
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//USED
+DELETE https://diet-master.herokuapp.com/nutrients/31
+Authorization: Bearer TOKEN_CHARACTERS

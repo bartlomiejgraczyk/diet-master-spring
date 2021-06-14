@@ -7,6 +7,7 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.Cre
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientIngredientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientCategoryNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.IngredientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.used.IngredientUsedInMealException;
@@ -17,7 +18,9 @@ public interface IngredientService {
 
     List<GetIngredientDto> getAllIngredients();
 
-    List<GetIngredientDto> getIngredientsOfCategory(String category);
+    List<GetIngredientDto> getIngredientsOfCategory(String category) throws IngredientCategoryNotFoundException;
+
+    GetIngredientDto getIngredientById(Long id) throws IngredientNotFoundException;
 
     void updateIngredient(UpdateIngredientDto updateIngredientDto) throws IngredientExistsException, NutrientDuplicateException, IngredientNotFoundException, NutrientNotFoundException;
 
