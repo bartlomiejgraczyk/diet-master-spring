@@ -14,6 +14,7 @@ import pl.tul.zzpj.dietmaster.model.exception.AppBaseException;
 import pl.tul.zzpj.dietmaster.model.exception.KeyValidationException;
 import pl.tul.zzpj.dietmaster.model.exception.NoPermissionKeyDeleteException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.KeyExistsException;
+
 import pl.tul.zzpj.dietmaster.model.exception.notfound.ClientNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.KeyNotFoundException;
 import pl.tul.zzpj.dietmaster.model.exception.notfound.UserNotFoundException;
@@ -44,7 +45,6 @@ public class KeysController {
         }
     }
 
-
     @PostMapping("/generate")
     public ResponseEntity<?> generateKey(@RequestBody CreateKeyDto createKeyDto) {
 
@@ -59,11 +59,13 @@ public class KeysController {
             }
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Key generated!");
+
     }
 
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteKey(@PathVariable Long id) {
+
         try {
             keyService.deleteKey(id);
         }catch (NotFoundException | UserNotFoundException | KeyNotFoundException exception) {
