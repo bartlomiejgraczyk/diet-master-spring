@@ -1,0 +1,21 @@
+
+###
+//GET dla kraju i kategorii
+GET http://localhost:8081/bmi/raw?country=POL&category=underweight
+Authorization: Bearer TOKEN
+
+
+###
+//GET z filtrami
+GET http://localhost:8081/bmi/filtered?country=USA&category=obese&year=2015&sex=FMLE
+Authorization: Bearer TOKEN
+
+###
+//GET bmi z kategorią
+GET http://localhost:8081/bmi/my
+Authorization: Bearer TOKEN
+
+###
+//GET bmi z porownaniem
+GET http://localhost:8081/bmi/compare
+Authorization: Bearer TOKEN
