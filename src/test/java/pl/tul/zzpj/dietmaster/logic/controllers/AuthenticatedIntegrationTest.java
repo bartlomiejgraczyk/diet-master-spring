@@ -29,7 +29,7 @@ public class AuthenticatedIntegrationTest {
     public String token;
 
     public void registerNewUser(String mail, String password) throws Exception {
-        if(registered) return;
+        //if(registered) return;
         RegistrationRequest account = new RegistrationRequest("first", "last", mail, password);
         String accountJson = objectMapper.writeValueAsString(account);
 
