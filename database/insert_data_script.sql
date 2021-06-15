@@ -233,36 +233,36 @@ VALUES
 
 INSERT INTO diet
 VALUES
-(1, 'public', 'Wysokobiałkowa dieta, stworzona z myślą o sportowcach, którzy chcą zwiększyć swoją masę mięśniową', 'Dieta SPORT Pudzian', 'raw_food', 1),
-(2, 'public', 'Tanio i smacznie, dzięki tej diecie możesz powiększyć swoje oszczędności', 'Studencka dieta - na każdą kieszeń', 'vegetarian', 1),
-(3, 'public', 'Śródziemnomorska dieta, której stosowanie niesie ogrom korzyści zdrowotnych jak i wyjątkowych doznań smakowych', 'Dieta Apenińska', 'mediterranean', 1),
-(4, 'public', 'Dieta, która wprowadzi Cię w stan ketozy, dzięki odpowiednio niskiej podaży węglowodanów', 'Dieta Ketogeniczna', 'low_carb', 1);
+(1, 'public', 'High-protein diet designed for athletes who want to increase their muscle mass', 'Diet SPORT Pudzian', 'raw_food', 1),
+(2, 'public', 'Cheap and tasty, you can increase your savings with this diet', 'Student diet - for every budget', 'vegetarian', 1),
+(3, 'public', 'Mediterranean diet with a wide range of health benefits and unique taste sensations', 'The Apennine Diet', 'mediterranean', 1),
+(4, 'public', 'A diet that will put you into a state of ketosis, thanks to an appropriately low carbohydrate supply', 'The Ketogenic Diet', 'low_carb', 1);
 
 INSERT INTO meal(id, description, name, type, containing_diet)
 VALUES
 --types: breakfast second_breakfast elevenses brunch lunch tea dinner supper
 
 --dieta sport
-(1, 'Szybki, wysokobiałkowy posiłek na dobry początek dnia', 'Jajecznica z bekonem', 'breakfast', 1),
-(2, 'Posiłek przedtreningowy na uzupełnienie enrgii', 'Owsianka z bananem i orzechami', 'second_breakfast', 1),
-(3, 'Główny posiłek w ciągu dnia', 'stek wołowy z kaszą i surówką', 'lunch', 1),
-(4, 'Słodka kolacja bogata w białko', 'Pudding twarogowy', 'dinner', 1),
+(1, 'Quick, high-protein meal to start the day', 'scrambled eggs with bacon', 'breakfast', 1),
+(2, 'Pre-workout meal to replenish energy', 'Oatmeal with banana and nuts', 'second_breakfast', 1),
+(3, 'Main meal of the day', 'beef steak with grits and salad', 'lunch', 1),
+(4, 'Sweet dinner rich in protein', 'Cottage cheese pudding', 'dinner', 1),
 
 --studencka dieta
-(5, 'Śniadanie mistrzów', 'Owsianka na mleku', 'breakfast', 2),
-(6, 'Dużo witamin i minerałów w niskiej cenie', 'Potrawka warzywna', 'lunch', 2),
-(7, 'Prosta i smaczna kolacja na koniec dnia', 'Tosty z serem', 'dinner', 2),
+(5, 'Breakfast of champions', 'Oatmeal on milk', 'breakfast', 2),
+(6, 'Lots of vitamins and minerals at a low price', 'Vegetable dish', 'lunch', 2),
+(7, 'Simple and tasty dinner at the end of the day', 'Cheese toast', 'dinner', 2),
 
 --Dieta Apenińska
-(8, 'Jajecznica z dodatkami typowami dla śródziemnomorskiego klimatu', 'Jajecznica z suszonymi pomidorami i czerwona papryką', 'breakfast', 3),
-(9, 'Słodka przekąska na drugą połowę dnia', 'Jogurt naturalny z gruszkami i bananem', 'second_breakfast', 3),
-(10, 'To z czego Apeniny słyną najbardziej', 'Łosoś grillowany z suszonymi pomidorami i kaszą z surówką', 'lunch', 3),
-(11, 'Orzechowa przekąska', 'Orzechy włoske w sałatce marchewkowej', 'dinner', 3),
+(8, 'Scrambled eggs with typical Mediterranean toppings', 'Scrambled eggs with sun-dried tomatoes and red peppers', 'breakfast', 3),
+(9, 'Sweet snack for the second half of the day', 'Natural yogurt with pears and banana', 'second_breakfast', 3),
+(10, 'What the Apennines are most famous for', 'Grilled salmon with sun-dried tomatoes and grits with salad', 'lunch', 3),
+(11, 'Nutty snack', 'Walnuts in carrot salad', 'dinner', 3),
 
 --Dieta keto
-(12, 'Jajeczne szaleństwo', 'Jajka na twardo zapiekane w jajku', 'breakfast', 4),
-(13, 'Proste, lecz wykwintne danie bez węglowodanów', 'Tatar wołowy z orzechami', 'lunch', 4),
-(14, 'Słodka kolacja bogata w białko', 'Pudding twarogowy', 'dinner', 4);
+(12, 'Egg Madness', 'Hard boiled eggs baked in egg', 'breakfast', 4),
+(13, 'Simple but exquisite carbohydrate-free dish', 'Beef tartare with nuts', 'lunch', 4),
+(14, 'Sweet dinner rich in protein', 'Cottage cheese pudding', 'dinner', 4);
 
 INSERT INTO ingredient (id, category, description, name)
 VALUES
@@ -283,7 +283,7 @@ VALUES
 (15,'fish','Salmon is one of the most nutritious foods on the planet. This popular fatty fish is loaded with nutrients and may reduce risk factors for several diseases. It’s also tasty, versatile and widely available.','Salmon'),
 (16, 'dairy', 'Quark or quarg is a type of fresh dairy product made by warming soured milk until the desired amount of curdling is met, and then straining it', 'Quark'),
 (17, 'vegetable', 'The tomato is the edible berry of the plant Solanum lycopersicum, commonly known as a tomato plant.', 'Tomato'),
-(18, 'dairy', 'Yogurt is a food produced by bacterial fermentation of milk.[2] The bacteria used to make yogurt are known as yogurt cultures.', 'Yogurt');
+(18, 'dairy', 'Yogurt is a food produced by bacterial fermentation of milk. The bacteria used to make yogurt are known as yogurt cultures.', 'Yogurt');
 INSERT INTO ingredient_nutrition (per100, ingredient, nutrient)
 VALUES
 -- Hard-boiled Egg
