@@ -1,0 +1,32 @@
+###
+//DODAWANIE
+POST http://localhost:8081/keys/generate
+Authorization: Bearer
+Content-Type: application/json
+
+{
+  "keyString": "AAAAAA",
+  "oneTime": false
+}
+
+###
+//Uzycie
+POST http://localhost:8081/keys/use
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "dietitian": "pae3@o2.pl",
+  "keyString": "AAAAAA"
+}
+
+###
+//GET dla aktualnego usera
+GET http://localhost:8081/keys
+Authorization: Bearer TOKEN
+
+
+###
+//DELETE
+DELETE http://localhost:8081/keys/1
+Authorization: Bearer TOKEN
