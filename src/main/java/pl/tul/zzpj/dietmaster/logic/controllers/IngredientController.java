@@ -8,7 +8,6 @@ import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.CreateIngred
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.GetIngredientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredient.UpdateIngredientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.ingredientnutrition.CreateIngredientNutritionDto;
-import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.IngredientService;
 import pl.tul.zzpj.dietmaster.model.exception.NutrientDuplicateException;
 import pl.tul.zzpj.dietmaster.model.exception.exists.IngredientExistsException;

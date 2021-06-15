@@ -1,10 +1,10 @@
 package pl.tul.zzpj.dietmaster.logic.controllers.requests.mealingredient;
 
-import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-
+@NoArgsConstructor
 public class GetMealIngredientDto {
 
     private String ingredientName;
