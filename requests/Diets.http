@@ -57,7 +57,7 @@ Content-Type: application/json
 
 {
   "id": 1,
-  "accessLevel": 1,
+  "accessLevel": "SUBSCRIBED",
   "description": "Krótki opis diety",
   "name": "Średnio ważna dieta 2",
   "type": 3
@@ -72,7 +72,7 @@ Content-Type: application/json
   "id":1,
   "name":"Nowa nazwa",
   "description":"nowy opis",
-  "type":3
+  "type": "SOUTH_BEACH"
 }
 
 ###
