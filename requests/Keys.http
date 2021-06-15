@@ -1,6 +1,6 @@
 ###
 //DODAWANIE
-POST http://localhost:8081/keys/generate
+POST https://diet-master.herokuapp.com/keys/generate
 Authorization: Bearer
 Content-Type: application/json
 
@@ -11,8 +11,8 @@ Content-Type: application/json
 
 ###
 //Uzycie
-POST http://localhost:8081/keys/use
-Authorization: Bearer TOKEN
+POST https://diet-master.herokuapp.com/keys/use
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -22,11 +22,11 @@ Content-Type: application/json
 
 ###
 //GET dla aktualnego usera
-GET http://localhost:8081/keys
-Authorization: Bearer TOKEN
+GET https://diet-master.herokuapp.com/keys
+Authorization: Bearer TOKEN_CHARACTERS
 
 
 ###
 //DELETE
-DELETE http://localhost:8081/keys/1
-Authorization: Bearer TOKEN
+DELETE https://diet-master.herokuapp.com/keys/1
+Authorization: Bearer TOKEN_CHARACTERS
