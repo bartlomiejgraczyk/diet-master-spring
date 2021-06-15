@@ -47,11 +47,13 @@ public class KeyServiceImpl implements KeyService {
     @Override
     public void generateKey(CreateKeyDto createKeyDto) throws UserNotFoundException, KeyExistsException, KeyValidationException {
         var account = accountService.getCurrentUser();
+
         var keyStr = createKeyDto.getKeyString();
         if (keyStr.length() < 5 || keyStr.length() > 15)
             throw new KeyValidationException(keyStr);
         if (repository.existsKeyByDietitianAndKeyString(account, keyStr))
             throw new KeyExistsException(createKeyDto.getKeyString());
+
 
         var key = new Key(account, keyStr, createKeyDto.getOneTime());
         repository.save(key);
@@ -61,6 +63,7 @@ public class KeyServiceImpl implements KeyService {
     @Override
     public void deleteKey(Long id) throws UserNotFoundException, KeyNotFoundException, NoPermissionKeyDeleteException {
         var account = accountService.getCurrentUser();
+
         var keyOpt = repository.findById(id);
         if (keyOpt.isEmpty())
             throw new KeyNotFoundException(id);
@@ -71,6 +74,7 @@ public class KeyServiceImpl implements KeyService {
     }
 
     @Override
+
     public void useKey(UseKeyDto useKeyDto) throws UserNotFoundException, KeyNotFoundException, InvalidDietitianException {
         var client = accountService.getCurrentUser();
 
