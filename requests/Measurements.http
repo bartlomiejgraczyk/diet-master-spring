@@ -1,0 +1,43 @@
+###
+//DODAWANIE
+POST http://localhost:8081/measurements
+Authorization: Bearer
+Content-Type: application/json
+
+{
+  "client": "_@edu.p.lodz.pl",
+  "date": "2021-06-21",
+  "weight": 160,
+  "calories": 222,
+  "heldDiet": true
+}
+
+###
+//EDYCJA
+PUT http://localhost:8081/measurements
+Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "id": 1,
+  "client": "_@edu.p.lodz.pl",
+  "date": "2021-06-23",
+  "weight": 160,
+  "calories": 222,
+  "heldDiet": true
+}
+
+###
+//GET
+GET http://localhost:8081/measurements
+Authorization: Bearer TOKEN
+
+###
+//WSZYSTKIE DLA USERA
+GET http://localhost:8081/measurements/_@edu.p.lodz.pl
+Authorization: Bearer TOKEN
+
+###
+//DELETE
+DELETE http://localhost:8081/measurements/1
+Authorization: Bearer TOKEN
