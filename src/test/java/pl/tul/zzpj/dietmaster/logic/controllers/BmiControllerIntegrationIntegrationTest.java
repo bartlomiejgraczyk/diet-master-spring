@@ -1,5 +1,6 @@
 package pl.tul.zzpj.dietmaster.logic.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.BmiApiAnswer;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.BmiData;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.GetMyBmiDto;
 import pl.tul.zzpj.dietmaster.logic.repositories.AccountRepository;
 import pl.tul.zzpj.dietmaster.logic.repositories.MeasurementRepository;
 import pl.tul.zzpj.dietmaster.model.entities.Measurement;
@@ -29,6 +31,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -57,6 +60,8 @@ class BmiControllerIntegrationIntegrationTest extends AuthenticatedIntegrationTe
 
     @Autowired
     private MeasurementRepository measurementRepository;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -105,8 +110,13 @@ class BmiControllerIntegrationIntegrationTest extends AuthenticatedIntegrationTe
 
         when(apiConverter.getBmiCategory(anyDouble())).thenReturn(BmiCategory.OBESE);
 
-        mvc.perform(get("/bmi/my")
-                .header("authorization", "Bearer " + token))
+        var req = new GetMyBmiDto(1.75, "POL");
+
+        mvc.perform(post("/bmi/my")
+                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.bmi", is(100/(1.75*1.75))))
@@ -119,8 +129,13 @@ class BmiControllerIntegrationIntegrationTest extends AuthenticatedIntegrationTe
         when(apiConverter.calculateRawDataFiltered(any(), any())).thenReturn(new BmiApiAnswer(bmiData));
         when(apiConverter.getBmiCategory(anyDouble())).thenReturn(BmiCategory.OBESE);
 
-        mvc.perform(get("/bmi/compare")
-                .header("authorization", "Bearer " + token))
+        var req = new GetMyBmiDto(1.75, "POL");
+
+        mvc.perform(post("/bmi/compare")
+                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.bmi", is(100/(1.75*1.75))))
