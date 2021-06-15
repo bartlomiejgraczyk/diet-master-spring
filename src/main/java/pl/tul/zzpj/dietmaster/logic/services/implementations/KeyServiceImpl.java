@@ -47,7 +47,6 @@ public class KeyServiceImpl implements KeyService {
     @Override
     public void generateKey(CreateKeyDto createKeyDto) throws UserNotFoundException, KeyExistsException, KeyValidationException {
         var account = accountService.getCurrentUser();
-        //var account = accountService.loadUserByUsername("pae3@o2.pl"); //TEST
         var keyStr = createKeyDto.getKeyString();
         if (keyStr.length() < 5 || keyStr.length() > 15)
             throw new KeyValidationException(keyStr);
@@ -62,7 +61,6 @@ public class KeyServiceImpl implements KeyService {
     @Override
     public void deleteKey(Long id) throws UserNotFoundException, KeyNotFoundException, NoPermissionKeyDeleteException {
         var account = accountService.getCurrentUser();
-        //var account = accountService.loadUserByUsername("pae3@o2.pl"); //TEST
         var keyOpt = repository.findById(id);
         if (keyOpt.isEmpty())
             throw new KeyNotFoundException(id);
@@ -75,7 +73,6 @@ public class KeyServiceImpl implements KeyService {
     @Override
     public void useKey(UseKeyDto useKeyDto) throws UserNotFoundException, KeyNotFoundException, InvalidDietitianException {
         var client = accountService.getCurrentUser();
-        //var client = accountService.loadUserByUsername("pae123@o2.pl"); //TEST
 
         var dietitian = accountService.loadUserByUsername(useKeyDto.getDietitian());
 
@@ -98,9 +95,8 @@ public class KeyServiceImpl implements KeyService {
     @Override
     public List<GetKeyDto> getMyKeys() throws UserNotFoundException {
         var account = accountService.getCurrentUser();
-        //var account = accountService.loadUserByUsername("pae3@o2.pl"); //TEST
+        var keys = repository.findAllByDietitian(account);
 
-        var keys = repository.findAll();
         return keys.stream()
                 .map(k -> modelMapper.map(k, GetKeyDto.class))
                 .collect(Collectors.toList());
@@ -109,7 +105,6 @@ public class KeyServiceImpl implements KeyService {
     @Override
     public void deleteDietitian(String dietitianMail) throws UserNotFoundException, ClientNotFoundException {
         var client = accountService.getCurrentUser();
-        //var client = accountService.loadUserByUsername("pae123@o2.pl"); //TEST
 
         var dietitian = accountService.loadUserByUsername(dietitianMail);
 

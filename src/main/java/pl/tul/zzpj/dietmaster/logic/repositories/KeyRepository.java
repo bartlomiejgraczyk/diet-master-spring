@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import pl.tul.zzpj.dietmaster.model.entities.Account;
 import pl.tul.zzpj.dietmaster.model.entities.Key;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,4 +16,5 @@ public interface KeyRepository extends JpaRepository<Key, Long> {
 
     Optional<Key> findFirstByKeyStringAndDietitian(@NonNull @Length(min = 5, max = 15) String keyString, @NonNull Account dietitian);
 
+    List<Key> findAllByDietitian(@NonNull Account dietitian);
 }
