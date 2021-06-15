@@ -1,0 +1,74 @@
+###
+//ID NOT FOUND
+GET https://diet-master.herokuapp.com/cost_generator/100
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//GOOD
+GET https://diet-master.herokuapp.com/cost_generator/1
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+POST https://diet-master.herokuapp.com/cost_generator
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "allCriteria": [
+    {
+      "type": "LOWEST_COST",
+      "value": "",
+      "dietCount": 2
+    }
+  ]
+}
+
+###
+POST https://diet-master.herokuapp.com/cost_generator
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "allCriteria": [
+    {
+      "type": "HIGHEST_COST",
+      "value": "",
+      "dietCount": 2
+    }
+  ]
+}
+
+###
+POST https://diet-master.herokuapp.com/cost_generator
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "allCriteria": [
+    {
+      "type": "MINIMUM_NUTRITION",
+      "value": "Sodium",
+      "dietCount": 2
+    }
+  ]
+}
+
+###
+POST https://diet-master.herokuapp.com/cost_generator
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "allCriteria": [
+    {
+      "type": "MAXIMUM_NUTRITION",
+      "value": "Sodium",
+      "dietCount": 2
+    },
+    {
+      "type": "LOWEST_COST",
+      "value": "",
+      "dietCount": 2
+    }
+  ]
+}

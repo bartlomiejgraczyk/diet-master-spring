@@ -1,5 +1,5 @@
-PUT http://localhost:8081/meals
-Authorization: Bearer TOKEN
+PUT https://diet-master.herokuapp.com/meals
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -10,11 +10,11 @@ Content-Type: application/json
 }
 ###
 //wszystkie posilki ze wskazanej diety
-GET http://localhost:8081/meals/diet/1
-Authorization: Bearer TOKEN
+GET https://diet-master.herokuapp.com/meals/diet/1
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
-GET http://localhost:8081/meals/1
-Authorization: Bearer TOKEN
+GET https://diet-master.herokuapp.com/meals/1
+Authorization: Bearer TOKEN_CHARACTERS
 
 

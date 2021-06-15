@@ -1,19 +1,19 @@
 
 ###
 //GET dla kraju i kategorii
-GET http://localhost:8081/bmi/raw?country=POL&category=underweight
-Authorization: Bearer TOKEN
+GET https://diet-master.herokuapp.com/bmi/raw?country=POL&category=underweight
+Authorization: Bearer TOKEN_CHARACTERS
 
 
 ###
 //GET z filtrami
-GET http://localhost:8081/bmi/filtered?country=USA&category=obese&year=2015&sex=FMLE
-Authorization: Bearer TOKEN
+GET https://diet-master.herokuapp.com/bmi/filtered?country=USA&category=obese&year=2015&sex=FMLE
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 //GET bmi z kategorią
-POST http://localhost:8081/bmi/my
-Authorization: Bearer TOKEN
+POST https://diet-master.herokuapp.com/bmi/my
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -23,8 +23,8 @@ Content-Type: application/json
 
 ###
 //GET bmi z porownaniem
-POST http://localhost:8081/bmi/compare
-Authorization: Bearer TOKEN
+POST https://diet-master.herokuapp.com/bmi/compare
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
