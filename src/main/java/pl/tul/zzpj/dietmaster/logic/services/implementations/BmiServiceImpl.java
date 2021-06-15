@@ -54,27 +54,26 @@ public class BmiServiceImpl implements BmiService {
     }
 
     @Override
-    public MyBmiView getMyBmi() throws UserNotFoundException, NoMeasurementFoundException {
+    public MyBmiView getMyBmi(GetMyBmiDto getMyBmiDto) throws UserNotFoundException, NoMeasurementFoundException {
         var account = accountService.getCurrentUser();
         var measurement = measurementRepository.findFirstByClient_EmailOrderByDateDesc(account.getEmail());
 
         if (measurement.isEmpty())
             throw new NoMeasurementFoundException(account.getEmail());
 
-        var bmi =  calculateBMI(measurement.get().getWeight().doubleValue(), 1.75);  //TODO: get height from account
+        var bmi =  calculateBMI(measurement.get().getWeight().doubleValue(), getMyBmiDto.getHeight());
         var category = apiConverter.getBmiCategory(bmi);
 
         return new MyBmiView(bmi, category.getName());
     }
 
     @Override
-    public BmiCompare getCompare() throws IOException, UserNotFoundException, NoMeasurementFoundException, NoDataFoundException {
+    public BmiCompare getCompare(GetMyBmiDto getMyBmiDto) throws IOException, UserNotFoundException, NoMeasurementFoundException, NoDataFoundException {
 
-        var country = "POL";
-        var myBmi = getMyBmi().getBmi();
+        var myBmi = getMyBmi(getMyBmiDto).getBmi();
         BmiCategory category = apiConverter.getBmiCategory(myBmi);
 
-        String filters = apiConverter.buildFilters(country, 0, "");
+        String filters = apiConverter.buildFilters(getMyBmiDto.getCountry(), 0, "");
         var raw = apiConverter.calculateRawDataFiltered(filters, category);
 
         var max = raw.getValue().stream()

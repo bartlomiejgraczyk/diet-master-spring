@@ -12,10 +12,22 @@ Authorization: Bearer TOKEN
 
 ###
 //GET bmi z kategorią
-GET http://localhost:8081/bmi/my
+POST http://localhost:8081/bmi/my
 Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "height": 1.75,
+  "country": "POL"
+}
 
 ###
 //GET bmi z porownaniem
-GET http://localhost:8081/bmi/compare
+POST http://localhost:8081/bmi/compare
 Authorization: Bearer TOKEN
+Content-Type: application/json
+
+{
+  "height": 1.75,
+  "country": "POL"
+}

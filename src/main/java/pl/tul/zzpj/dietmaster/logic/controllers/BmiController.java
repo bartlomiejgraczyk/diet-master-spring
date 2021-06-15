@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.tul.zzpj.dietmaster.common.EnumStringJpaConverter;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.bmi.GetMyBmiDto;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.BmiService;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.BmiCategory;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.IngredientCategory;
@@ -24,10 +25,10 @@ public class BmiController {
     private final BmiService bmiService;
     private final EnumStringJpaConverter<BmiCategory> converter = new BmiCategory.Converter();
 
-    @GetMapping(path = "my")
-    public ResponseEntity<?> getMyBmi() {
+    @PostMapping(path = "my")
+    public ResponseEntity<?> getMyBmi(@RequestBody GetMyBmiDto getMyBmiDto) {
         try {
-            var a = bmiService.getMyBmi();
+            var a = bmiService.getMyBmi(getMyBmiDto);
             return ResponseEntity.ok(a);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -54,10 +55,10 @@ public class BmiController {
         }
     }
 
-    @GetMapping(path = "compare")
-    public ResponseEntity<?> getCompare() {
+    @PostMapping(path = "compare")
+    public ResponseEntity<?> getCompare(@RequestBody  GetMyBmiDto getMyBmiDto) {
         try {
-            var a = bmiService.getCompare();
+            var a = bmiService.getCompare(getMyBmiDto);
 
             return ResponseEntity.ok(a);
         } catch (IOException e) {
