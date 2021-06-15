@@ -1,0 +1,43 @@
+###
+//DODAWANIE
+POST https://diet-master.herokuapp.com/measurements
+Authorization: Bearer TOKEN_CHARACTERS_CHARACTERS
+Content-Type: application/json
+
+{
+  "client": "_@edu.p.lodz.pl",
+  "date": "2021-06-21",
+  "weight": 160,
+  "calories": 222,
+  "heldDiet": true
+}
+
+###
+//EDYCJA
+PUT https://diet-master.herokuapp.com/measurements
+Authorization: Bearer TOKEN_CHARACTERS_CHARACTERS
+Content-Type: application/json
+
+{
+  "id": 1,
+  "client": "_@edu.p.lodz.pl",
+  "date": "2021-06-23",
+  "weight": 160,
+  "calories": 222,
+  "heldDiet": true
+}
+
+###
+//GET
+GET https://diet-master.herokuapp.com/measurements
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//WSZYSTKIE DLA USERA
+GET https://diet-master.herokuapp.com/measurements/_@edu.p.lodz.pl
+Authorization: Bearer TOKEN_CHARACTERS
+
+###
+//DELETE
+DELETE https://diet-master.herokuapp.com/measurements/1
+Authorization: Bearer TOKEN_CHARACTERS

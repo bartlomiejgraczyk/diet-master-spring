@@ -1,0 +1,32 @@
+###
+//DODAWANIE
+POST https://diet-master.herokuapp.com/keys/generate
+Authorization: Bearer
+Content-Type: application/json
+
+{
+  "keyString": "AAAAAA",
+  "oneTime": false
+}
+
+###
+//Uzycie
+POST https://diet-master.herokuapp.com/keys/use
+Authorization: Bearer TOKEN_CHARACTERS
+Content-Type: application/json
+
+{
+  "dietitian": "pae3@o2.pl",
+  "keyString": "AAAAAA"
+}
+
+###
+//GET dla aktualnego usera
+GET https://diet-master.herokuapp.com/keys
+Authorization: Bearer TOKEN_CHARACTERS
+
+
+###
+//DELETE
+DELETE https://diet-master.herokuapp.com/keys/1
+Authorization: Bearer TOKEN_CHARACTERS

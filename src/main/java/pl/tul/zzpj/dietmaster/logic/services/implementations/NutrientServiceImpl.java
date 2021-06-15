@@ -1,21 +1,24 @@
 package pl.tul.zzpj.dietmaster.logic.services.implementations;
 
-import org.modelmapper.Condition;
-import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.CreateNutrientDto;
+import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.GetNutrientDto;
 import pl.tul.zzpj.dietmaster.logic.controllers.requests.nutrient.UpdateNutrientDto;
+import pl.tul.zzpj.dietmaster.logic.repositories.IngredientNutritionRepository;
 import pl.tul.zzpj.dietmaster.logic.repositories.NutrientRepository;
 import pl.tul.zzpj.dietmaster.logic.services.interfaces.NutrientService;
 import pl.tul.zzpj.dietmaster.model.entities.Nutrient;
 import pl.tul.zzpj.dietmaster.model.entities.enums.categories.NutrientCategory;
 import pl.tul.zzpj.dietmaster.model.exception.exists.NutrientExistsException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientCategoryNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.notfound.NutrientNotFoundException;
+import pl.tul.zzpj.dietmaster.model.exception.used.NutrientUsedInIngredient;
 
-import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NutrientServiceImpl implements NutrientService {
@@ -26,32 +29,52 @@ public class NutrientServiceImpl implements NutrientService {
 
     private final NutrientRepository repository;
 
+    private final IngredientNutritionRepository ingredientRepository;
+
     @Autowired
-    public NutrientServiceImpl(NutrientRepository repository, ModelMapper mapper) {
+    public NutrientServiceImpl(
+        NutrientRepository repository,
+        ModelMapper mapper,
+        IngredientNutritionRepository ingredientRepository
+    ) {
         this.repository = repository;
         this.modelMapper = mapper;
-
-        Condition<?, ?> condition = Conditions.isNotNull();
-        mapper.getConfiguration().setPropertyCondition(condition);
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
-    public List<Nutrient> getAllNutrients() {
-        return repository.findAll();
+    public List<GetNutrientDto> getAllNutrients() {
+        List<Nutrient> allNutrients = repository.findAll();
+        return mapToGetDto(allNutrients);
     }
 
     @Override
-    public List<Nutrient> getNutrientsOfCategory(String category) {
+    public GetNutrientDto getNutrientById(Long id) throws NutrientNotFoundException {
+        Optional<Nutrient> optionalNutrient = repository.findById(id);
+
+        if (optionalNutrient.isEmpty()) {
+            throw new NutrientNotFoundException(id);
+        }
+
+        Nutrient nutrient = optionalNutrient.get();
+        return modelMapper.map(nutrient, GetNutrientDto.class);
+    }
+
+    @Override
+    public List<GetNutrientDto> getNutrientsOfCategory(String category) throws NutrientCategoryNotFoundException {
         try {
             NutrientCategory nutrientCategory = NutrientCategory.valueOf(category);
-            return repository.findByCategory(nutrientCategory);
+            List<Nutrient> foundByCategory = repository.findByCategory(nutrientCategory);
+
+            return mapToGetDto(foundByCategory);
         } catch (IllegalArgumentException exception) {
-            throw new EnumConstantNotPresentException(NutrientCategory.class, category);
+            throw new NutrientCategoryNotFoundException(category);
         }
     }
 
     @Override
-    public void updateNutrient(UpdateNutrientDto updateNutrientDto) throws NutrientExistsException {
+    public void updateNutrient(UpdateNutrientDto updateNutrientDto)
+        throws NutrientExistsException, NutrientNotFoundException {
 
         String newName = updateNutrientDto.getName();
         Long id = updateNutrientDto.getId();
@@ -64,7 +87,9 @@ public class NutrientServiceImpl implements NutrientService {
     }
 
     @Override
-    public void createNutrient(CreateNutrientDto createNutrientDto) throws NutrientExistsException {
+    public void createNutrient(CreateNutrientDto createNutrientDto)
+        throws NutrientExistsException {
+
         checkIfNameExists(createNutrientDto.getName());
 
         Nutrient nutrient = modelMapper.map(createNutrientDto, Nutrient.class);
@@ -72,22 +97,38 @@ public class NutrientServiceImpl implements NutrientService {
     }
 
     @Override
-    public void deleteNutrient(Long id) {
+    public void deleteNutrient(Long id) throws NutrientUsedInIngredient, NutrientNotFoundException {
         Nutrient existing = checkIfNutrientExistsThenGet(id);
+
+        boolean isUsed = ingredientRepository.existsByNutrient(existing);
+
+        if (isUsed) {
+            String name = existing.getName();
+            throw new NutrientUsedInIngredient(name);
+        }
+
         repository.delete(existing);
     }
 
-    private Nutrient checkIfNutrientExistsThenGet(Long id) {
-        Optional<Nutrient> found = repository.findById(id);
+    private List<GetNutrientDto> mapToGetDto(List<Nutrient> nutrients) {
+        return nutrients.stream()
+            .map(n -> modelMapper.map(n, GetNutrientDto.class))
+            .collect(Collectors.toList());
+    }
 
-        if (found.isEmpty()) {
-            throw new NotFoundException(idNotFound);
+    private Nutrient checkIfNutrientExistsThenGet(Long id) throws NutrientNotFoundException {
+        if (id != null) {
+            Optional<Nutrient> found = repository.findById(id);
+
+            if (found.isPresent()) {
+                return found.get();
+            }
         }
-
-        return found.get();
+        throw new NutrientNotFoundException(idNotFound);
     }
 
     private void checkIfNameExists(String nutrientName) throws NutrientExistsException {
+        if (nutrientName == null) return;
         Nutrient existing = repository.findDistinctByName(nutrientName);
 
         if (existing != null) {

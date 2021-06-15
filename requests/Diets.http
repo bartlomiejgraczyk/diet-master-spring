@@ -1,5 +1,5 @@
-POST http://localhost:8081/diets
-Authorization: Bearer TOKEN
+POST https://diet-master.herokuapp.com/diets
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
@@ -51,36 +51,36 @@ Content-Type: application/json
 }
 ###
 
-PUT http://localhost:8081/diets
-Authorization: Bearer TOKEN
+PUT https://diet-master.herokuapp.com/diets
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
   "id": 1,
-  "accessLevel": 1,
+  "accessLevel": "SUBSCRIBED",
   "description": "Krótki opis diety",
   "name": "Średnio ważna dieta 2",
   "type": 3
 }
 ###
 //update meals, zeby pokazac, ze zmienily sie w diecie, ktorej je zawiera
-PUT http://localhost:8081/meals
-Authorization: Bearer TOKEN
+PUT https://diet-master.herokuapp.com/meals
+Authorization: Bearer TOKEN_CHARACTERS
 Content-Type: application/json
 
 {
   "id":1,
   "name":"Nowa nazwa",
   "description":"nowy opis",
-  "type":3
+  "type": "SOUTH_BEACH"
 }
 
 ###
 //wszystkie dostepne diety dla aktualnie zalogowanego usera (jego prywatne, wszystkie publiczne i z subskrybcji od przypisanego dietetyka)
-GET http://localhost:8081/diets
-Authorization: Bearer TOKEN
+GET https://diet-master.herokuapp.com/diets
+Authorization: Bearer TOKEN_CHARACTERS
 
 ###
 //wszystkie diety danego typu
-GET http://localhost:8081/diets/type/low_carb
-Authorization: Bearer TOKEN
+GET https://diet-master.herokuapp.com/diets/type/low_carb
+Authorization: Bearer TOKEN_CHARACTERS
